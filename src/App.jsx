@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Container, Row, Col } from 'react-bootstrap';
+import { NaviBar } from './components/Navibar';
 
 const AppStyle = styled.div`
   font-family: Calibri;
@@ -8,7 +9,7 @@ const AppStyle = styled.div`
     border: 1px grey solid;
   }
 `;
-const ContainerStyle = styled.Container`
+const ContainerStyle = styled(Container)`
   font-family: Calibri;
   .col {
     text-align: center;
@@ -19,6 +20,7 @@ const ContainerStyle = styled.Container`
 export const App = () => {
   return (
     <AppStyle>
+      <NaviBar />
       <ContainerStyle>
         <Row>
           <Col>1 of 2</Col>
