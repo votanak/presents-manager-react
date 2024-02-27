@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { NaviBar } from './components/Navibar';
 
 const AppStyle = styled.div`
-  font-family: Calibri;
+  font-family: 'Montserrat';
   .col {
     text-align: center;
     border: 1px grey solid;
