@@ -1,6 +1,12 @@
 import styled from 'styled-components';
-import { Container, Row, Col } from 'react-bootstrap';
-import { NaviBar } from './components/Navibar';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HomePage } from './pages/HomePage';
+import { PrivateRoutes } from './PrivateRoutes';
+import { LoginPage } from './pages/LoginPage';
+import { NotFound } from './pages/NotFound';
+import { useState, useEffect, createContext } from 'react';
+
+export const LoginContext = createContext();
 
 const AppStyle = styled.div`
   font-family: 'Montserrat';
@@ -9,28 +15,31 @@ const AppStyle = styled.div`
     border: 1px grey solid;
   }
 `;
-const ContainerStyle = styled(Container)`
-  font-family: Calibri;
-  .col {
-    text-align: center;
-    border: 1px grey solid;
-  }
-`;
 
 export const App = () => {
+  const [auth, setAuth] = useState({
+    isLogged: false,
+    token: '',
+    authCode: true,
+  });
+  useEffect(() => setAuth(true), []);
+  let authCodeFromLS = true;
   return (
     <AppStyle>
-      <NaviBar />
-      <ContainerStyle>
-        <Row>
-          <Col>1 of 2</Col>
-        </Row>
-        <Row>
-          <Col>1 of 3</Col>
-          <Col>2 of 3</Col>
-          <Col>3 of 3</Col>
-        </Row>
-      </ContainerStyle>
+      <LoginContext.Provider value={{ auth, setAuth }}>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<PrivateRoutes auth={auth} />}>
+              <Route path="/" element={<HomePage />} />
+            </Route>
+            <Route
+              path="/login"
+              element={<LoginPage authCodeFromLS={authCodeFromLS} />}
+            />
+            <Route path="/*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </LoginContext.Provider>
     </AppStyle>
   );
 };
