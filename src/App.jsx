@@ -5,6 +5,7 @@ import { PrivateRoutes } from './PrivateRoutes';
 import { LoginPage } from './pages/LoginPage';
 import { NotFound } from './pages/NotFound';
 import { useState, useEffect, createContext } from 'react';
+import { AdminPage } from './pages/AdminPage';
 
 export const LoginContext = createContext();
 
@@ -36,6 +37,7 @@ export const App = () => {
               path="/login"
               element={<LoginPage authCodeFromLS={authCodeFromLS} />}
             />
+            <Route path="/AdminPage" element={<AdminPage />} />
             <Route path="/*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
