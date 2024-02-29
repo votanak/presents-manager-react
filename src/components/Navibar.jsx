@@ -13,7 +13,7 @@ const NaviBarStyle = styled(Navbar)`
   }
   .navbar-nav {
     align-items: center;
-    font-size: 20px;
+    font-size: 16px;
   }
 `;
 export const NaviBar = () => {

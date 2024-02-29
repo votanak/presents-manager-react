@@ -18,7 +18,7 @@ const LoginPageStyle = styled.div`
   }
 `;
 
-export const LoginPage = ({ authCodeFromLS }) => {
+export const LoginPage = () => {
   const { auth, setAuth } = useContext(LoginContext);
   const [loginParams, setLoginParams] = useState({
     email: '',
@@ -44,10 +44,10 @@ export const LoginPage = ({ authCodeFromLS }) => {
   const inputChangeHandler = (e) => {
     setLoginParams({ ...loginParams, [e.target.name]: e.target.value });
   };
-  debugger;
+
   return (
     <div>
-      {!authCodeFromLS ? (
+      {!auth.authCode ? (
         <LoginPageStyle>
           <p>Вход администратора</p>
           <Form onSubmit={formHandle}>

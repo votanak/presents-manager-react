@@ -4,7 +4,7 @@ import { HomePage } from './pages/HomePage';
 import { PrivateRoutes } from './PrivateRoutes';
 import { LoginPage } from './pages/LoginPage';
 import { NotFound } from './pages/NotFound';
-import { useState, useEffect, createContext } from 'react';
+import { useState, createContext } from 'react';
 import { AdminPage } from './pages/AdminPage';
 
 export const LoginContext = createContext();
@@ -21,10 +21,9 @@ export const App = () => {
   const [auth, setAuth] = useState({
     isLogged: false,
     token: '',
-    authCode: localStorage.getItem('authCode'),
+    authCode: '',
   });
-  useEffect(() => setAuth(true), []);
-  const authCodeFromLS = localStorage.getItem('authCode');
+  const authCodeFromLS = '';
   return (
     <AppStyle>
       <LoginContext.Provider value={{ auth, setAuth }}>
