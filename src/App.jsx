@@ -21,10 +21,10 @@ export const App = () => {
   const [auth, setAuth] = useState({
     isLogged: false,
     token: '',
-    authCode: true,
+    authCode: localStorage.getItem('authCode'),
   });
   useEffect(() => setAuth(true), []);
-  let authCodeFromLS = true;
+  const authCodeFromLS = localStorage.getItem('authCode');
   return (
     <AppStyle>
       <LoginContext.Provider value={{ auth, setAuth }}>
