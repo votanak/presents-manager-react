@@ -11,10 +11,6 @@ export const LoginContext = createContext();
 
 const AppStyle = styled.div`
   font-family: 'Montserrat';
-  .col {
-    text-align: center;
-    border: 1px grey solid;
-  }
 `;
 
 export const App = () => {
@@ -30,13 +26,13 @@ export const App = () => {
         <BrowserRouter>
           <Routes>
             <Route element={<PrivateRoutes auth={auth} />}>
-              <Route path="/" element={<HomePage />} />
+              <Route
+                path="/adminpage"
+                element={<AdminPage authCodeFromLS={authCodeFromLS} />}
+              />
             </Route>
-            <Route
-              path="/login"
-              element={<LoginPage authCodeFromLS={authCodeFromLS} />}
-            />
-            <Route path="/AdminPage" element={<AdminPage />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

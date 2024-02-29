@@ -3,15 +3,12 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import { NaviBar } from '../components/Navibar';
 import logo from '../img/logo.png';
 import phoneiconb from '../img/phoneiconb.png';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { LoginContext } from '../App';
+import { useContext } from 'react';
 
 const HomeStyle = styled.div`
   font-family: 'Montserrat';
-  .col.row {
-    text-align: center;
-    border: none;
-  }
-
   a {
     text-decoration: none;
   }
@@ -27,10 +24,28 @@ const HomeStyle = styled.div`
   #sp-callback {
     flex-direction: column;
   }
+  .col {
+    text-align: center;
+    border: none;
+  }
 `;
 
 export const HomePage = () => {
-  const toLoginPage = useNavigate('/login');
+  const navigate = useNavigate();
+  const { auth, setAuth } = useContext(LoginContext);
+  const enter = () => {
+    navigate('/login');
+  };
+  const exit = () => {
+    setAuth({
+      isLogged: false,
+      token: '',
+      authCode: '',
+    });
+    navigate('/');
+    localStorage.removeItem('authCode');
+  };
+
   return (
     <HomeStyle>
       <NaviBar />
@@ -57,7 +72,7 @@ export const HomePage = () => {
                 </p>
               </div>
             </Col>
-            <Col id="sp-callback" className="col-md-3 ms-auto">
+            <Col id="sp-callback" className="col-md-3 mx-auto">
               <p className="phoneic">
                 <img className="phoneicon" src={phoneiconb} alt="" />
                 <a href="tel:+7 (910) 351-75-70"> тел. +7 (910) 351-75-70</a>
@@ -67,14 +82,20 @@ export const HomePage = () => {
                 <a href="tel:+7 (910) 356-48-86"> тел. +7 (910) 356-48-86</a>
               </p>
             </Col>
-            <Col className="col-3 d-flex">
-              <Button
-                onClick={toLoginPage('/login')}
-                className="btn-sm ms-auto"
-              >
-                Вход для администратора
-              </Button>
-            </Col>
+            {!auth.isLogged ? (
+              <Col className="col-3 text-end">
+                <Button className="btn-sm" onClick={enter}>
+                  Вход для администратора
+                </Button>
+              </Col>
+            ) : (
+              <Col>
+                <Link to="/adminpage">Страница администратора</Link>
+                <Button className="btn-sm" onClick={exit}>
+                  Выход
+                </Button>
+              </Col>
+            )}
           </Row>
         </Container>
       </header>

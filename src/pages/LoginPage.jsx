@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import { LoginContext } from '../App';
 import { postRequest } from '../services/serverRequest';
 import { Form, Button, InputGroup } from 'react-bootstrap';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const LoginPageStyle = styled.div`
   display: flex;
@@ -24,21 +24,23 @@ export const LoginPage = () => {
     email: '',
     password: '',
   });
+  const navigate = useNavigate();
 
   const formHandle = async (e) => {
     e.preventDefault();
-    try {
-      const { data } = await postRequest('/login', auth.token, loginParams);
-      setAuth({
-        authCode: data.authCode,
-        isLogged: true,
-        token: data.accessToken,
+    await postRequest('/login', auth.token, loginParams)
+      .then(({ data }) => {
+        setAuth({
+          authCode: data.authCode,
+          isLogged: true,
+          token: data.accessToken,
+        });
+        localStorage.setItem('authCode', data.authCode);
+        navigate('/adminpage');
+      })
+      .catch((e) => {
+        console.log(e);
       });
-      localStorage.setItem('authCode', data.authCode);
-    } catch (e) {
-      console.log(e);
-      return e;
-    }
   };
 
   const inputChangeHandler = (e) => {
@@ -54,6 +56,7 @@ export const LoginPage = () => {
             <InputGroup>
               <Form.Control
                 name="email"
+                type="email"
                 placeholder="e-mail"
                 onChange={inputChangeHandler}
                 required={true}
@@ -67,6 +70,7 @@ export const LoginPage = () => {
                 onChange={inputChangeHandler}
                 required={true}
                 value={loginParams.password}
+                type="password"
               />
               <Button type="submit" onClick={formHandle} className="mx-2">
                 Войти
