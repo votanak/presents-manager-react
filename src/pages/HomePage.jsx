@@ -6,6 +6,7 @@ import phoneiconb from '../img/phoneiconb.png';
 import { useNavigate, Link } from 'react-router-dom';
 import { LoginContext } from '../App';
 import { useContext } from 'react';
+import { PriceList } from '../components/PriceList';
 
 const HomeStyle = styled.div`
   font-family: 'Montserrat';
@@ -108,6 +109,7 @@ export const HomePage = () => {
           </Col>
         </Row>
       </Container>
+      <PriceList />
     </HomeStyle>
   );
 };
