@@ -1,4 +1,6 @@
 import queryString from 'query-string';
+import { priceArray } from './priceArray';
+
 const serverResponse = async (response) =>
   new Promise((resolve) => {
     setTimeout(() => resolve(response), 1000);
@@ -18,6 +20,9 @@ export const request = async (url, method, token, params) => {
         return data;
       }
       break;
+    case '/get_price?':
+      const data = await serverResponse(priceArray);
+      return data;
 
     default:
       break;

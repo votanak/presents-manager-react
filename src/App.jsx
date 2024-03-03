@@ -6,7 +6,7 @@ import { LoginPage } from './pages/LoginPage';
 import { NotFound } from './pages/NotFound';
 import { useState, createContext, useEffect } from 'react';
 import { AdminPage } from './pages/AdminPage';
-import { getRequest } from './services/serverRequest';
+import { getRequest, postRequest } from './services/serverRequest';
 
 export const LoginContext = createContext();
 export const PriceContext = createContext();
@@ -21,16 +21,33 @@ export const App = () => {
     token: '',
     authCode: '',
   });
-  const [priceObject, setPriceObject] = useState();
-  useEffect(() => {
-    getRequest('/get_price', '', {});
-  }, [auth]);
+  const [priceArray, setPriceArray] = useState();
+  const authCodeFromLS = localStorage.getItem('authCode');
 
-  const authCodeFromLS = '';
+  useEffect(() => {
+    postRequest('/login', 'POST', {
+      email: 'anna@example.com',
+      password: 'laksdjf',
+    })
+      .then(({ data }) => {
+        if (authCodeFromLS === 'dfe1be2a-4b41-4d21-82df-2a32dceccd6d') {
+          setAuth({
+            authCode: data.authCode,
+            isLogged: true,
+            token: data.accessToken,
+          });
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    getRequest('/get_price', '', {}).then((data) => setPriceArray(data));
+  }, [authCodeFromLS]);
+
   return (
     <AppStyle>
       <LoginContext.Provider value={{ auth, setAuth }}>
-        <PriceContext.Provider value={{ priceObject, setPriceObject }}>
+        <PriceContext.Provider value={{ priceArray, setPriceArray }}>
           <BrowserRouter>
             <Routes>
               <Route element={<PrivateRoutes auth={auth} />}>

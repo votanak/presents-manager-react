@@ -5,6 +5,7 @@ import { useContext, useState } from 'react';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { PriceList } from '../components/PriceList';
 import { PriceContext } from '../App';
+import { translit } from '../services/translit';
 
 const AdminStyle = styled.div`
   .col {
@@ -14,7 +15,7 @@ const AdminStyle = styled.div`
 
 export const AdminPage = () => {
   const [priceFile, setPriceFile] = useState();
-  const { priceObject, setPriceObject } = useContext(PriceContext);
+  const { setPriceArray } = useContext(PriceContext);
   const handleChoosePrice = (e) => {
     setPriceFile(e.target.files[0]);
   };
@@ -24,11 +25,26 @@ export const AdminPage = () => {
     fileReader.readAsBinaryString(priceFile);
     fileReader.onload = (e) => {
       let workbook = XLSX.read(e.target.result, { type: 'binary' });
-      let pObject = XLSX.utils.sheet_to_row_object_array(
+      let pArr = XLSX.utils.sheet_to_row_object_array(
         workbook.Sheets['Подарок'],
       );
-      setPriceObject(pObject);
-      console.log(priceObject);
+      let pArray = [];
+      let category = '';
+      pArr.forEach((el) => {
+        if (el.__EMPTY === 'Упаковка') return;
+        typeof el.__EMPTY === 'number'
+          ? pArray.push({
+              id: el.__EMPTY,
+              category: category,
+              name: el.__EMPTY_1,
+              producer: el.__EMPTY_2,
+              weight1: el.__EMPTY_3,
+              price1: el.__EMPTY_8,
+              picture: `${translit(el.__EMPTY_1)}.png`,
+            })
+          : (category = el.__EMPTY_1);
+      });
+      setPriceArray(pArray);
     };
   };
   return (
@@ -38,7 +54,7 @@ export const AdminPage = () => {
         <Row className="border-bottom border-3">
           <Col className="col-sm-6 flex-wrap mb-4 text-center">
             <Form onSubmit={handleLoadPrice}>
-              <p className="btn-sm">Загрузить Excel-файл прайс-листа</p>
+              <p className="btn-sm">Загрузить новый прайс-лист</p>
               <Form.Control
                 type="file"
                 id="file-input"
@@ -51,7 +67,9 @@ export const AdminPage = () => {
             </Form>
           </Col>
           <Col className="col-sm-6 flex-wrap mb-4 text-center">
-            <Link to="/">Сборка подарка</Link>
+            <Link to="/" className="fs-3">
+              Сборка подарка
+            </Link>
           </Col>
         </Row>
         <PriceList forchange={true} />

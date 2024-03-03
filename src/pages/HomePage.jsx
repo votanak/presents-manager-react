@@ -92,7 +92,7 @@ export const HomePage = () => {
             ) : (
               <Col>
                 <Link to="/adminpage">Страница администратора</Link>
-                <Button className="btn-sm" onClick={exit}>
+                <Button className="btn-sm ms-2" onClick={exit}>
                   Выход
                 </Button>
               </Col>
@@ -109,7 +109,7 @@ export const HomePage = () => {
           </Col>
         </Row>
       </Container>
-      <PriceList />
+      <PriceList forchange={false} />
     </HomeStyle>
   );
 };
