@@ -6,14 +6,14 @@ import imgloc from '../img/lociconw.png';
 const NaviBarStyle = styled(Navbar)`
   background-color: #4c4c4f;
   .navbar-brand {
-    font-size: 20px;
+    font-size: 16px;
   }
   #img-loc {
     max-height: 25px;
   }
   .navbar-nav {
     align-items: center;
-    font-size: 16px;
+    font-size: 14px;
   }
 `;
 export const NaviBar = () => {

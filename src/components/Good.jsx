@@ -5,54 +5,72 @@ import { useState } from 'react';
 
 const GoodStyle = styled(Row)``;
 
-export const Good = ({ good, forchange }) => {
+export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
   // const { setPriceArray } = useContext(PriceContext);
   const [goodInputs, setGoodInputs] = useState(good);
-  const [choosedQuantity, setChoosedQuantity] = useState(0);
   const [changing, setChanging] = useState(false);
   const changePriceArray = () => {
     setChanging(false);
   };
+
+  const decrease = () => {
+    if (selectedGoods[good.id] === 1) {
+      const { [good.id]: _, ...rest } = selectedGoods;
+      setSelectedGoods(rest);
+    } else {
+      setSelectedGoods({
+        ...selectedGoods,
+        [good.id]: selectedGoods[good.id] - 1,
+      });
+    }
+  };
+
   const changeButton = changing ? (
     <Button onClick={changePriceArray}>сохранить</Button>
   ) : (
     <Button onClick={() => setChanging(true)}>редактировать</Button>
   );
-  const chooseButtons = !choosedQuantity ? (
-    <Button onClick={() => setChoosedQuantity(1)}>Добавить</Button>
+  const chooseButtons = !selectedGoods[good.id] ? (
+    <Button
+      onClick={() => setSelectedGoods({ ...selectedGoods, [good.id]: 1 })}
+      className="btn-sm"
+    >
+      Добавить
+    </Button>
   ) : (
-    <Form.Group className="d-flex">
+    <Form.Group className="d-flex align-items-center">
       <Button
         id="plus-button"
-        className="choose-button mx-2"
-        onClick={() => setChoosedQuantity(choosedQuantity - 1)}
+        className="choose-button mx-2 btn-sm"
+        onClick={decrease}
       >
         -
       </Button>
-      <Form.Label>{choosedQuantity}</Form.Label>
+      <Form.Label className="m-0">{selectedGoods[good.id]}</Form.Label>
       <Button
         id="plus-button"
-        className="choose-button  mx-2"
-        onClick={() => setChoosedQuantity(choosedQuantity + 1)}
+        className="choose-button  mx-2 btn-sm"
+        onClick={() =>
+          setSelectedGoods({
+            ...selectedGoods,
+            [good.id]: selectedGoods[good.id] + 1,
+          })
+        }
       >
         +
       </Button>
     </Form.Group>
   );
   return (
-    <GoodStyle className="border my-2 p-4">
+    <GoodStyle className="border my-2 py-4 rounded-3">
       <Form className=" d-flex align-items-center">
-        <Form.Label className="mx-2  my-auto">Наименование:</Form.Label>
-        <Form.Control
-          type="input"
-          value={goodInputs.name}
-          onChange={(e) =>
-            setGoodInputs({ ...goodInputs, name: [e.target.value] })
-          }
+        <Form.Text
           disabled={!changing}
-          className="me-2 flex-grow-1  fw-bold"
-        />
-        <Form.Label className="mx-2">Цена:</Form.Label>
+          className="me-2 flex-grow-1 fs-5  fw-bold"
+        >
+          {goodInputs.name}
+        </Form.Text>
+        <Form.Label className="mx-2 my-auto">Цена:</Form.Label>
         <Form.Control
           type="input"
           value={goodInputs.price1}
