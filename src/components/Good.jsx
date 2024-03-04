@@ -63,14 +63,11 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
   );
   return (
     <GoodStyle className="border my-2 py-4 rounded-3">
-      <Form className=" d-flex align-items-center">
-        <Form.Text
-          disabled={!changing}
-          className="me-2 flex-grow-1 fs-5  fw-bold"
-        >
+      <Form className=" d-flex align-items-center justify-content-end">
+        <Form.Text className="me-2 my-0 fs-5 text-nowrap flex-fill flex-grow-1 fw-bold">
           {goodInputs.name}
         </Form.Text>
-        <Form.Label className="mx-2 my-auto">Цена:</Form.Label>
+        <Form.Label className="mx-2 my-auto flex-shrink-2">Цена:</Form.Label>
         <Form.Control
           type="input"
           value={goodInputs.price1}
@@ -78,7 +75,7 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
             setGoodInputs({ ...goodInputs, price1: [e.target.value] })
           }
           disabled={!changing}
-          className="me-2"
+          className="me-2 "
         />
         <Form.Label className="mx-2 my-auto">Вес:</Form.Label>
         <Form.Control
@@ -88,7 +85,7 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
             setGoodInputs({ ...goodInputs, weight1: [e.target.value] })
           }
           disabled={!changing}
-          className="me-2"
+          className="me-2 "
         />
         {forchange && changeButton}
         {!forchange && chooseButtons}

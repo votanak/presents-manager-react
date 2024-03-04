@@ -50,7 +50,7 @@ export const HomePage = () => {
   return (
     <HomeStyle>
       <NaviBar />
-      <header id="sp-header" className="animated w-100 bg-white sticky-top">
+      <header id="sp-header" className="animated w-100 bg-white">
         <Container className="mw-100">
           <Row className="align-items-center w-100">
             <Col id="sp-logo" className="col-sm-1">
@@ -100,10 +100,10 @@ export const HomePage = () => {
           </Row>
         </Container>
       </header>
-      <Container className="w-100 mx-0">
+      <Container className="mw-100 m-0 sticky-top p-1 bg-white">
         <Row className="mt-4 blockquote">
           <Col>
-            <p>
+            <p className="my-0">
               <strong>Соберите свой уникальный подарок</strong>
             </p>
           </Col>
