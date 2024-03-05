@@ -2,6 +2,11 @@ import { useContext, useState } from 'react';
 import { PriceContext } from '../App';
 import { Container, Row, Form, Button, Accordion } from 'react-bootstrap';
 import { Good } from './Good';
+import styled from 'styled-components';
+
+const PriceStyle = styled(Container)`
+  min-width: 300px;
+`;
 
 export const PriceList = ({ forchange }) => {
   const { priceArray } = useContext(PriceContext);
@@ -23,7 +28,7 @@ export const PriceList = ({ forchange }) => {
   };
 
   return (
-    <Container className="w-100">
+    <PriceStyle className="w-100">
       <Accordion>
         {priceArray &&
           categories.map((cat, ind) => (
@@ -46,21 +51,23 @@ export const PriceList = ({ forchange }) => {
           ))}
       </Accordion>
       {!forchange && (
-        <Row className="sticky-bottom py-4 bg-light ">
-          <Form className="d-flex justify-content-around">
-            <Form.Label className="fs-5">Параметры подарка:</Form.Label>
+        <Row className="sticky-bottom py-2 bg-light ">
+          <Form className="d-flex flex-wrap justify-content-around">
+            <Form.Label className="fs-5 d-none d-sm-block">
+              Параметры подарка:
+            </Form.Label>
             <Form.Label className="fs-5">
               Суммарный вес: {Math.round(summ('weight1'))} г.
             </Form.Label>
             <Form.Label className="fs-5">
               Суммарная стоимость: {Math.round(summ('price1'))} руб.
             </Form.Label>
-            <Button type="submit" className="">
+            <Button type="submit" className="btn-sm">
               Отправить для заказа
             </Button>
           </Form>
         </Row>
       )}
-    </Container>
+    </PriceStyle>
   );
 };

@@ -54,16 +54,14 @@ export const HomePage = () => {
         <Container className="mw-100">
           <Row className="align-items-center w-100">
             <Col id="sp-logo" className="col-sm-1">
-              <div className="sp-column ">
-                <div className="logo">
-                  <a href="/">
-                    <img
-                      className="sp-default-logo"
-                      src={logo}
-                      alt="ГК «Конфи» - Изготовление и продажа детских новогодних подарков в г. Липецк"
-                    />
-                  </a>
-                </div>
+              <div className="logo">
+                <a href="/">
+                  <img
+                    className="sp-default-logo"
+                    src={logo}
+                    alt="ГК «Конфи» - Изготовление и продажа детских новогодних подарков в г. Липецк"
+                  />
+                </a>
               </div>
             </Col>
             <Col id="sp-slogan" className="col-md-4 text-start">
