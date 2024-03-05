@@ -109,7 +109,7 @@ export const HomePage = () => {
           </Col>
         </Row>
       </Container>
-      <PriceList forchange={false} className="w-100 mx-0" />
+      <PriceList forchange={false} />
     </HomeStyle>
   );
 };

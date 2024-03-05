@@ -9,7 +9,6 @@ export const PriceList = ({ forchange }) => {
   let categories = priceArray && [
     ...new Set(priceArray.map((el) => el.category)),
   ];
-  console.log(categories);
 
   const summ = (field) => {
     return (
@@ -24,7 +23,7 @@ export const PriceList = ({ forchange }) => {
   };
 
   return (
-    <Container className="mw-100">
+    <Container className="w-100">
       <Accordion>
         {priceArray &&
           categories.map((cat, ind) => (
@@ -47,8 +46,8 @@ export const PriceList = ({ forchange }) => {
           ))}
       </Accordion>
       {!forchange && (
-        <Row className="sticky-bottom py-4 bg-light">
-          <Form className="d-flex">
+        <Row className="sticky-bottom py-4 bg-light ">
+          <Form className="d-flex justify-content-around">
             <Form.Label className="fs-5">Параметры подарка:</Form.Label>
             <Form.Label className="fs-5">
               Суммарный вес: {Math.round(summ('weight1'))} г.
@@ -56,7 +55,7 @@ export const PriceList = ({ forchange }) => {
             <Form.Label className="fs-5">
               Суммарная стоимость: {Math.round(summ('price1'))} руб.
             </Form.Label>
-            <Button type="submit" className="ms-auto">
+            <Button type="submit" className="">
               Отправить для заказа
             </Button>
           </Form>

@@ -1,12 +1,23 @@
-import { Button, Form, Row } from 'react-bootstrap';
+import { Button, Form, Image, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 // import { PriceContext } from '../App';
 import { useState } from 'react';
+import candyImg from '../img/candy-noname.svg';
 
-const GoodStyle = styled(Row)``;
+const GoodStyle = styled(Row)`
+  .form-control {
+    width: 80px;
+  }
+  .quantity {
+    min-width: 20px;
+  }
+
+  .image-container {
+    max-width: 7%;
+  }
+`;
 
 export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
-  // const { setPriceArray } = useContext(PriceContext);
   const [goodInputs, setGoodInputs] = useState(good);
   const [changing, setChanging] = useState(false);
   const changePriceArray = () => {
@@ -46,7 +57,9 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
       >
         -
       </Button>
-      <Form.Label className="m-0">{selectedGoods[good.id]}</Form.Label>
+      <Form.Label className="m-0 text-center quantity">
+        {selectedGoods[good.id]}
+      </Form.Label>
       <Button
         id="plus-button"
         className="choose-button  mx-2 btn-sm"
@@ -64,10 +77,15 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
   return (
     <GoodStyle className="border my-2 py-4 rounded-3">
       <Form className=" d-flex align-items-center justify-content-end">
-        <Form.Text className="me-2 my-0 fs-5 text-nowrap flex-fill flex-grow-1 fw-bold">
+        <div className="image-container border">
+          <Image src={candyImg} fluid></Image>
+        </div>
+        <Form.Text className="me-2 my-0 fs-5 text-nowrap fw-bold w-100">
           {goodInputs.name}
         </Form.Text>
-        <Form.Label className="mx-2 my-auto flex-shrink-2">Цена:</Form.Label>
+        <Form.Label className="mx-2 my-auto text-nowrap">
+          Цена, руб.:
+        </Form.Label>
         <Form.Control
           type="input"
           value={goodInputs.price1}
@@ -75,9 +93,9 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
             setGoodInputs({ ...goodInputs, price1: [e.target.value] })
           }
           disabled={!changing}
-          className="me-2 "
+          className="me-2 text-center"
         />
-        <Form.Label className="mx-2 my-auto">Вес:</Form.Label>
+        <Form.Label className="mx-2 my-auto text-nowrap">Вес, г:</Form.Label>
         <Form.Control
           type="input"
           value={goodInputs.weight1}
@@ -85,7 +103,7 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
             setGoodInputs({ ...goodInputs, weight1: [e.target.value] })
           }
           disabled={!changing}
-          className="me-2 "
+          className="me-2 text-center"
         />
         {forchange && changeButton}
         {!forchange && chooseButtons}
