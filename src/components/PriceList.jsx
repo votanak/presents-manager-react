@@ -3,6 +3,7 @@ import { PriceContext } from '../App';
 import { Container, Row, Form, Button, Accordion } from 'react-bootstrap';
 import { Good } from './Good';
 import styled from 'styled-components';
+import { ModalSendForm } from './ModalSendForm';
 
 const PriceStyle = styled(Container)`
   min-width: 300px;
@@ -11,6 +12,7 @@ const PriceStyle = styled(Container)`
 export const PriceList = ({ forchange }) => {
   const { priceArray } = useContext(PriceContext);
   const [selectedGoods, setSelectedGoods] = useState({});
+  const [modalShow, setModalShow] = useState(false);
   let categories = priceArray && [
     ...new Set(priceArray.map((el) => el.category)),
   ];
@@ -62,11 +64,18 @@ export const PriceList = ({ forchange }) => {
             <Form.Label className="fs-5">
               Суммарная стоимость: {Math.round(summ('price1'))} руб.
             </Form.Label>
-            <Button type="submit" className="btn-sm">
+            <Button
+              type="submit"
+              onClick={() => setModalShow(true)}
+              className="btn-sm"
+            >
               Отправить для заказа
             </Button>
           </Form>
         </Row>
+      )}
+      {modalShow && (
+        <ModalSendForm modalShow={modalShow} setModalShow={setModalShow} />
       )}
     </PriceStyle>
   );

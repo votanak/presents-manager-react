@@ -37,6 +37,7 @@ export const HomePage = () => {
   const enter = () => {
     navigate('/login');
   };
+
   const exit = () => {
     setAuth({
       isLogged: false,
