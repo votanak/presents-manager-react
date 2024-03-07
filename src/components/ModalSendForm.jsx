@@ -1,10 +1,10 @@
 import { Modal, Form, Button } from 'react-bootstrap';
 
-export const ModalSendForm = ({ modalShow, setModalShow }) => {
-  const handleClose = () => setModalShow(false);
+export const ModalSendForm = ({ show, setShow }) => {
+  const handleClose = () => setShow(false);
 
   return (
-    <Modal show={modalShow} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>Modal heading</Modal.Title>
       </Modal.Header>
