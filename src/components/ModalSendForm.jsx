@@ -1,34 +1,36 @@
 import { Modal, Form, Button } from 'react-bootstrap';
 
-export const ModalSendForm = ({ modalShow, setModalShow }) => {
-  const handleClose = () => setModalShow(false);
+export const ModalSendForm = ({ show, setShow }) => {
+  const handleClose = () => setShow(false);
 
   return (
-    <Modal show={modalShow} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Title>Отправка заказа для сборки</Modal.Title>
       </Modal.Header>
       <Form>
         <Modal.Body>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="name@example.com"
-              autoFocus
-            />
+          <Form.Group className="mb-3" controlId="name">
+            <Form.Label>Имя</Form.Label>
+            <Form.Control type="text" placeholder="Имя" autoFocus />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-            <Form.Label>Example textarea</Form.Label>
+          <Form.Group className="mb-3" controlId="email">
+            <Form.Label>e-mail</Form.Label>
+            <Form.Control type="email" placeholder="name@server.com" />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="messageText">
+            <Form.Label placeholder="Текст сообщения...">
+              Комментарий к заказу
+            </Form.Label>
             <Form.Control as="textarea" rows={3} />
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            Отмена
           </Button>
           <Button variant="primary" onClick={handleClose}>
-            Save Changes
+            Отправить заказ
           </Button>
         </Modal.Footer>
       </Form>

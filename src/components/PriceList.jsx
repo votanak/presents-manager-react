@@ -13,9 +13,6 @@ export const PriceList = ({ forchange }) => {
   const { priceArray } = useContext(PriceContext);
   const [selectedGoods, setSelectedGoods] = useState({});
   const [modalShow, setModalShow] = useState(false);
-  let categories = priceArray && [
-    ...new Set(priceArray.map((el) => el.category)),
-  ];
 
   const summ = (field) => {
     return (
@@ -33,7 +30,7 @@ export const PriceList = ({ forchange }) => {
     <PriceStyle className="w-100">
       <Accordion>
         {priceArray &&
-          categories.map((cat, ind) => (
+          [...new Set(priceArray.map((el) => el.category))].map((cat, ind) => (
             <Accordion.Item eventKey={ind} key={ind}>
               <Accordion.Header>{cat}</Accordion.Header>
               <Accordion.Body>
@@ -64,19 +61,13 @@ export const PriceList = ({ forchange }) => {
             <Form.Label className="fs-5">
               Суммарная стоимость: {Math.round(summ('price1'))} руб.
             </Form.Label>
-            <Button
-              type="submit"
-              onClick={() => setModalShow(true)}
-              className="btn-sm"
-            >
+            <Button onClick={() => setModalShow(true)} className="btn-sm">
               Отправить для заказа
             </Button>
           </Form>
         </Row>
       )}
-      {modalShow && (
-        <ModalSendForm modalShow={modalShow} setModalShow={setModalShow} />
-      )}
+      <ModalSendForm show={modalShow} setShow={setModalShow} />
     </PriceStyle>
   );
 };
