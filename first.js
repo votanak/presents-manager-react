@@ -3,7 +3,7 @@ const nodemailer = require('nodemailer');
 const app = express();
 const port = 5000;
 
-const sendEmail = ({ recipient, message }) => {
+const sendEmail = ({ customerName, customerEmail, message }) => {
   return new Promise((resolve, reject) => {
     let transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -15,8 +15,8 @@ const sendEmail = ({ recipient, message }) => {
     const mail_configs = {
       from: 'gk-konfi',
       to: 'gvotanak@gmail.com',
-      subject: 'Testing Email',
-      text: 'Just checking ...',
+      subject: 'Заказ на сборный подарок',
+      text: `Поступил заказ на сборный подарок от пользователя ${customerName} c электронным адресом ${customerEmail}\nКомментарий: ${message}`,
     };
 
     transporter.sendMail(mail_configs, (error, info) => {
@@ -30,7 +30,11 @@ const sendEmail = ({ recipient, message }) => {
 };
 
 app.get('/', (req, res) => {
-  sendEmail()
+  sendEmail({
+    customerName: 'RRRRR',
+    customerEmail: 'votanak@yandex.ru',
+    message: 'Вот такой вот заказ',
+  })
     .then((response) => res.send(response.message))
     .catch((error) => res.status(500).send(error.message));
 });
