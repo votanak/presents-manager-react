@@ -61,17 +61,13 @@ export const PriceList = ({ forchange }) => {
             <Form.Label className="fs-5">
               Суммарная стоимость: {Math.round(summ('price1'))} руб.
             </Form.Label>
-            <Button
-              type="submit"
-              onClick={() => setModalShow(true)}
-              className="btn-sm"
-            >
+            <Button onClick={() => setModalShow(true)} className="btn-sm">
               Отправить для заказа
             </Button>
           </Form>
         </Row>
       )}
-      {modalShow && <ModalSendForm show={modalShow} setShow={setModalShow} />}
+      <ModalSendForm show={modalShow} setShow={setModalShow} />
     </PriceStyle>
   );
 };
