@@ -18,10 +18,7 @@ export const PriceList = ({ forchange }) => {
     return (
       priceArray &&
       Object.keys(selectedGoods).reduce((acc, el) => {
-        return (
-          acc +
-          priceArray.find((el1) => el1.id === +el)[field] * selectedGoods[el]
-        );
+        return acc + selectedGoods[el].good[field] * selectedGoods[el].quantity;
       }, 0)
     );
   };
@@ -67,7 +64,11 @@ export const PriceList = ({ forchange }) => {
           </Form>
         </Row>
       )}
-      <ModalSendForm show={modalShow} setShow={setModalShow} selectedGoods={selectedGoods}/>
+      <ModalSendForm
+        show={modalShow}
+        setShow={setModalShow}
+        selectedGoods={selectedGoods}
+      />
     </PriceStyle>
   );
 };

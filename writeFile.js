@@ -1,5 +1,6 @@
-const writeFile = (array) => {
-  (async () => {
+var XLSX = require("xlsx");
+
+export const writeFile = (goods) => {
     /* fetch JSON data and parse */
     const url =
       'https://theunitedstates.io/congress-legislators/executive.json';
@@ -33,5 +34,4 @@ const writeFile = (array) => {
     console.log(workbook);
     /* create an XLSX file and try to save to Presidents.xlsx */
     XLSX.writeFile(workbook, 'Presidents.xlsx');
-  })();
 };

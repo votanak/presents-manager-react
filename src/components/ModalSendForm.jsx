@@ -1,5 +1,5 @@
 import { Modal, Form, Button } from 'react-bootstrap';
-import { LoginContext } from '../App';
+import { LoginContext, PriceContext } from '../App';
 import { useContext, useState } from 'react';
 import { postRequest } from '../services/serverRequest';
 
@@ -9,16 +9,27 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
   const [email, setEmail] = useState('');
   const [messageText, setMessageText] = useState('');
   const { auth } = useContext(LoginContext);
+  const { priceArray } = useContext(PriceContext);
 
   const handleSend = () => {
-    console.log(name, email, messageText);
+    const orderObj =
+      priceArray &&
+      priceArray
+        .filter((goods) => Object.keys(selectedGoods).includes(goods.id))
+        .map((good1) => [good1.id, good1, selectedGoods[good1.id]]);
+    console.log(orderObj);
     postRequest('/send_order', auth.token, {
       customerName: name,
       customerEmail: email,
       message: JSON.stringify(selectedGoods),
     })
-      .then(() => alert('emmail successfully sended!!!'))
-      .catch((err) => alert('неудачно!!!'));
+      .then(() => {
+        alert('Email successfully sended!!!');
+        setShow(false);
+      })
+      .catch((err) => {
+        alert('неудачно!!!');
+      });
   };
 
   return (

@@ -30,7 +30,6 @@ const sendEmail = ({ customerName, customerEmail, message }) => {
 
     transporter.sendMail(mail_configs, (error, info) => {
       if (error) {
-        console.log(error);
         return reject({ message: 'An error has occured' });
       }
       return resolve({ message: 'Email sent succesfully' });
@@ -51,7 +50,7 @@ app.get('/', (req, res) => {
 app.post('/send_order', (req, res) => {
   console.log('from post: ', req);
   sendEmail(req.body)
-    .then((response) => res.send(response.message))
+    .then((response) => res.send(response))
     .catch((error) => res.status(500).send(error.message));
 });
 

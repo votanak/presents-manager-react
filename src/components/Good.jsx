@@ -5,7 +5,7 @@ import { useState } from 'react';
 import candyImg from '../img/candy-noname.svg';
 
 const GoodStyle = styled(Row)`
-    .form-control {
+  .form-control {
     width: 70px;
   }
   .quantity {
@@ -25,13 +25,16 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
   };
 
   const decrease = () => {
-    if (selectedGoods[good.id] === 1) {
+    if (selectedGoods[good.id].quantity === 1) {
       const { [good.id]: _, ...rest } = selectedGoods;
       setSelectedGoods(rest);
     } else {
       setSelectedGoods({
         ...selectedGoods,
-        [good.id]: selectedGoods[good.id] - 1,
+        [good.id]: {
+          good: good,
+          quantity: selectedGoods[good.id].quantity - 1,
+        },
       });
     }
   };
@@ -43,7 +46,12 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
   );
   const chooseButtons = !selectedGoods[good.id] ? (
     <Button
-      onClick={() => setSelectedGoods({ ...selectedGoods, [good.id]: 1 })}
+      onClick={() =>
+        setSelectedGoods({
+          ...selectedGoods,
+          [good.id]: { good: good, quantity: 1 },
+        })
+      }
       className="btn-sm my-2"
     >
       Добавить
@@ -58,7 +66,7 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
         -
       </Button>
       <Form.Label className="m-0 text-center quantity">
-        {selectedGoods[good.id]}
+        {selectedGoods[good.id].quantity}
       </Form.Label>
       <Button
         id="plus-button"
@@ -66,7 +74,10 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
         onClick={() =>
           setSelectedGoods({
             ...selectedGoods,
-            [good.id]: selectedGoods[good.id] + 1,
+            [good.id]: {
+              good: good,
+              quantity: selectedGoods[good.id].quantity + 1,
+            },
           })
         }
       >
@@ -84,6 +95,18 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
           </Form.Text>
         </Form.Group>
         <Form.Group className="d-flex">
+          <Form.Label className="mx-2 my-auto text-nowrap">Вес, г:</Form.Label>
+          <Form.Control
+            type="input"
+            value={goodInputs.weight1}
+            onChange={(e) =>
+              setGoodInputs({ ...goodInputs, weight1: [e.target.value] })
+            }
+            disabled={!changing}
+            className="me-2 text-center"
+          />
+        </Form.Group>
+        <Form.Group className="d-flex">
           <Form.Label className="mx-2 my-auto text-nowrap">
             Цена, руб.:
           </Form.Label>
@@ -95,18 +118,6 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
             }
             disabled={!changing}
             className="me-2 p-0 text-center"
-          />
-        </Form.Group>
-        <Form.Group className="d-flex">
-          <Form.Label className="mx-2 my-auto text-nowrap">Вес, г:</Form.Label>
-          <Form.Control
-            type="input"
-            value={goodInputs.weight1}
-            onChange={(e) =>
-              setGoodInputs({ ...goodInputs, weight1: [e.target.value] })
-            }
-            disabled={!changing}
-            className="me-2 text-center"
           />
         </Form.Group>
         {forchange && changeButton}
