@@ -67,7 +67,7 @@ export const PriceList = ({ forchange }) => {
           </Form>
         </Row>
       )}
-      <ModalSendForm show={modalShow} setShow={setModalShow} />
+      <ModalSendForm show={modalShow} setShow={setModalShow} selectedGoods={selectedGoods}/>
     </PriceStyle>
   );
 };

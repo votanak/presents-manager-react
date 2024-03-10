@@ -1,7 +1,16 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
+const cors = require('cors');
 const app = express();
 const port = 5000;
+
+app.use(cors());
+app.use(express.json({ limit: '25mb' }));
+app.use(express.urlencoded({ limit: '25mb' }));
+app.use((req, res, next) => {
+  res.setHeader('Acccess-Control-Allow-Origin', '*');
+  next();
+});
 
 const sendEmail = ({ customerName, customerEmail, message }) => {
   return new Promise((resolve, reject) => {
@@ -38,8 +47,10 @@ app.get('/', (req, res) => {
     .then((response) => res.send(response.message))
     .catch((error) => res.status(500).send(error.message));
 });
-app.post('/send_email', (req, res) => {
-  sendEmail()
+
+app.post('/send_order', (req, res) => {
+  console.log('from post: ', req);
+  sendEmail(req.body)
     .then((response) => res.send(response.message))
     .catch((error) => res.status(500).send(error.message));
 });
