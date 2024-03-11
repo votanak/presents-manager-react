@@ -1,37 +1,28 @@
-var XLSX = require("xlsx");
+var XLSX = require('xlsx');
 
 export const writeFile = (goods) => {
-    /* fetch JSON data and parse */
-    const url =
-      'https://theunitedstates.io/congress-legislators/executive.json';
-    const raw_data = (await axios(url, { responseType: 'json' })).data;
+  const worksheet = XLSX.utils.json_to_sheet(goods);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Подарки');
 
-    /* filter for the Presidents */
-    const prez = raw_data.filter((row) =>
-      row.terms.some((term) => term.type === 'prez'),
-    );
+  let student_data = [
+    {
+      Student: 'Nikhil',
+      Age: 22,
+      Branch: 'ISE',
+      Marks: 70,
+    },
+    {
+      Student: 'Amitha',
+      Age: 21,
+      Branch: 'EC',
+      Marks: 80,
+    },
+  ];
 
-    /* flatten objects */
-    const rows = prez.map((row) => ({
-      name: row.name.first + ' ' + row.name.last,
-      birthday: row.bio.birthday,
-    }));
+  const ws = XLSX.utils.json_to_sheet(student_data);
 
-    /* generate worksheet and workbook */
-    const worksheet = XLSX.utils.json_to_sheet(rows);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Dates');
+  XLSX.utils.book_append_sheet(workbook, ws, 'Подарки');
 
-    /* fix headers */
-    XLSX.utils.sheet_add_aoa(worksheet, [['Name', 'Birthday']], {
-      origin: 'A1',
-    });
-
-    /* calculate column width */
-    const max_width = rows.reduce((w, r) => Math.max(w, r.name.length), 10);
-    worksheet['!cols'] = [{ wch: max_width }];
-
-    console.log(workbook);
-    /* create an XLSX file and try to save to Presidents.xlsx */
-    XLSX.writeFile(workbook, 'Presidents.xlsx');
+  XLSX.writeFile(workbook, 'Presents.xlsx');
 };
