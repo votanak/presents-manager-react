@@ -1,9 +1,9 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
+const { writeXLSX } = require('./writeXLSX');
 const cors = require('cors');
 const app = express();
 const port = 5000;
-let { writeFile } = require('./writeFile');
 
 app.use(cors());
 app.use(express.json({ limit: '25mb' }));
@@ -39,8 +39,8 @@ const sendEmail = ({ customerName, customerEmail, message }) => {
 };
 
 app.post('/send_order', (req, res) => {
-  console.log(req.body);
-  writeFile(req.body);
+  console.log();
+  writeXLSX(req.body);
   sendEmail(req.body)
     .then((response) => res.send(response))
     .catch((error) => res.status(500).send(error.message));
