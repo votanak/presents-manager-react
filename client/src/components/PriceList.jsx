@@ -4,6 +4,7 @@ import { Container, Row, Form, Button, Accordion } from 'react-bootstrap';
 import { Good } from './Good';
 import styled from 'styled-components';
 import { ModalSendForm } from './ModalSendForm';
+import { Loader } from './Loader';
 
 const PriceStyle = styled(Container)`
   min-width: 300px;
@@ -46,24 +47,27 @@ export const PriceList = ({ forchange }) => {
             </Accordion.Item>
           ))}
       </Accordion>
-      {!forchange && (
-        <Row className="sticky-bottom py-2 bg-light ">
-          <Form className="d-flex flex-wrap justify-content-around">
-            <Form.Label className="fs-5 d-none d-sm-block">
-              Параметры подарка:
-            </Form.Label>
-            <Form.Label className="fs-5">
-              Суммарный вес: {Math.round(summ('weight1'))} г.
-            </Form.Label>
-            <Form.Label className="fs-5">
-              Суммарная стоимость: {Math.round(summ('price1'))} руб.
-            </Form.Label>
-            <Button onClick={() => setModalShow(true)} className="btn-sm">
-              Отправить для заказа
-            </Button>
-          </Form>
-        </Row>
-      )}
+      {!forchange &&
+        (!!priceArray ? (
+          <Row className="sticky-bottom py-2 bg-light ">
+            <Form className="d-flex flex-wrap justify-content-around">
+              <Form.Label className="fs-5 d-none d-sm-block">
+                Параметры подарка:
+              </Form.Label>
+              <Form.Label className="fs-5">
+                Суммарный вес: {Math.round(summ('weight1'))} г.
+              </Form.Label>
+              <Form.Label className="fs-5">
+                Суммарная стоимость: {Math.round(summ('price1'))} руб.
+              </Form.Label>
+              <Button onClick={() => setModalShow(true)} className="btn-sm">
+                Отправить для заказа
+              </Button>
+            </Form>
+          </Row>
+        ) : (
+          <Loader />
+        ))}
       <ModalSendForm
         show={modalShow}
         setShow={setModalShow}

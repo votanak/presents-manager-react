@@ -30,8 +30,8 @@ const sendEmail = ({ customerName, customerEmail, message }) => {
       text: `Поступил заказ на сборный подарок от пользователя ${customerName} c электронным адресом ${customerEmail}\nКомментарий: ${message}`,
       attachments: [
         {
-          filename: 'Presents.xlsx',
-          path: './Presents.xlsx',
+          filename: 'Order.xlsx',
+          path: './Order.xlsx',
         },
       ],
     };

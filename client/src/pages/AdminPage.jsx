@@ -19,6 +19,7 @@ export const AdminPage = () => {
   const handleChoosePrice = (e) => {
     setPriceFile(e.target.files[0]);
   };
+
   const handleLoadPrice = (e) => {
     e.preventDefault();
     let fileReader = new FileReader();

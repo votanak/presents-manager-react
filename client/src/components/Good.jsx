@@ -6,7 +6,7 @@ import candyImg from '../img/candy-noname.svg';
 
 const GoodStyle = styled(Row)`
   .form-control {
-    width: 70px;
+    width: 50px;
   }
   .quantity {
     min-width: 20px;
@@ -103,7 +103,7 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
               setGoodInputs({ ...goodInputs, weight1: [e.target.value] })
             }
             disabled={!changing}
-            className="me-2 text-center"
+            className="me-2 p-0 text-center"
           />
         </Form.Group>
         <Form.Group className="d-flex">
