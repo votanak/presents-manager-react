@@ -1,7 +1,6 @@
 let XLSX = require('xlsx');
 
 const writeXLSX = (reqBody) => {
-  console.log(reqBody);
   let data_to_write = Object.values(JSON.parse(reqBody.selectedGoods)).map(
     (el) => {
       return {
@@ -16,6 +15,7 @@ const writeXLSX = (reqBody) => {
   const worksheet = XLSX.utils.json_to_sheet(data_to_write);
   XLSX.utils.book_append_sheet(workbook, worksheet, 'Заказ');
   XLSX.writeFile(workbook, 'Presents.xlsx');
+  return 'Presents.xlsx';
 };
 
 module.exports = { writeXLSX };

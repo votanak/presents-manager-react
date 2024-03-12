@@ -13,7 +13,8 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
-    "start": "node sendEmail"
+    "start": "node sendEmail",
+    "dev": "nodemon sendEmail"
   },
   "eslintConfig": {
     "extends": [

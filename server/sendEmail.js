@@ -2,6 +2,7 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const { writeXLSX } = require('./writeXLSX');
 const cors = require('cors');
+const { unlink } = require('node:fs');
 const app = express();
 const port = 5000;
 
@@ -27,6 +28,12 @@ const sendEmail = ({ customerName, customerEmail, message }) => {
       to: 'gvotanak@gmail.com',
       subject: 'Заказ на сборный подарок',
       text: `Поступил заказ на сборный подарок от пользователя ${customerName} c электронным адресом ${customerEmail}\nКомментарий: ${message}`,
+      attachments: [
+        {
+          filename: 'Presents.xlsx',
+          path: './Presents.xlsx',
+        },
+      ],
     };
 
     transporter.sendMail(mail_configs, (error, info) => {
@@ -39,10 +46,15 @@ const sendEmail = ({ customerName, customerEmail, message }) => {
 };
 
 app.post('/send_order', (req, res) => {
-  console.log();
-  writeXLSX(req.body);
+  const fileName = writeXLSX(req.body);
   sendEmail(req.body)
-    .then((response) => res.send(response))
+    .then((response) => {
+      unlink(`./${fileName}`, (err) => {
+        if (err) throw err;
+        console.log('successfully deleted');
+      });
+      return res.send(response);
+    })
     .catch((error) => res.status(500).send(error.message));
 });
 
