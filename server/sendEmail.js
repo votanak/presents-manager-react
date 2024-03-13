@@ -2,6 +2,7 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const { writeXLSX } = require('./writeXLSX');
 const cors = require('cors');
+const fs = require('fs');
 const { unlink } = require('node:fs');
 const app = express();
 const port = 5000;
@@ -58,5 +59,17 @@ app.post('/send_order', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`nodemailer listening port${port}`);
+  console.log(`listening port ${port}`);
+});
+
+app.post('/write_array', (req, res) => {
+  fs.writeFile(
+    './data/priceArray.json',
+    JSON.stringify(req.body),
+    'utf8',
+    (err) => {
+      if (err) console.log(err);
+      console.log('success');
+    },
+  );
 });

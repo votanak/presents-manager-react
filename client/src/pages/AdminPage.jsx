@@ -4,8 +4,9 @@ import styled from 'styled-components';
 import { useContext, useState } from 'react';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { PriceList } from '../components/PriceList';
-import { PriceContext } from '../App';
+import { LoginContext, PriceContext } from '../App';
 import { translit } from '../services/translit';
+import { postRequest } from '../services/serverRequest';
 
 const AdminStyle = styled.div`
   .col {
@@ -16,6 +17,7 @@ const AdminStyle = styled.div`
 export const AdminPage = () => {
   const [priceFile, setPriceFile] = useState();
   const { setPriceArray } = useContext(PriceContext);
+  const { auth } = useContext(LoginContext);
   const handleChoosePrice = (e) => {
     setPriceFile(e.target.files[0]);
   };
@@ -45,6 +47,7 @@ export const AdminPage = () => {
             })
           : (category = el.__EMPTY_1);
       });
+      postRequest('/write_array', auth.token, pArray);
       setPriceArray(pArray);
     };
   };

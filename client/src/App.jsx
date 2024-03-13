@@ -23,6 +23,7 @@ export const App = () => {
     authCode: '',
   });
   const [priceArray, setPriceArray] = useState();
+  const [packArray, setPackArray] = useState();
   const authCodeFromLS = localStorage.getItem('authCode');
 
   useEffect(() => {
@@ -48,7 +49,9 @@ export const App = () => {
   return (
     <AppStyle>
       <LoginContext.Provider value={{ auth, setAuth }}>
-        <PriceContext.Provider value={{ priceArray, setPriceArray }}>
+        <PriceContext.Provider
+          value={{ priceArray, setPriceArray, packArray, setPackArray }}
+        >
           <BrowserRouter>
             <Routes>
               <Route element={<PrivateRoutes auth={auth} />}>

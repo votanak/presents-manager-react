@@ -41,6 +41,23 @@ export const request = async (url, method, token, params) => {
         return e;
       }
 
+    case '/write_array':
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_SERVER_URL}${url}`,
+          {
+            method,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            ...(method === 'POST' ? params : {}),
+          },
+        );
+        return response.json();
+      } catch (e) {
+        return e;
+      }
+
     default:
       break;
   }
