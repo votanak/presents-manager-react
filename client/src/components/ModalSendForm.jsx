@@ -11,11 +11,6 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
   const { auth } = useContext(LoginContext);
 
   const handleSend = () => {
-    console.log({
-      customerName: name,
-      customerEmail: email,
-      selectedGoods: JSON.stringify(selectedGoods),
-    });
     postRequest('/send_order', auth.token, {
       customerName: name,
       customerEmail: email,

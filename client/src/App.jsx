@@ -10,6 +10,7 @@ import { getRequest, postRequest } from './services/serverRequest';
 
 export const LoginContext = createContext();
 export const PriceContext = createContext();
+export const PackContext = createContext();
 
 const AppStyle = styled.div`
   font-family: 'Montserrat';

@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { PriceContext } from '../App';
 import { Container, Row, Form, Button, Accordion } from 'react-bootstrap';
 import { Good } from './Good';
+import { Pack } from './Pack';
 import styled from 'styled-components';
 import { ModalSendForm } from './ModalSendForm';
 import { Loader } from './Loader';
@@ -11,7 +12,7 @@ const PriceStyle = styled(Container)`
 `;
 
 export const PriceList = ({ forchange }) => {
-  const { priceArray } = useContext(PriceContext);
+  const { priceArray, packArray } = useContext(PriceContext);
   const [selectedGoods, setSelectedGoods] = useState({});
   const [modalShow, setModalShow] = useState(false);
 
@@ -26,6 +27,27 @@ export const PriceList = ({ forchange }) => {
 
   return (
     <PriceStyle className="w-100">
+      <Accordion>
+        {packArray &&
+          [...new Set(priceArray.map((el) => el.category))].map((cat, ind) => (
+            <Accordion.Item eventKey={ind} key={ind}>
+              <Accordion.Header>{cat}</Accordion.Header>
+              <Accordion.Body>
+                {priceArray
+                  .filter((good1) => good1.category === cat)
+                  .map((good) => (
+                    <Good
+                      forchange={forchange}
+                      good={good}
+                      key={good.id}
+                      selectedGoods={selectedGoods}
+                      setSelectedGoods={setSelectedGoods}
+                    />
+                  ))}
+              </Accordion.Body>
+            </Accordion.Item>
+          ))}
+      </Accordion>
       <Accordion>
         {priceArray &&
           [...new Set(priceArray.map((el) => el.category))].map((cat, ind) => (

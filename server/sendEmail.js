@@ -31,7 +31,7 @@ const sendEmail = ({ customerName, customerEmail, message }) => {
       attachments: [
         {
           filename: 'Order.xlsx',
-          path: './Order.xlsx',
+          path: './data/Order.xlsx',
         },
       ],
     };
@@ -49,9 +49,8 @@ app.post('/send_order', (req, res) => {
   const fileName = writeXLSX(req.body);
   sendEmail(req.body)
     .then((response) => {
-      unlink(`./${fileName}`, (err) => {
+      unlink(`./data/${fileName}`, (err) => {
         if (err) throw err;
-        console.log('successfully deleted');
       });
       return res.send(response);
     })
