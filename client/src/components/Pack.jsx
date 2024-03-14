@@ -15,10 +15,10 @@ const PackStyle = styled(Row)`
   }
 `;
 
-export const Pack = ({ pack }) => {
+export const Pack = ({ forCange, pack }) => {
   return (
     <PackStyle className="border my-2 py-2 rounded-3">
-      <Form className=" d-flex align-items-center flex-wrap justify-content-end">
+      <div className=" d-flex align-items-center flex-wrap justify-content-end">
         <Form.Group className="d-flex me-auto flex-shrink-1 align-items-center ">
           <Image src={giftBox} fluid rounded className="border mx-2"></Image>
           <Form.Text className="me-2 my-0 fs-6 fw-bold" rows="2">
@@ -34,7 +34,7 @@ export const Pack = ({ pack }) => {
         <Form.Label className="mx-2 my-auto text-nowrap">
           Цена - {pack.price} руб.
         </Form.Label>
-      </Form>
+      </div>
     </PackStyle>
   );
 };

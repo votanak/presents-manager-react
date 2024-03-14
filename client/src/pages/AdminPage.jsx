@@ -52,6 +52,7 @@ export const AdminPage = () => {
       setPriceArray(pArray);
     };
   };
+
   const handleLoadPack = (e) => {
     e.preventDefault();
     let fileReader = new FileReader();
@@ -81,6 +82,7 @@ export const AdminPage = () => {
       setPackArray(pArray);
     };
   };
+
   return (
     <AdminStyle>
       <h1 className="py-2 h-100 text-center sticky-top bg-white">

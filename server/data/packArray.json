@@ -1,1 +1,51 @@
-[{"id":"up1","name":"Презент  \"Наездники\"","producer":80,"packWeight":800,"giftWeight":100},{"id":"up2","name":"Презент \"Императорский дракон\"","producer":80,"packWeight":800,"giftWeight":100},{"id":"up3","name":"Подарок \"Дракоши\"","producer":90,"packWeight":900,"giftWeight":150},{"id":"up4","name":"Новогодние посиделки","producer":90,"packWeight":900,"giftWeight":150},{"id":"up5","name":"С новым годом","producer":90,"packWeight":900,"giftWeight":150},{"id":"up6","name":"Сумочка праздник","producer":100,"packWeight":1000,"giftWeight":200},{"id":"up7","name":"Шкатулка","producer":100,"packWeight":1000,"giftWeight":250}]
+[
+  {
+    "id": "up1",
+    "name": "Презент  \"Наездники\"",
+    "producer": 80,
+    "packWeight": 800,
+    "giftWeight": 100
+  },
+  {
+    "id": "up2",
+    "name": "Презент \"Императорский дракон\"",
+    "producer": 80,
+    "packWeight": 800,
+    "giftWeight": 100
+  },
+  {
+    "id": "up3",
+    "name": "Подарок \"Дракоши\"",
+    "producer": 90,
+    "packWeight": 900,
+    "giftWeight": 150
+  },
+  {
+    "id": "up4",
+    "name": "Новогодние посиделки",
+    "producer": 90,
+    "packWeight": 900,
+    "giftWeight": 150
+  },
+  {
+    "id": "up5",
+    "name": "С новым годом",
+    "producer": 90,
+    "packWeight": 900,
+    "giftWeight": 150
+  },
+  {
+    "id": "up6",
+    "name": "Сумочка праздник",
+    "producer": 100,
+    "packWeight": 1000,
+    "giftWeight": 200
+  },
+  {
+    "id": "up7",
+    "name": "Шкатулка",
+    "producer": 100,
+    "packWeight": 1000,
+    "giftWeight": 250
+  }
+]
