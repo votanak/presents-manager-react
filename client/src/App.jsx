@@ -10,7 +10,6 @@ import { getRequest, postRequest } from './services/serverRequest';
 
 export const LoginContext = createContext();
 export const PriceContext = createContext();
-export const PackContext = createContext();
 
 const AppStyle = styled.div`
   font-family: 'Montserrat';
@@ -43,7 +42,12 @@ export const App = () => {
       .catch((e) => {
         console.log(e);
       });
-    getRequest('/get_price', '', {}).then((data) => setPriceArray(data));
+    getRequest('/get_json', '', { filename: 'priceArray' }).then((data) =>
+      setPriceArray(data),
+    );
+    getRequest('/get_json', '', { filename: 'packArray' }).then((data) =>
+      setPackArray(data),
+    );
   }, [authCodeFromLS]);
 
   return (

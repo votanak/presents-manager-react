@@ -20,6 +20,7 @@ export const PriceList = ({ forchange }) => {
     return (
       priceArray &&
       Object.keys(selectedGoods).reduce((acc, el) => {
+        if (el === 'pack') return;
         return acc + selectedGoods[el].good[field] * selectedGoods[el].quantity;
       }, 0)
     );
@@ -27,26 +28,36 @@ export const PriceList = ({ forchange }) => {
 
   return (
     <PriceStyle className="w-100">
-      <Accordion>
-        {packArray &&
-          [...new Set(priceArray.map((el) => el.category))].map((cat, ind) => (
-            <Accordion.Item eventKey={ind} key={ind}>
-              <Accordion.Header>{cat}</Accordion.Header>
-              <Accordion.Body>
-                {priceArray
-                  .filter((good1) => good1.category === cat)
-                  .map((good) => (
-                    <Good
+      <Accordion className=" mb-4">
+        {packArray && (
+          <Accordion.Item>
+            <Accordion.Header>Упаковка</Accordion.Header>
+            <Accordion.Body>
+              <Form>
+                {packArray.map((pack) => (
+                  <div key={pack.id} className="d-flex align-items-center">
+                    <Pack
                       forchange={forchange}
-                      good={good}
-                      key={good.id}
+                      pack={pack}
                       selectedGoods={selectedGoods}
-                      setSelectedGoods={setSelectedGoods}
+                      setSelectedPack={setSelectedGoods}
                     />
-                  ))}
-              </Accordion.Body>
-            </Accordion.Item>
-          ))}
+                    <Form.Check
+                      type="radio"
+                      onClick={(e) => {
+                        setSelectedGoods({
+                          ...selectedGoods,
+                          pack: pack,
+                        });
+                      }}
+                      aria-label="radio 1"
+                    />
+                  </div>
+                ))}
+              </Form>
+            </Accordion.Body>
+          </Accordion.Item>
+        )}
       </Accordion>
       <Accordion>
         {priceArray &&

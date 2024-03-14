@@ -2,6 +2,7 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const { writeXLSX } = require('./writeXLSX');
 const cors = require('cors');
+const url = require('url');
 const fs = require('fs');
 const { unlink } = require('node:fs');
 const app = express();
@@ -62,14 +63,32 @@ app.listen(port, () => {
   console.log(`listening port ${port}`);
 });
 
-app.post('/write_array', (req, res) => {
+app.post('/write_json', (req, res) => {
   fs.writeFile(
-    './data/priceArray.json',
-    JSON.stringify(req.body),
+    `./data/${req.body.filename}.json`,
+    JSON.stringify(req.body.data),
     'utf8',
     (err) => {
-      if (err) console.log(err);
-      console.log('success');
+      if (err) res.status(500).send({ mesage: 'Internal server error' });
+      res.status(200).send({ response: 'successfully writed' });
+    },
+  );
+});
+
+app.get('/get_json', (req, res) => {
+  fs.readFile(
+    `./data/${url.parse(req.url, true).query.filename}.json`,
+    'utf8',
+    (err, data) => {
+      if (err) {
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end('Internal Server Error');
+        console.error('Ошибка чтения файла:', err);
+        return;
+      }
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
+      res.end(data);
+      console.log('Данные из файла успешно отправлены');
     },
   );
 });

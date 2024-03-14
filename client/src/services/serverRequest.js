@@ -1,5 +1,4 @@
 import queryString from 'query-string';
-import { priceArray } from './priceArray';
 
 const serverResponse = async (response) =>
   new Promise((resolve) => {
@@ -20,46 +19,23 @@ export const request = async (url, method, token, params) => {
         return data;
       }
       break;
-    case '/get_price?':
-      const data = await serverResponse(priceArray);
-      return data;
-
-    case '/send_order':
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_SERVER_URL}${url}`,
-          {
-            method,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            ...(method === 'POST' ? params : {}),
-          },
-        );
-        return response.json();
-      } catch (e) {
-        return e;
-      }
-
-    case '/write_array':
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_SERVER_URL}${url}`,
-          {
-            method,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            ...(method === 'POST' ? params : {}),
-          },
-        );
-        return response.json();
-      } catch (e) {
-        return e;
-      }
 
     default:
-      break;
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_SERVER_URL}${url}`,
+          {
+            method,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            ...(method === 'POST' ? params : {}),
+          },
+        );
+        return response.json();
+      } catch (e) {
+        return e;
+      }
   }
 };
 

@@ -1,6 +1,5 @@
 import { Button, Form, Image, Row } from 'react-bootstrap';
 import styled from 'styled-components';
-// import { PriceContext } from '../App';
 import { useState } from 'react';
 import candyImg from '../img/candy-noname.svg';
 

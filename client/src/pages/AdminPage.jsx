@@ -16,11 +16,9 @@ const AdminStyle = styled.div`
 
 export const AdminPage = () => {
   const [priceFile, setPriceFile] = useState();
-  const { setPriceArray } = useContext(PriceContext);
+  const [packFile, setPackFile] = useState();
+  const { setPriceArray, setPackArray } = useContext(PriceContext);
   const { auth } = useContext(LoginContext);
-  const handleChoosePrice = (e) => {
-    setPriceFile(e.target.files[0]);
-  };
 
   const handleLoadPrice = (e) => {
     e.preventDefault();
@@ -47,33 +45,95 @@ export const AdminPage = () => {
             })
           : (category = el.__EMPTY_1);
       });
-      postRequest('/write_array', auth.token, pArray);
+      postRequest('/write_json', auth.token, {
+        filename: 'priceArray',
+        data: pArray,
+      });
       setPriceArray(pArray);
+    };
+  };
+  const handleLoadPack = (e) => {
+    e.preventDefault();
+    let fileReader = new FileReader();
+    fileReader.readAsBinaryString(packFile);
+    fileReader.onload = (e) => {
+      let workbook = XLSX.read(e.target.result, { type: 'binary' });
+      let pArr = XLSX.utils.sheet_to_row_object_array(
+        workbook.Sheets['Упаковка'],
+      );
+      let pArray = [];
+      pArr.forEach((el) => {
+        if (el.__EMPTY.slice(0, 1) === 'u') {
+          pArray.push({
+            id: el.__EMPTY,
+            name: el.__EMPTY_2,
+            producer: el.__EMPTY_3,
+            packWeight: el.__EMPTY_4,
+            giftWeight: el.__EMPTY_5,
+            price: el.__EMPTY_6,
+          });
+        }
+      });
+      postRequest('/write_json', auth.token, {
+        filename: 'packArray',
+        data: pArray,
+      });
+      setPackArray(pArray);
     };
   };
   return (
     <AdminStyle>
-      <h1 className="mt-2 h-100 text-center">Страница администратора</h1>
+      <h1 className="py-2 h-100 text-center sticky-top bg-white">
+        Страница администратора
+      </h1>
       <Container className="mw-100">
-        <Row className="border-bottom border-3">
-          <Col className="col-sm-6 flex-wrap mb-4 text-center">
-            <Form onSubmit={handleLoadPrice}>
-              <p className="btn-sm">Загрузить новый прайс-лист</p>
+        <Row className="">
+          <Col className="col-sm-12 flex-wrap mb-4 text-center">
+            <Link to="/" className="fs-3">
+              Сборка подарка
+            </Link>
+          </Col>
+        </Row>
+        <Row className="">
+          <Col className="col-sm-6 mb-4 text-center">
+            <p className="btn-sm fs-5">
+              Загрузить новый прайс-лист на сладости
+            </p>
+            <div className="d-flex mx-4">
               <Form.Control
                 type="file"
                 id="file-input"
                 text="Загрузка файла..."
-                onChange={handleChoosePrice}
+                onChange={(e) => setPriceFile(e.target.files[0])}
               />
-              <Button type="submit" disabled={!priceFile}>
-                Загрузить файл на сервер
+              <Button
+                disabled={!priceFile}
+                onClick={handleLoadPrice}
+                className="ms-2"
+              >
+                Загрузить
               </Button>
-            </Form>
+            </div>
           </Col>
-          <Col className="col-sm-6 flex-wrap mb-4 text-center">
-            <Link to="/" className="fs-3">
-              Сборка подарка
-            </Link>
+          <Col className="col-sm-6 mb-4 text-center">
+            <p className="btn-sm fs-5">
+              Загрузить новый прайс-лист на упаковку
+            </p>
+            <div className="d-flex mx-4">
+              <Form.Control
+                type="file"
+                id="file-input"
+                text="Загрузка файла..."
+                onChange={(e) => setPackFile(e.target.files[0])}
+              />
+              <Button
+                disabled={!packFile}
+                onClick={handleLoadPack}
+                className="ms-2"
+              >
+                Загрузить
+              </Button>
+            </div>
           </Col>
         </Row>
         <PriceList forchange={true} />

@@ -51,7 +51,7 @@ export const HomePage = () => {
   return (
     <HomeStyle>
       <NaviBar />
-      <header id="sp-header" className="animated w-100 bg-white">
+      <header id="sp-header" className="animated w-100 bg-white mt-2">
         <Container className="mw-100">
           <Row className="align-items-center w-100">
             <Col id="sp-logo" className="col-sm-1">
@@ -100,7 +100,7 @@ export const HomePage = () => {
         </Container>
       </header>
       <Container className="mw-100 m-0 sticky-top p-1 bg-white">
-        <Row className="mt-4 blockquote">
+        <Row className="mt-2 blockquote">
           <Col>
             <p className="my-0">
               <strong>Соберите свой уникальный подарок</strong>
