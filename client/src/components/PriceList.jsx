@@ -20,12 +20,7 @@ export const PriceList = ({ forchange }) => {
     return (
       priceArray &&
       Object.keys(selectedGoods).reduce((acc, el) => {
-        if (el === 'pack') {
-          return acc;
-        } else
-          return (
-            acc + selectedGoods[el].good[field] * selectedGoods[el].quantity
-          );
+        return acc + selectedGoods[el].good[field] * selectedGoods[el].quantity;
       }, 0)
     );
   };
@@ -39,23 +34,25 @@ export const PriceList = ({ forchange }) => {
             <Accordion.Body>
               <Form>
                 {packArray.map((pack) => (
-                  <div
+                  <Form.Label
                     key={pack.id}
-                    className="d-flex align-items-center justify-content-end"
+                    className="d-flex align-items-center"
+                    htmlFor={pack.id}
                   >
                     <Pack forchange={forchange} pack={pack} />
                     <Form.Check
                       type="radio"
                       name={'packRadio'}
-                      onClick={(e) => {
+                      id={pack.id}
+                      onChange={(e) => {
                         setSelectedGoods({
                           ...selectedGoods,
-                          pack: pack,
+                          pack: { ...pack, quantity: 1 },
                         });
                       }}
                       aria-label="radio 1"
                     />
-                  </div>
+                  </Form.Label>
                 ))}
               </Form>
             </Accordion.Body>

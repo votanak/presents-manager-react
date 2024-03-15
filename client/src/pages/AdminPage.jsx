@@ -59,27 +59,25 @@ export const AdminPage = () => {
     fileReader.readAsBinaryString(packFile);
     fileReader.onload = (e) => {
       let workbook = XLSX.read(e.target.result, { type: 'binary' });
-      let pArr = XLSX.utils.sheet_to_row_object_array(
-        workbook.Sheets['Упаковка'],
-      );
+      let pArr = XLSX.utils.sheet_to_json(workbook.Sheets['Упаковка']);
       let pArray = [];
       pArr.forEach((el) => {
-        if (el.__EMPTY.slice(0, 1) === 'u') {
+        if (el.id && el.id.slice(0, 1) === 'u') {
           pArray.push({
-            id: el.__EMPTY,
-            name: el.__EMPTY_2,
-            producer: el.__EMPTY_3,
-            packWeight: el.__EMPTY_4,
-            giftWeight: el.__EMPTY_5,
-            price: el.__EMPTY_6,
+            id: el.id,
+            name: el.name,
+            producer: el.producer,
+            weight1: el.weight1,
+            giftWeight: el.giftWeight,
+            price1: el.price1,
           });
         }
       });
+      console.log(pArray);
       postRequest('/write_json', auth.token, {
         filename: 'packArray',
         data: pArray,
-      });
-      setPackArray(pArray);
+      }).then(() => setPackArray(pArray));
     };
   };
 
