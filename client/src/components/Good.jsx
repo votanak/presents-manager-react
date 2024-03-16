@@ -43,6 +43,7 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
   ) : (
     <Button onClick={() => setChanging(true)}>редактировать</Button>
   );
+  
   const chooseButtons = !selectedGoods[good.id] ? (
     <Button
       onClick={() =>

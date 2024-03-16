@@ -16,11 +16,16 @@ export const PriceList = ({ forchange }) => {
   const [selectedGoods, setSelectedGoods] = useState({});
   const [modalShow, setModalShow] = useState(false);
 
+  const selectedPack = selectedGoods.pack;
+
   const summ = (field) => {
+    console.log(selectedGoods);
     return (
       priceArray &&
       Object.keys(selectedGoods).reduce((acc, el) => {
-        return acc + selectedGoods[el].good[field] * selectedGoods[el].quantity;
+        return acc + el === 'pack'
+          ? selectedGoods.pack.good[field]
+          : selectedGoods[el].good[field] * selectedGoods[el].quantity;
       }, 0)
     );
   };
@@ -44,10 +49,10 @@ export const PriceList = ({ forchange }) => {
                       type="radio"
                       name={'packRadio'}
                       id={pack.id}
-                      onChange={(e) => {
+                      onChange={() => {
                         setSelectedGoods({
                           ...selectedGoods,
-                          pack: { ...pack, quantity: 1 },
+                          pack: pack,
                         });
                       }}
                       aria-label="radio 1"
