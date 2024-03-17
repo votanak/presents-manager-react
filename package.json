@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm start\" ",
+    "build": "cd client && react-scripts build",
     "devlad": "concurrently \"cd ../valerin_backend && .\\venv\\Scripts\\Activate.ps1 && python main.py\" \"cd client && npm start\" "
   },
   "repository": {
