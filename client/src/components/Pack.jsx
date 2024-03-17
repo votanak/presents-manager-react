@@ -31,7 +31,9 @@ export const Pack = ({ forChange, pack }) => {
         <div className="mx-2 my-auto text-nowrap">
           Вместительность - {pack.giftWeight} г.
         </div>
-        <div className="mx-2 my-auto text-nowrap">Цена - {pack.price} руб.</div>
+        <div className="mx-2 my-auto text-nowrap">
+          Цена - {pack.price1} руб.
+        </div>
       </div>
     </PackStyle>
   );

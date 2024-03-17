@@ -38,12 +38,37 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
     }
   };
 
+  const handlerAdd = () => {
+    let summ =
+      Object.keys(selectedGoods).reduce((acc, el) => {
+        let add =
+          !!Object.values(selectedGoods).length &&
+          (el === 'pack'
+            ? selectedGoods.pack.weight1
+            : selectedGoods[el].good.weight1 * selectedGoods[el].quantity);
+        return acc + add;
+      }, 0) +
+      good.weight1 -
+      selectedGoods.pack.weight1;
+    if (summ > selectedGoods.pack.giftWeight) {
+      alert('Подарок полон. Добавление товара невозможно.');
+      return;
+    }
+    return setSelectedGoods({
+      ...selectedGoods,
+      [good.id]: {
+        good: good,
+        quantity: selectedGoods[good.id].quantity + 1,
+      },
+    });
+  };
+
   const changeButton = changing ? (
     <Button onClick={changePriceArray}>сохранить</Button>
   ) : (
     <Button onClick={() => setChanging(true)}>редактировать</Button>
   );
-  
+
   const chooseButtons = !selectedGoods[good.id] ? (
     <Button
       onClick={() =>
@@ -71,15 +96,7 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
       <Button
         id="plus-button"
         className="choose-button  mx-2 btn-sm"
-        onClick={() =>
-          setSelectedGoods({
-            ...selectedGoods,
-            [good.id]: {
-              good: good,
-              quantity: selectedGoods[good.id].quantity + 1,
-            },
-          })
-        }
+        onClick={handlerAdd}
       >
         +
       </Button>
