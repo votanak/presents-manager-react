@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "node sendEmail",
-    "build": "node build",
+    "build": "node sendEmail",
     "dev": "nodemon sendEmail"
   },
   "eslintConfig": {
