@@ -4,7 +4,6 @@ import { useContext, useState } from 'react';
 import { postRequest } from '../services/serverRequest';
 
 export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
-  const handleClose = () => setShow(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [messageText, setMessageText] = useState('');
@@ -26,7 +25,7 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={() => setShow(false)}>
       <Modal.Header closeButton>
         <Modal.Title>Отправка заказа для сборки</Modal.Title>
       </Modal.Header>
@@ -64,7 +63,7 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={() => setShow(false)}>
             Отмена
           </Button>
           <Button

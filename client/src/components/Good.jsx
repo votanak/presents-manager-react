@@ -1,4 +1,4 @@
-import { Button, Form, Image, Row } from 'react-bootstrap';
+import { Button, Form, Image, Row, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useState } from 'react';
 import candyImg from '../img/candy-noname.svg';
@@ -10,9 +10,11 @@ const GoodStyle = styled(Row)`
   .quantity {
     min-width: 20px;
   }
-
   img {
     max-width: 50px;
+  }
+  .modal-body {
+    font-family: 'Montserrat';
   }
 `;
 
@@ -22,6 +24,7 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
   const changePriceArray = () => {
     setChanging(false);
   };
+  const [showGiftFull, setShowGiftFull] = useState(false);
 
   const decrease = () => {
     if (selectedGoods[good.id].quantity === 1) {
@@ -51,7 +54,7 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
       good.weight1 -
       selectedGoods.pack.weight1;
     if (summ > selectedGoods.pack.giftWeight) {
-      alert('Подарок полон. Добавление товара невозможно.');
+      setShowGiftFull(true);
       return;
     }
     return setSelectedGoods({
@@ -140,6 +143,20 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
         {forchange && changeButton}
         {!forchange && chooseButtons}
       </Form>
+      <Modal
+        show={showGiftFull}
+        onHide={() => setShowGiftFull(false)}
+        style={{ 'font-family': 'Montserrat' }}
+        centered
+      >
+        <Modal.Header className="justify-content-center">
+          Предупреждение
+        </Modal.Header>
+        <Modal.Body className="centered fs-5">
+          Выбранная Вами упаковка подарка заполнена. Для увеличения объёма
+          подарка необходимо выбрать другую упковку
+        </Modal.Body>
+      </Modal>
     </GoodStyle>
   );
 };

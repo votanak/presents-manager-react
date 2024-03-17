@@ -100,7 +100,7 @@ export const HomePage = () => {
         </Container>
       </header>
       <Container className="mw-100 m-0 sticky-top p-1 bg-white">
-        <Row className="mt-2 blockquote">
+        <Row className="blockquote m-2">
           <Col>
             <p className="my-0">
               <strong>Соберите свой уникальный подарок</strong>

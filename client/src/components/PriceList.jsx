@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { PriceContext } from '../App';
-import { Container, Row, Form, Button, Accordion } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Accordion } from 'react-bootstrap';
 import { Good } from './Good';
 import { Pack } from './Pack';
 import styled from 'styled-components';
@@ -15,8 +15,6 @@ export const PriceList = ({ forchange }) => {
   const { priceArray, packArray } = useContext(PriceContext);
   const [selectedGoods, setSelectedGoods] = useState({});
   const [modalShow, setModalShow] = useState(false);
-
-  const selectedPack = selectedGoods.pack;
 
   const summ = (field) =>
     Object.keys(selectedGoods).reduce((acc, el) => {
@@ -90,22 +88,29 @@ export const PriceList = ({ forchange }) => {
       )}
       {!forchange ? (
         Object.hasOwn(selectedGoods, 'pack') && (
-          <Row className="d-flex sticky-bottom py-2 bg-light ">
-            <div className="fs-5">Параметры подарка:</div>
-            <div className="fs-5">
-              Суммарный вес: {Math.round(summ('weight1'))} г.
-            </div>
-            <div className="fs-5">
-              Вместимость подарка: {Math.round(selectedGoods.pack.giftWeight)}{' '}
-              г.
-            </div>
-            <div className="fs-5">
-              Суммарная стоимость: {Math.round(summ('price1'))} руб.
-            </div>
-            <Button onClick={() => setModalShow(true)} className="btn-sm">
-              Отправить для заказа
-            </Button>
-          </Row>
+          <Container className="sticky-bottom p-2 bg-light">
+            <Row className="fs-4 justify-content-center text-decoration-underline">
+              Параметры подарка:
+            </Row>
+            <Row className="d-flex p-2  ">
+              <Col className="fs-5 text-nowrap  mb-2 text-start">
+                Суммарный вес: {Math.round(summ('weight1'))} г.
+              </Col>
+              <Col className="fs-5 text-nowrap mb-2 text-start">
+                Вместимость упаковки:{' '}
+                {Math.round(selectedGoods.pack.giftWeight)} г.
+              </Col>
+              <Col className="fs-5 text-nowrap mb-2 text-start">
+                Итого стоимость: {Math.round(summ('price1'))} руб.
+              </Col>
+              <Button
+                onClick={() => setModalShow(true)}
+                className="w-auto h-auto"
+              >
+                Отправить для заказа
+              </Button>
+            </Row>
+          </Container>
         )
       ) : (
         <Loader />
