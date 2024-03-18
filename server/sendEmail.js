@@ -16,7 +16,7 @@ app.use((req, res, next) => {
   next();
 });
 
-const sendEmail = ({ customerName, customerEmail, message }) => {
+const sendEmail = ({ customerName, customerEmail, giftId, message }) => {
   return new Promise((resolve, reject) => {
     let transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -32,8 +32,8 @@ const sendEmail = ({ customerName, customerEmail, message }) => {
       text: `Поступил заказ на сборный подарок от пользователя ${customerName} c электронным адресом ${customerEmail}\nКомментарий: ${message}`,
       attachments: [
         {
-          filename: 'Order.xlsx',
-          path: './data/Order.xlsx',
+          filename: `order_${giftId}.xlsx`,
+          path: `./data/order_${giftId}.xlsx`,
         },
       ],
     };
@@ -48,10 +48,10 @@ const sendEmail = ({ customerName, customerEmail, message }) => {
 };
 
 app.post('/send_order', (req, res) => {
-  const fileName = writeXLSX(req.body);
+  writeXLSX(req.body);
   sendEmail(req.body)
     .then((response) => {
-      unlink(`./data/${fileName}`, (err) => {
+      unlink(`./data/order_${req.body.giftId}.xlsx`, (err) => {
         if (err) throw err;
       });
       return res.send(response);

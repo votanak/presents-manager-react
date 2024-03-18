@@ -2,16 +2,21 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { LoginContext } from '../App';
 import { useContext, useState } from 'react';
 import { postRequest } from '../services/serverRequest';
+import * as XLSX from 'xlsx/xlsx.mjs';
+import { v1 as uuidv1 } from 'uuid';
 
 export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [messageText, setMessageText] = useState('');
   const { auth } = useContext(LoginContext);
+  const giftId = uuidv1().slice(0, 8);
 
   const handleSend = () => {
+    console.log(giftId);
     postRequest('/send_order', auth.token, {
       customerName: name,
+      giftId,
       customerEmail: email,
       selectedGoods: JSON.stringify(selectedGoods),
     })
@@ -22,6 +27,13 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
       .catch((err) => {
         alert('неудачно!!!');
       });
+  };
+
+  const handleSave = (selectedGoods) => {
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(Object.values(selectedGoods));
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Подарок');
+    XLSX.writeFile(workbook, `Сборный подарок ${giftId}.xlsx`);
   };
 
   return (
@@ -65,6 +77,9 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShow(false)}>
             Отмена
+          </Button>
+          <Button variant="primary" onClick={() => handleSave(selectedGoods)}>
+            Сохранить Excel-файл
           </Button>
           <Button
             variant="primary"

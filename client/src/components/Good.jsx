@@ -146,7 +146,7 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
       <Modal
         show={showGiftFull}
         onHide={() => setShowGiftFull(false)}
-        style={{ 'font-family': 'Montserrat' }}
+        style={{ fontFamily: 'Montserrat' }}
         centered
       >
         <Modal.Header className="justify-content-center">

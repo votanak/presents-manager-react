@@ -30,33 +30,34 @@ export const PriceList = ({ forchange }) => {
 
   return (
     <PriceStyle className="w-100">
-      <Accordion className=" mb-4">
+      <Accordion ActiveKey="1" className=" mb-4">
         {packArray && (
           <Accordion.Item>
-            <Accordion.Header>Упаковка</Accordion.Header>
+            <Accordion.Header>
+              <strong>Упаковка</strong>&nbsp; &nbsp; &nbsp;
+              {selectedGoods.pack && selectedGoods.pack.name}
+            </Accordion.Header>
             <Accordion.Body>
-              <Form>
-                {packArray.map((pack) => (
-                  <Form.Label
-                    key={pack.id}
-                    className="d-flex align-items-center"
-                    htmlFor={pack.id}
-                  >
-                    <Pack forchange={forchange} pack={pack} />
-                    <Form.Check
-                      type="radio"
-                      name={'packRadio'}
-                      id={pack.id}
-                      onChange={() => {
-                        setSelectedGoods({
-                          pack: pack,
-                        });
-                      }}
-                      aria-label="radio 1"
-                    />
-                  </Form.Label>
-                ))}
-              </Form>
+              {packArray.map((pack) => (
+                <Form.Label
+                  key={pack.id}
+                  className="d-flex align-items-center"
+                  htmlFor={pack.id}
+                >
+                  <Pack forchange={forchange} pack={pack} />
+                  <Form.Check
+                    type="radio"
+                    name={'packRadio'}
+                    id={pack.id}
+                    onChange={() => {
+                      setSelectedGoods({
+                        pack: pack,
+                      });
+                    }}
+                    aria-label="radio 1"
+                  />
+                </Form.Label>
+              ))}
             </Accordion.Body>
           </Accordion.Item>
         )}
@@ -67,7 +68,9 @@ export const PriceList = ({ forchange }) => {
             [...new Set(priceArray.map((el) => el.category))].map(
               (cat, ind) => (
                 <Accordion.Item eventKey={ind} key={ind}>
-                  <Accordion.Header>{cat}</Accordion.Header>
+                  <Accordion.Header>
+                    <strong>{cat}</strong>
+                  </Accordion.Header>
                   <Accordion.Body>
                     {priceArray
                       .filter((good1) => good1.category === cat)
