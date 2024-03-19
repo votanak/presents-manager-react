@@ -17,7 +17,7 @@ const PackStyle = styled(Row)`
 
 export const Pack = ({ forChange, pack }) => {
   return (
-    <PackStyle className="border my-2 py-2 rounded-3 flex-fill me-2">
+    <PackStyle className="border my-2 py-2 rounded-3 flex-fill mx-2">
       <div className=" d-flex align-items-center flex-wrap justify-content-end">
         <div className="d-flex me-auto flex-shrink-1 align-items-center ">
           <Image src={giftBox} fluid rounded className="border mx-2"></Image>

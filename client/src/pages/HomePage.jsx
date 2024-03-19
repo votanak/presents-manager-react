@@ -73,11 +73,11 @@ export const HomePage = () => {
               </div>
             </Col>
             <Col id="sp-callback" className="col-md-3 mx-auto">
-              <p className="phoneic">
+              <p className="phoneic text-nowrap">
                 <img className="phoneicon" src={phoneiconb} alt="" />
                 <a href="tel:+7 (910) 351-75-70"> тел. +7 (910) 351-75-70</a>
               </p>
-              <p className="phoneic">
+              <p className="phoneic text-nowrap">
                 <img className="phoneicon" src={phoneiconb} alt="" />
                 <a href="tel:+7 (910) 356-48-86"> тел. +7 (910) 356-48-86</a>
               </p>
