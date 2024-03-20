@@ -40,8 +40,16 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
 
     const workbook = XLSX.utils.book_new();
     const worksheet = XLSX.utils.json_to_sheet([]);
+    XLSX.utils.sheet_add_aoa(
+      worksheet,
+      [
+        [`Заказ № ${giftId} от ${new Date().toISOString()}`],
+        [][('', 'Сборный подарок')],
+      ],
+      { origin: 'A1' },
+    );
     XLSX.utils.sheet_add_json(worksheet, goods_to_write, {
-      origin: 'A3',
+      origin: 'A5',
     });
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Заказ');
     XLSX.writeFile(workbook, `Сборный подарок ${giftId}.xlsx`);
