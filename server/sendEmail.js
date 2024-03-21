@@ -1,10 +1,11 @@
-const express = require('express');
-const nodemailer = require('nodemailer');
-const { writeXLSX } = require('./writeXLSX');
-const cors = require('cors');
-const url = require('url');
-const fs = require('fs');
-const { unlink } = require('node:fs');
+import express from 'express';
+import nodemailer from 'nodemailer';
+import { writeXLSX } from './writeXLSX.js';
+import cors from 'cors';
+import url from 'url';
+import fs from 'fs';
+import { unlink } from 'node:fs';
+
 const app = express();
 const port = 5000;
 

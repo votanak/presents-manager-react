@@ -1,3 +1,5 @@
+import Excel from 'exceljs';
+
 export const jsonToWb = (selectedGoods, giftId) => {
   const wb = new Excel.Workbook();
   const ws = wb.addWorksheet('My Sheet', {
@@ -90,7 +92,7 @@ export const jsonToWb = (selectedGoods, giftId) => {
   ];
 
   ['A', 'B', 'C', 'D', 'E'].forEach((el) => {
-    for (i = 0; i < sglength + 3; i++) {
+    for (let i = 0; i < sglength + 3; i++) {
       ws.getCell(`${el}${i + 5}`).border = {
         top: { style: 'thin' },
         left: { style: 'thin' },

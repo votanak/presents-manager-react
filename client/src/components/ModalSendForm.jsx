@@ -2,8 +2,9 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { LoginContext } from '../App';
 import { useContext, useState } from 'react';
 import { postRequest } from '../services/serverRequest';
-import * as XLSX from 'xlsx/xlsx.mjs';
 import { v1 as uuidv1 } from 'uuid';
+import { jsonToWb } from '../services/jsonToWb';
+import * as XLSX from 'xlsx';
 
 export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
   const [name, setName] = useState('');
@@ -11,8 +12,6 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
   const [messageText, setMessageText] = useState('');
   const { auth } = useContext(LoginContext);
   const giftId = uuidv1().slice(0, 8);
-
-  console.log(selectedGoods);
 
   const handleSend = () => {
     console.log(giftId);
@@ -31,30 +30,8 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
       });
   };
 
-  const handleSave = (selectedGoods) => {
-    let goods_to_write = Object.keys(selectedGoods)
-      .filter((el1) => el1 !== 'pack')
-      .map((el) => ({
-        Артикул: selectedGoods[el].good.id,
-        Наименование: selectedGoods[el].good.name,
-        Количество: selectedGoods[el].quantity,
-      }));
-
-    const workbook = XLSX.utils.book_new();
-    const worksheet = XLSX.utils.json_to_sheet([]);
-    XLSX.utils.sheet_add_aoa(
-      worksheet,
-      [
-        [`Заказ № ${giftId} от ${new Date().toISOString()}`],
-        [][('', 'Сборный подарок')],
-      ],
-      { origin: 'A1' },
-    );
-    XLSX.utils.sheet_add_json(worksheet, goods_to_write, {
-      origin: 'A5',
-    });
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Заказ');
-    XLSX.writeFile(workbook, `Сборный подарок ${giftId}.xlsx`);
+  const handleSave = (selectedGoods, giftId) => {
+    jsonToWb(selectedGoods).xlsx.writeFile(`Сборный подарок ${giftId}.xlsx`);
   };
 
   return (

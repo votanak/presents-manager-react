@@ -1,12 +1,8 @@
-const Excel = require('exceljs');
-const jsonToWb = require('../client/src/services/jsonToWb');
+import { jsonToWb } from '../client/src/services/jsonToWb.js';
 
-const writeXLSX = (reqBody) => {
-  Excel.writeFile(
-    jsonToWb(JSON.parse(reqBody.selectedGoods)),
+export const writeXLSX = (reqBody) => {
+  jsonToWb(JSON.parse(reqBody.selectedGoods), reqBody.giftId).xlsx.writeFile(
     `./data/order_${reqBody.giftId}.xlsx`,
   );
   return;
 };
-
-module.exports = { writeXLSX };
