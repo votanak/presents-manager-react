@@ -12,6 +12,8 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
   const { auth } = useContext(LoginContext);
   const giftId = uuidv1().slice(0, 8);
 
+  console.log(selectedGoods);
+
   const handleSend = () => {
     console.log(giftId);
     postRequest('/send_order', auth.token, {
