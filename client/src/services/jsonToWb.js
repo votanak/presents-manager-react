@@ -1,8 +1,8 @@
 import Excel from 'exceljs';
 
-export const jsonToWb = (selectedGoods, giftId) => {
+export const jsonToWb = (selectedGoods, giftId, customer) => {
   const wb = new Excel.Workbook();
-  const ws = wb.addWorksheet('My Sheet', {
+  const ws = wb.addWorksheet('Сборный подарок', {
     views: [{ state: 'frozen', xSplit: 1, ySplit: 1 }],
   });
 

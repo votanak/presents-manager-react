@@ -4,21 +4,18 @@ import { useContext, useState } from 'react';
 import { postRequest } from '../services/serverRequest';
 import { v1 as uuidv1 } from 'uuid';
 import { jsonToWb } from '../services/jsonToWb';
-import * as XLSX from 'xlsx';
+import FileSaver from 'file-saver';
 
 export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [customer, setCustomer] = useState({ name: '', email: '', phohe: '' });
   const [messageText, setMessageText] = useState('');
   const { auth } = useContext(LoginContext);
   const giftId = uuidv1().slice(0, 8);
 
   const handleSend = () => {
-    console.log(giftId);
     postRequest('/send_order', auth.token, {
-      customerName: name,
+      customer: customer,
       giftId,
-      customerEmail: email,
       selectedGoods: JSON.stringify(selectedGoods),
     })
       .then(() => {
@@ -30,8 +27,13 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
       });
   };
 
-  const handleSave = (selectedGoods, giftId) => {
-    jsonToWb(selectedGoods).xlsx.writeFile(`Сборный подарок ${giftId}.xlsx`);
+  const handleSave = async (selectedGoods, giftId, customer) => {
+    const buffer = await jsonToWb(
+      selectedGoods,
+      giftId,
+      customer,
+    ).xlsx.writeBuffer();
+    FileSaver.saveAs(new Blob([buffer]), `Сборный подарок ${giftId}.xlsx`);
   };
 
   return (
@@ -46,8 +48,10 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
             <Form.Control
               type="text"
               placeholder="Имя"
-              onChange={(e) => setName(e.target.value)}
-              value={name}
+              onChange={(e) =>
+                setCustomer({ ...customer, name: e.target.value })
+              }
+              value={customer.name}
               autoFocus
             />
           </Form.Group>
@@ -56,8 +60,10 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
             <Form.Control
               type="email"
               placeholder="name@server.com"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
+              onChange={(e) =>
+                setCustomer({ ...customer, email: e.target.value })
+              }
+              value={customer.email}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="messageText">
@@ -76,13 +82,16 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
           <Button variant="secondary" onClick={() => setShow(false)}>
             Отмена
           </Button>
-          <Button variant="primary" onClick={() => handleSave(selectedGoods)}>
+          <Button
+            variant="primary"
+            onClick={() => handleSave(selectedGoods, giftId)}
+          >
             Сохранить Excel-файл
           </Button>
           <Button
             variant="primary"
             onClick={handleSend}
-            disabled={!(email && name)}
+            disabled={!(customer.email && customer.name)}
           >
             Отправить заказ
           </Button>
