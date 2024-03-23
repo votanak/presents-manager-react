@@ -29,6 +29,21 @@ export const PriceList = ({ forchange }) => {
       return acc + add;
     }, 0);
 
+  const incrGiftQuant = () => {
+    setSelectedGoods({
+      ...selectedGoods,
+      giftQuantity: (selectedGoods.giftQuantity = -1),
+    });
+  };
+  const decrGiftQuant = () => {
+    selectedGoods.giftQuantity === 1
+      ? setSelectedGoods({ ...selectedGoods, giftQuantity: 1 })
+      : setSelectedGoods({
+          ...selectedGoods,
+          giftQuantity: (selectedGoods.giftQuantity = -1),
+        });
+  };
+
   return (
     <PriceStyle className="w-100">
       {packArray && (
@@ -109,6 +124,28 @@ export const PriceList = ({ forchange }) => {
             <Row className="d-flex p-2  ">
               <Col className="fs-5 text-nowrap  mb-2 text-start">
                 Вес содержимого: {Math.round(summ('weight1'))} г.
+              </Col>
+              <Col className="d-flex fs-5 text-nowrap mb-2 text-start">
+                Количество подарков:
+                <Form.Group className="d-flex my-2 align-items-center">
+                  <Button
+                    id="plus-button"
+                    className="choose-button mx-2 btn-sm"
+                    onClick={decrGiftQuant}
+                  >
+                    -
+                  </Button>
+                  <Form.Label className="m-0 text-center quantity">
+                    {selectedGoods.giftQuantity}
+                  </Form.Label>
+                  <Button
+                    id="plus-button"
+                    className="choose-button  mx-2 btn-sm"
+                    onClick={incrGiftQuant}
+                  >
+                    +
+                  </Button>
+                </Form.Group>
               </Col>
               <Col className="fs-5 text-nowrap mb-2 text-start">
                 Стоимость подарка: {Math.round(summ('price1'))} руб.

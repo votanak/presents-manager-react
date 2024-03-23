@@ -103,5 +103,11 @@ export const jsonToWb = (selectedGoods, giftId, customer) => {
   });
 
   ws.mergeCells('A1:E1');
+
+  ws.getRow(sglength + 9).values = ['Данные заказчика:'];
+  ws.getRow(sglength + 10).values = ['Имя:', customer.name];
+  ws.getRow(sglength + 11).values = ['Телефон:', customer.phone];
+  ws.getRow(sglength + 12).values = ['Почта:', customer.email];
+
   return wb;
 };

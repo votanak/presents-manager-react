@@ -7,8 +7,12 @@ import { jsonToWb } from '../services/jsonToWb';
 import FileSaver from 'file-saver';
 
 export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
-  const [customer, setCustomer] = useState({ name: '', email: '', phohe: '' });
-  const [messageText, setMessageText] = useState('');
+  const [customer, setCustomer] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+  });
   const { auth } = useContext(LoginContext);
   const giftId = uuidv1().slice(0, 8);
 
@@ -27,7 +31,7 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
       });
   };
 
-  const handleSave = async (selectedGoods, giftId, customer) => {
+  const handleSave = async () => {
     const buffer = await jsonToWb(
       selectedGoods,
       giftId,
@@ -56,6 +60,17 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="email">
+            <Form.Label>Тилипон:</Form.Label>
+            <Form.Control
+              type="phone"
+              placeholder="+7"
+              onChange={(e) =>
+                setCustomer({ ...customer, phone: e.target.value })
+              }
+              value={customer.phone}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="email">
             <Form.Label>e-mail</Form.Label>
             <Form.Control
               type="email"
@@ -72,9 +87,11 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
             </Form.Label>
             <Form.Control
               as="textarea"
-              onChange={(e) => setMessageText(e.target.value)}
+              onChange={(e) =>
+                setCustomer({ ...customer, message: e.target.value })
+              }
               rows={3}
-              value={messageText}
+              value={customer.message}
             />
           </Form.Group>
         </Modal.Body>
@@ -84,7 +101,8 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
           </Button>
           <Button
             variant="primary"
-            onClick={() => handleSave(selectedGoods, giftId)}
+            onClick={handleSave}
+            disabled={!(customer.email && customer.name)}
           >
             Сохранить Excel-файл
           </Button>

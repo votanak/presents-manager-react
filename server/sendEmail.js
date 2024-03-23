@@ -1,10 +1,10 @@
 import express from 'express';
 import nodemailer from 'nodemailer';
-import { writeXLSX } from './writeXLSX.js';
 import cors from 'cors';
 import url from 'url';
 import fs from 'fs';
 import { unlink } from 'node:fs';
+import { jsonToWb } from '../client/src/services/jsonToWb.js';
 
 const app = express();
 const port = 5000;
@@ -17,8 +17,14 @@ app.use((req, res, next) => {
   next();
 });
 
-const sendEmail = ({ customerName, customerEmail, giftId, message }) => {
-  return new Promise((resolve, reject) => {
+app.post('/send_order', async (req, res) => {
+  try {
+    jsonToWb(
+      JSON.parse(req.body.selectedGoods),
+      req.body.giftId,
+      req.body.customer,
+    ).xlsx.writeFile(`./data/order_${req.body.giftId}.xlsx`);
+
     let transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -26,38 +32,35 @@ const sendEmail = ({ customerName, customerEmail, giftId, message }) => {
         pass: 'glhu dwbo fuhe xivd',
       },
     });
+
     const mail_configs = {
       from: 'gk-konfi',
       to: 'gvotanak@gmail.com',
       subject: 'Заказ на сборный подарок',
-      text: `Поступил заказ на сборный подарок от пользователя ${customerName} c электронным адресом ${customerEmail}\nКомментарий: ${message}`,
+      text: `Поступил заказ на сборный подарок от пользователя ${req.body.customer.name} c электронным адресом ${req.body.customer.email}\nКомментарий: ${req.body.customer.message}`,
       attachments: [
         {
-          filename: `order_${giftId}.xlsx`,
-          path: `./data/order_${giftId}.xlsx`,
+          filename: `order_${req.body.giftId}.xlsx`,
+          path: `./data/order_${req.body.giftId}.xlsx`,
         },
       ],
     };
 
-    transporter.sendMail(mail_configs, (error, info) => {
-      if (error) {
-        return reject({ message: 'An error has occured' });
-      }
-      return resolve({ message: 'Email sent succesfully' });
-    });
-  });
-};
+    const info = await transporter.sendMail(mail_configs);
 
-app.post('/send_order', (req, res) => {
-  writeXLSX(req.body);
-  sendEmail(req.body)
-    .then((response) => {
-      unlink(`./data/order_${req.body.giftId}.xlsx`, (err) => {
-        if (err) throw err;
-      });
-      return res.send(response);
-    })
-    .catch((error) => res.status(500).send(error.message));
+    // Удаление файла после успешной отправки
+    fs.unlink(`./data/order_${req.body.giftId}.xlsx`, (err) => {
+      if (err) {
+        console.error(`Error deleting file: ${err}`);
+      }
+    });
+
+    return res.send({ info });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ error: 'Произошла ошибка при выполнении запроса' });
+  }
 });
 
 app.listen(port, () => {
