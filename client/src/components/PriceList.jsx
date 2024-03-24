@@ -13,14 +13,15 @@ const PriceStyle = styled(Container)`
 
 export const PriceList = ({ forchange }) => {
   const { priceArray, packArray } = useContext(PriceContext);
-  const [selectedGoods, setSelectedGoods] = useState({});
+  const [selectedGoods, setSelectedGoods] = useState({ giftQuantity: 1 });
   const [modalShow, setModalShow] = useState(false);
   const [packAccShow, setPackAccShow] = useState([]);
 
   const summ = (field) =>
     Object.keys(selectedGoods).reduce((acc, el) => {
+      console.log(field, selectedGoods);
       let add =
-        !!Object.values(selectedGoods).length &&
+        !(el === 'giftQuantity') &&
         (el === 'pack'
           ? field === 'weight1'
             ? 0
