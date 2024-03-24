@@ -41,7 +41,7 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
       Object.keys(selectedGoods).reduce(
         (acc, el) =>
           acc +
-          (el === 'pack'
+          (el === 'pack' || el === 'giftQuantity'
             ? 0
             : selectedGoods[el].good.weight1 * selectedGoods[el].quantity),
         0,

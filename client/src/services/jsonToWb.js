@@ -34,7 +34,7 @@ export const jsonToWb = (selectedGoods, giftId, customer) => {
     selectedGoods.pack.price1,
   ];
   Object.keys(selectedGoods)
-    .filter((el1) => el1 !== 'pack')
+    .filter((el1) => el1 !== 'pack' && el1 !== 'giftQuantity')
     .forEach((el, ind) => {
       ws.getRow(7 + ind).values = [
         selectedGoods[el].good.id,
@@ -49,10 +49,17 @@ export const jsonToWb = (selectedGoods, giftId, customer) => {
 
   ws.getRow(7 + sglength).values = [
     '',
-    'Итого:',
+    'Итого по подному подарку:',
     '',
     { formula: `SUM(D6:D${6 + sglength})` },
     { formula: `SUM(E6:E${6 + sglength})` },
+  ];
+  ws.getRow(8 + sglength).values = [
+    '',
+    'Итого по заказу:',
+    selectedGoods.giftQuantity,
+    { formula: `D${7 + sglength}*C${8 + sglength}` },
+    { formula: `E${7 + sglength}*C${8 + sglength}` },
   ];
 
   ws.getRow(5).alignment = {
@@ -82,7 +89,15 @@ export const jsonToWb = (selectedGoods, giftId, customer) => {
   ws.getCell(`E${7 + sglength}`).font = {
     bold: true,
   };
-
+  ws.getCell(`B${8 + sglength}`).font = {
+    bold: true,
+  };
+  ws.getCell(`D${8 + sglength}`).font = {
+    bold: true,
+  };
+  ws.getCell(`E${8 + sglength}`).font = {
+    bold: true,
+  };
   ws.columns = [
     { width: 10 },
     { width: 40 },
@@ -92,7 +107,7 @@ export const jsonToWb = (selectedGoods, giftId, customer) => {
   ];
 
   ['A', 'B', 'C', 'D', 'E'].forEach((el) => {
-    for (let i = 0; i < sglength + 3; i++) {
+    for (let i = 0; i < sglength + 4; i++) {
       ws.getCell(`${el}${i + 5}`).border = {
         top: { style: 'thin' },
         left: { style: 'thin' },
@@ -104,10 +119,10 @@ export const jsonToWb = (selectedGoods, giftId, customer) => {
 
   ws.mergeCells('A1:E1');
 
-  ws.getRow(sglength + 9).values = ['Данные заказчика:'];
-  ws.getRow(sglength + 10).values = ['Имя:', customer.name];
-  ws.getRow(sglength + 11).values = ['Телефон:', customer.phone];
-  ws.getRow(sglength + 12).values = ['Почта:', customer.email];
+  ws.getRow(sglength + 10).values = ['Данные заказчика:'];
+  ws.getRow(sglength + 11).values = ['Имя:', customer.name];
+  ws.getRow(sglength + 12).values = ['Телефон:', customer.phone];
+  ws.getRow(sglength + 13).values = ['Почта:', customer.email];
 
   return wb;
 };
