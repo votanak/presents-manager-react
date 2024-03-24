@@ -53,7 +53,7 @@ export const AdminPage = () => {
     };
   };
 
-  const handleLoadPack = (e) => {
+  const handleLoadPacks = (e) => {
     e.preventDefault();
     let fileReader = new FileReader();
     fileReader.readAsBinaryString(packFile);
@@ -70,6 +70,7 @@ export const AdminPage = () => {
             weight1: el.weight1,
             giftWeight: el.giftWeight,
             price1: el.price1,
+            picture: `pack-${el.id}.png`,
           });
         }
       });
@@ -128,7 +129,7 @@ export const AdminPage = () => {
               />
               <Button
                 disabled={!packFile}
-                onClick={handleLoadPack}
+                onClick={handleLoadPacks}
                 className="ms-2"
               >
                 Загрузить
@@ -136,7 +137,7 @@ export const AdminPage = () => {
             </div>
           </Col>
         </Row>
-        <PriceList forchange={true} />
+        <PriceList forChange={true} />
       </Container>
     </AdminStyle>
   );

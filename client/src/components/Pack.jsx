@@ -1,6 +1,7 @@
-import { Form, Image, Row } from 'react-bootstrap';
+import { Form, Row } from 'react-bootstrap';
 import styled from 'styled-components';
-import giftBox from '../img/gift-box.svg';
+// import giftBox from '../img/gift-box.svg';
+import { Img } from './Img';
 
 const PackStyle = styled(Row)`
   .form-control {
@@ -20,7 +21,7 @@ export const Pack = ({ forChange, pack }) => {
     <PackStyle className="border my-2 py-2 rounded-3 flex-fill mx-2">
       <div className=" d-flex align-items-center flex-wrap justify-content-end">
         <div className="d-flex me-auto flex-shrink-1 align-items-center ">
-          <Image src={giftBox} fluid rounded className="border mx-2"></Image>
+          <Img src={`${pack.picture}`} forChange={forChange} />
           <Form.Text className="me-2 my-0 fs-6 fw-bold" rows="2">
             {pack.name}
           </Form.Text>

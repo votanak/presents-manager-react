@@ -9,9 +9,12 @@ import { ModalSendForm } from './ModalSendForm';
 
 const PriceStyle = styled(Container)`
   min-width: 300px;
+  .form-control {
+    width: 50px;
+  }
 `;
 
-export const PriceList = ({ forchange }) => {
+export const PriceList = ({ forChange }) => {
   const { priceArray, packArray } = useContext(PriceContext);
   const [selectedGoods, setSelectedGoods] = useState({ giftQuantity: 1 });
   const [modalShow, setModalShow] = useState(false);
@@ -69,15 +72,15 @@ export const PriceList = ({ forchange }) => {
                   className="d-flex align-items-center m-0"
                   htmlFor={pack.id}
                 >
-                  <Pack forchange={forchange} pack={pack} />
-                  {!forchange && (
+                  <Pack forChange={forChange} pack={pack} />
+                  {!forChange && (
                     <Form.Check
                       type="radio"
                       name="packRadio"
                       id={pack.id}
                       onChange={() => {
                         setPackAccShow([]);
-                        if (!forchange)
+                        if (!forChange)
                           setSelectedGoods({ ...selectedGoods, pack: pack });
                       }}
                       aria-label="radio 1"
@@ -89,7 +92,7 @@ export const PriceList = ({ forchange }) => {
           </Accordion.Item>
         </Accordion>
       )}
-      {(!!Object.values(selectedGoods).length || forchange) && (
+      {(!!Object.values(selectedGoods).length || forChange) && (
         <>
           <Accordion>
             {priceArray &&
@@ -104,7 +107,7 @@ export const PriceList = ({ forchange }) => {
                         .filter((good1) => good1.category === cat)
                         .map((good) => (
                           <Good
-                            forchange={forchange}
+                            forChange={forChange}
                             good={good}
                             key={good.id}
                             selectedGoods={selectedGoods}
@@ -135,7 +138,7 @@ export const PriceList = ({ forchange }) => {
                     >
                       -
                     </Button>
-                    <Form.Label className="m-0 text-center quantity">
+                    <Form.Label className="m-0 text-center quantity fs-6">
                       {selectedGoods.giftQuantity}
                     </Form.Label>
                     <Button

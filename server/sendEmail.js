@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 import cors from 'cors';
 import url from 'url';
 import fs from 'fs';
-import { unlink } from 'node:fs';
+import path from 'path';
 import { jsonToWb } from '../client/src/services/jsonToWb.js';
 
 const app = express();
@@ -16,6 +16,7 @@ app.use((req, res, next) => {
   res.setHeader('Acccess-Control-Allow-Origin', '*');
   next();
 });
+app.use('/static', express.static('public'));
 
 app.post('/send_order', async (req, res) => {
   try {

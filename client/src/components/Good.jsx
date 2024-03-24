@@ -18,7 +18,7 @@ const GoodStyle = styled(Row)`
   }
 `;
 
-export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
+export const Good = ({ good, forChange, selectedGoods, setSelectedGoods }) => {
   const [showGiftFull, setShowGiftFull] = useState(false);
 
   const handlerMinus = () => {
@@ -115,7 +115,7 @@ export const Good = ({ good, forchange, selectedGoods, setSelectedGoods }) => {
             {good.price1}
           </Form.Text>
         </Form.Group>
-        {!forchange && chooseButtons}
+        {!forChange && chooseButtons}
       </Form>
       <Modal
         show={showGiftFull}
