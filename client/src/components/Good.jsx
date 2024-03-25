@@ -1,4 +1,4 @@
-import { Button, Form, Image, Row, Modal } from 'react-bootstrap';
+import { Button, Form, Row, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { Img } from './Img';

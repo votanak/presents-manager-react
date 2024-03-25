@@ -29,8 +29,8 @@ export const jsonToWb = (selectedGoods, giftId, customer) => {
   ws.getRow(6).values = [
     selectedGoods.pack.id,
     `Упаковка ${selectedGoods.pack.name} ${selectedGoods.pack.giftWeight} гр.`,
-    ,
-    ,
+    '',
+    '',
     selectedGoods.pack.price1,
   ];
   Object.keys(selectedGoods)

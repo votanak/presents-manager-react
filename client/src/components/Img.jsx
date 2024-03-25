@@ -13,6 +13,11 @@ const StyleImg = styled.div`
     width: 50px;
     height: 50px;
   }
+
+  .good-modal {
+    min-height: 400px;
+    max-height: 80vw;
+  }
 `;
 
 export const Img = ({ src, forChange }) => {
@@ -48,7 +53,7 @@ export const Img = ({ src, forChange }) => {
 
   return (
     <StyleImg>
-      <div className="d-flex img-container justify-content-center">
+      <div className="d-flex img-container justify-content-center mx-2">
         <Image
           src={`${process.env.REACT_APP_SERVER_URL}/static/good-pictures/${src}`}
           fluid
@@ -67,7 +72,8 @@ export const Img = ({ src, forChange }) => {
         onHide={() => setShowImgModal(false)}
         style={{ fontFamily: 'Montserrat' }}
         centered
-        size="lg"
+        // size="lg"
+        dialogClassName="good-modal"
       >
         <Modal.Body className="d-flex justify-content-center">
           <Image
