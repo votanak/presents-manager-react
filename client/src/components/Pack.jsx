@@ -12,7 +12,7 @@ const PackStyle = styled(Row)`
   }
 
   img {
-    max-width: 50px;
+    max-width: 40px;
   }
 `;
 
