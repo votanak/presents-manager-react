@@ -97,3 +97,13 @@ app.get('/get_json', (req, res) => {
     },
   );
 });
+
+const checkImages = async (array) => {
+  let resultArray = [];
+  array.forEach((gd) => {
+    let blank = el.name.slice(0, 2) === 'up' ? 'blank-pack' : 'blank-good';
+    fs.existsSync(`./public/good-pictures/img-${gd.id}.png`)
+      ? resultArray.push({ ...gd, picture: `img-${gd.id}.png` })
+      : resultArray.push({ ...gd, picture: blank });
+  });
+};

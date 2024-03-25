@@ -5,7 +5,6 @@ import { useContext, useState } from 'react';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { PriceList } from '../components/PriceList';
 import { LoginContext, PriceContext } from '../App';
-import { translit } from '../services/translit';
 import { postRequest } from '../services/serverRequest';
 
 const AdminStyle = styled.div`
@@ -41,7 +40,7 @@ export const AdminPage = () => {
               producer: el.__EMPTY_2,
               weight1: el.__EMPTY_3,
               price1: el.__EMPTY_8,
-              picture: `${translit(el.__EMPTY_1)}.png`,
+              picture: `img-${el.__EMPTY}.png`,
             })
           : (category = el.__EMPTY_1);
       });
@@ -70,7 +69,7 @@ export const AdminPage = () => {
             weight1: el.weight1,
             giftWeight: el.giftWeight,
             price1: el.price1,
-            picture: `pack-${el.id}.png`,
+            picture: `img-${el.id}.png`,
           });
         }
       });

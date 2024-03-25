@@ -92,7 +92,7 @@ export const PriceList = ({ forChange }) => {
           </Accordion.Item>
         </Accordion>
       )}
-      {(!!Object.values(selectedGoods).length || forChange) && (
+      {(selectedGoods.pack || forChange) && (
         <>
           <Accordion>
             {priceArray &&

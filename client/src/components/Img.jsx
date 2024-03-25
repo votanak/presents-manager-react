@@ -7,7 +7,11 @@ import { postRequest } from '../services/serverRequest';
 const StyleImg = styled.div`
   .change-link {
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
+  }
+  .img-container {
+    width: 50px;
+    height: 50px;
   }
 `;
 
@@ -17,6 +21,7 @@ export const Img = ({ src, forChange }) => {
 
   const handlerShowImg = (e) => {
     e.stopPropagation();
+    console.log(e.isPropagationStopped());
     setShowImgModal(true);
   };
 
@@ -30,9 +35,9 @@ export const Img = ({ src, forChange }) => {
         const formData = new FormData();
         formData.append('file', file);
         const response = await postRequest(
-          'http://localhost:5000/upload-img',
+          `${process.env.REACT_APP_SERVER_URL}/upload_img`,
           auth.token,
-          { imgName: src, formData },
+          { imgName: src, formData: formData },
         );
         console.log('Результат загрузки файла:', response.data);
       });
@@ -43,13 +48,15 @@ export const Img = ({ src, forChange }) => {
 
   return (
     <StyleImg>
-      <Image
-        src={`${process.env.REACT_APP_SERVER_URL}/static/good-pictures/${src}`}
-        fluid
-        rounded
-        className="border mx-2"
-        onClick={handlerShowImg}
-      />
+      <div className="d-flex img-container justify-content-center">
+        <Image
+          src={`${process.env.REACT_APP_SERVER_URL}/static/good-pictures/${src}`}
+          fluid
+          rounded
+          className="mx-2 object-fit-contain"
+          onClick={handlerShowImg}
+        />
+      </div>
       {forChange && (
         <div className="change-link" onClick={handlerLoadImg}>
           Загрузить
@@ -67,8 +74,7 @@ export const Img = ({ src, forChange }) => {
             src={`${process.env.REACT_APP_SERVER_URL}/static/good-pictures/${src}`}
             fluid
             rounded
-            className="border"
-            onClick={() => setShowImgModal(true)}
+            // onClick={() => setShowImgModal(true)}
           />
           <div>{forChange}</div>
         </Modal.Body>

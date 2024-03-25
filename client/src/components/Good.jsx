@@ -1,7 +1,7 @@
 import { Button, Form, Image, Row, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 import { useState } from 'react';
-import candyImg from '../img/candy-noname.svg';
+import { Img } from './Img';
 
 const GoodStyle = styled(Row)`
   .form-control {
@@ -96,7 +96,7 @@ export const Good = ({ good, forChange, selectedGoods, setSelectedGoods }) => {
     <GoodStyle className="border m-2 py-2 rounded-3">
       <Form className=" d-flex align-items-center flex-wrap justify-content-end">
         <Form.Group className="d-flex me-auto flex-shrink-1 align-items-center ">
-          <Image src={candyImg} fluid rounded className="border mx-2"></Image>
+          <Img src={`${good.picture}`} forChange={forChange} />
           <Form.Text className="me-2 my-0 fs-6 fw-bold" rows="2">
             {good.name}
           </Form.Text>
