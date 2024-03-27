@@ -8,8 +8,8 @@ export const jsonToWb = (selectedGoods, giftId, customer) => {
 
   ws.getRow(1).values = ['Сборный подарок'];
   ws.getRow(3).values = [
-    'Заказ',
-    `№${giftId} от ${new Date().toLocaleString('ru', {
+    'Заказ ',
+    `№${giftId}  от  ${new Date().toLocaleString('ru', {
       year: 'numeric',
       month: 'numeric',
       day: 'numeric',
@@ -47,19 +47,19 @@ export const jsonToWb = (selectedGoods, giftId, customer) => {
 
   const sglength = Object.keys(selectedGoods).length;
 
-  ws.getRow(7 + sglength).values = [
+  ws.getRow(6 + sglength).values = [
     '',
-    'Итого по подному подарку:',
+    'Итого по дному подарку:',
     '',
-    { formula: `SUM(D6:D${6 + sglength})` },
-    { formula: `SUM(E6:E${6 + sglength})` },
+    { formula: `SUM(D6:D${5 + sglength})` },
+    { formula: `SUM(E6:E${5 + sglength})` },
   ];
-  ws.getRow(8 + sglength).values = [
+  ws.getRow(7 + sglength).values = [
     '',
     'Итого по заказу:',
     selectedGoods.giftQuantity,
-    { formula: `D${7 + sglength}*C${8 + sglength}` },
-    { formula: `E${7 + sglength}*C${8 + sglength}` },
+    { formula: `D${6 + sglength}*C${7 + sglength}` },
+    { formula: `E${6 + sglength}*C${7 + sglength}` },
   ];
 
   ws.getRow(5).alignment = {
@@ -73,7 +73,7 @@ export const jsonToWb = (selectedGoods, giftId, customer) => {
   ws.getRow(1).alignment = {
     horizontal: 'center',
   };
-  ws.getRow('A6').alignment = {
+  ws.getCell('A6').alignment = {
     horizontal: 'right',
   };
   ws.getCell(`A1`).font = {
@@ -107,7 +107,7 @@ export const jsonToWb = (selectedGoods, giftId, customer) => {
   ];
 
   ['A', 'B', 'C', 'D', 'E'].forEach((el) => {
-    for (let i = 0; i < sglength + 4; i++) {
+    for (let i = 0; i < sglength + 3; i++) {
       ws.getCell(`${el}${i + 5}`).border = {
         top: { style: 'thin' },
         left: { style: 'thin' },

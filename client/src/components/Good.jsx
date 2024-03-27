@@ -96,7 +96,7 @@ export const Good = ({ good, forChange, selectedGoods, setSelectedGoods }) => {
     <GoodStyle className="border m-2 py-2 rounded-3">
       <Form className=" d-flex align-items-center flex-wrap justify-content-end">
         <Form.Group className="d-flex me-auto flex-shrink-1 align-items-center ">
-          <Img src={`${good.picture}`} forChange={forChange} />
+          <Img id={good.id} picture={good.picture} forChange={forChange} />
           <Form.Text className="me-2 my-0 fs-6 fw-bold" rows="2">
             {good.name}
           </Form.Text>

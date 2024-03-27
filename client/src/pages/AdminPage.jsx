@@ -5,7 +5,7 @@ import { useContext, useState } from 'react';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { PriceList } from '../components/PriceList';
 import { LoginContext, PriceContext } from '../App';
-import { postRequest } from '../services/serverRequest';
+import { postRequest, getRequest } from '../services/serverRequest';
 
 const AdminStyle = styled.div`
   .col {
@@ -40,15 +40,18 @@ export const AdminPage = () => {
               producer: el.__EMPTY_2,
               weight1: el.__EMPTY_3,
               price1: el.__EMPTY_8,
-              picture: `img-${el.__EMPTY}.png`,
             })
           : (category = el.__EMPTY_1);
       });
       postRequest('/write_json', auth.token, {
         filename: 'priceArray',
         data: pArray,
+      }).then(async () => {
+        let data = await getRequest('/get_json', '', {
+          filename: 'priceArray',
+        });
+        setPriceArray(data);
       });
-      setPriceArray(pArray);
     };
   };
 
@@ -69,15 +72,18 @@ export const AdminPage = () => {
             weight1: el.weight1,
             giftWeight: el.giftWeight,
             price1: el.price1,
-            picture: `img-${el.id}.png`,
           });
         }
       });
-      console.log(pArray);
       postRequest('/write_json', auth.token, {
         filename: 'packArray',
         data: pArray,
-      }).then(() => setPackArray(pArray));
+      }).then(async () => {
+        let data = await getRequest('/get_json', '', {
+          filename: 'packArray',
+        });
+        setPackArray(data);
+      });
     };
   };
 

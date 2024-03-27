@@ -22,7 +22,6 @@ export const PriceList = ({ forChange }) => {
 
   const summ = (field) =>
     Object.keys(selectedGoods).reduce((acc, el) => {
-      console.log(field, selectedGoods);
       let add =
         !(el === 'giftQuantity') &&
         (el === 'pack'
@@ -49,14 +48,14 @@ export const PriceList = ({ forChange }) => {
   };
 
   return (
-    <PriceStyle className="w-100">
+    <PriceStyle>
       {packArray && (
         <Accordion
           activeKey={packAccShow}
           onSelect={(eventKey) => {
             setPackAccShow(eventKey);
           }}
-          className=" mb-4"
+          className="mb-4"
           alwaysOpen
         >
           <Accordion.Item eventKey="0">
@@ -67,11 +66,7 @@ export const PriceList = ({ forChange }) => {
             </Accordion.Header>
             <Accordion.Body className="p-2">
               {packArray.map((pack) => (
-                <Form.Label
-                  key={pack.id}
-                  className="d-flex align-items-center m-0"
-                  htmlFor={pack.id}
-                >
+                <div className="d-flex align-items-center m-0" key={pack.id}>
                   <Pack forChange={forChange} pack={pack} />
                   {!forChange && (
                     <Form.Check
@@ -86,7 +81,7 @@ export const PriceList = ({ forChange }) => {
                       aria-label="radio 1"
                     />
                   )}
-                </Form.Label>
+                </div>
               ))}
             </Accordion.Body>
           </Accordion.Item>

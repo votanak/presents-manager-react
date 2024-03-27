@@ -1,8 +1,8 @@
 import { useContext, useState } from 'react';
 import { Image, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
-import { LoginContext } from '../App';
-import { postRequest } from '../services/serverRequest';
+import { PriceContext } from '../App';
+import { refreshArray } from '../services/refreshArray';
 
 const StyleImg = styled.div`
   .change-link {
@@ -20,9 +20,10 @@ const StyleImg = styled.div`
   }
 `;
 
-export const Img = ({ src, forChange }) => {
+export const Img = ({ id, picture, forChange }) => {
   const [showImgModal, setShowImgModal] = useState(false);
-  const { auth } = useContext(LoginContext);
+  const { packArray, priceArray, setPriceArray, setPackArray } =
+    useContext(PriceContext);
 
   const handlerShowImg = (e) => {
     e.stopPropagation();
@@ -30,20 +31,38 @@ export const Img = ({ src, forChange }) => {
     setShowImgModal(true);
   };
 
-  const handlerLoadImg = async () => {
+  const handlerLoadImg = () => {
     try {
       const fileInput = document.createElement('input');
       fileInput.type = 'file';
       fileInput.click();
       fileInput.addEventListener('change', async function () {
         const file = fileInput.files[0];
+        console.log(file);
         const formData = new FormData();
         formData.append('file', file);
-        const response = await postRequest(
-          `${process.env.REACT_APP_SERVER_URL}/upload_img`,
-          auth.token,
-          { imgName: src, formData: formData },
+        formData.append('id', id);
+        const response = await fetch(
+          `${process.env.REACT_APP_SERVER_URL}/write_img`,
+          {
+            method: 'POST',
+            headers: {},
+            body: formData,
+          },
         );
+        let pName;
+        let pArray = [];
+        if (id.slice(0, 2) === 'up') {
+          pName = 'packArray';
+          let i = packArray.find((el) => el.id === id);
+          pArray = [
+            packArray.slice(0, i),
+            { ...packArray[i], picture: file },
+            packArray.slice(i + 1),
+          ];
+        } else {
+        }
+        refreshArray(pName, pArray);
         console.log('Результат загрузки файла:', response.data);
       });
     } catch (error) {
@@ -55,7 +74,7 @@ export const Img = ({ src, forChange }) => {
     <StyleImg>
       <div className="d-flex img-container justify-content-center mx-2">
         <Image
-          src={`${process.env.REACT_APP_SERVER_URL}/static/good-pictures/${src}`}
+          src={`${process.env.REACT_APP_SERVER_URL}/static/good-pictures/${picture}`}
           fluid
           rounded
           className="mx-2 object-fit-contain"
@@ -77,7 +96,7 @@ export const Img = ({ src, forChange }) => {
       >
         <Modal.Body className="d-flex justify-content-center">
           <Image
-            src={`${process.env.REACT_APP_SERVER_URL}/static/good-pictures/${src}`}
+            id={`${process.env.REACT_APP_SERVER_URL}/static/good-pictures/${id}`}
             fluid
             rounded
             // onClick={() => setShowImgModal(true)}

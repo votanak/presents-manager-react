@@ -5,13 +5,14 @@ import url from 'url';
 import fs from 'fs';
 import path from 'path';
 import { jsonToWb } from '../client/src/services/jsonToWb.js';
+import multer from 'multer';
 
 const app = express();
 const port = 5000;
 
 app.use(cors());
 app.use(express.json({ limit: '25mb' }));
-app.use(express.urlencoded({ limit: '25mb' }));
+app.use(express.urlencoded({ limit: '25mb', extended: true }));
 app.use((req, res, next) => {
   res.setHeader('Acccess-Control-Allow-Origin', '*');
   next();
@@ -71,7 +72,7 @@ app.listen(port, () => {
 app.post('/write_json', (req, res) => {
   fs.writeFile(
     `./data/${req.body.filename}.json`,
-    JSON.stringify(req.body.data),
+    JSON.stringify(checkImages(req.body.data)),
     'utf8',
     (err) => {
       if (err) res.status(500).send({ mesage: 'Internal server error' });
@@ -98,12 +99,61 @@ app.get('/get_json', (req, res) => {
   );
 });
 
-const checkImages = async (array) => {
+const checkImages = (array) => {
   let resultArray = [];
   array.forEach((gd) => {
-    let blank = el.name.slice(0, 2) === 'up' ? 'blank-pack' : 'blank-good';
+    let blank =
+      gd.id.toString().slice(0, 2) === 'up'
+        ? 'blank-pack.svg'
+        : 'blank-good.svg';
     fs.existsSync(`./public/good-pictures/img-${gd.id}.png`)
       ? resultArray.push({ ...gd, picture: `img-${gd.id}.png` })
       : resultArray.push({ ...gd, picture: blank });
   });
+  return resultArray;
 };
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/good-pictures');
+  },
+  filename: function (req, file, cb) {
+    // Используем оригинальное имя файла из запроса
+    cb(null, `img-${file.originalname}`);
+  },
+});
+const upload = multer({ storage: storage });
+
+app.post('/write_img', upload.single('file'), (req, res) => {
+  try {
+    console.log('uploading1', req.file.originalname);
+
+    // Обработка ошибок загрузки файла, если есть
+    if (req.fileValidationError) {
+      return res.status(400).send(req.fileValidationError);
+    } else if (!req.file) {
+      return res.status(400).send('Нет загруженного файла');
+    }
+
+    // Разрешенные расширения файлов
+    const allowedExtensions = ['.png', '.jpg', '.jpeg', '.gif'];
+
+    function allowedFile(filename) {
+      const ext = path.extname(filename).toLowerCase();
+      return allowedExtensions.includes(ext);
+    }
+
+    if (!allowedFile(req.file.originalname)) {
+      return res.status(400).send('Недопустимое расширение файла');
+    }
+
+    res.send(`
+       <h2>Файл загружен успешно</h2>
+       <p>Имя файла: ${req.file.originalname}</p>
+       <p>Размер файла: ${req.file.size} bytes</p>
+     `);
+  } catch (error) {
+    console.error('Ошибка загрузки файла:', error);
+    res.status(500).send('Ошибка загрузки файла');
+  }
+});
