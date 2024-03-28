@@ -6,6 +6,7 @@ import fs from 'fs';
 import path from 'path';
 import { jsonToWb } from '../client/src/services/jsonToWb.js';
 import multer from 'multer';
+import { globSync } from 'glob';
 
 const app = express();
 const port = 5000;
@@ -81,6 +82,24 @@ app.post('/write_json', (req, res) => {
   );
 });
 
+const checkImages = (array) => {
+  let resultArray = [];
+  array.forEach((gd) => {
+    let blank =
+      gd.id.toString().slice(0, 2) === 'up'
+        ? 'blank-pack.svg'
+        : 'blank-good.svg';
+    const files = globSync(`./public/good-pictures/img-${gd.id}.*`);
+    files.length
+      ? resultArray.push({
+          ...gd,
+          picture: `img-${gd.id}${path.extname(files[0]).toLowerCase()}`,
+        })
+      : resultArray.push({ ...gd, picture: blank });
+  });
+  return resultArray;
+};
+
 app.get('/get_json', (req, res) => {
   fs.readFile(
     `./data/${url.parse(req.url, true).query.filename}.json`,
@@ -98,20 +117,6 @@ app.get('/get_json', (req, res) => {
     },
   );
 });
-
-const checkImages = (array) => {
-  let resultArray = [];
-  array.forEach((gd) => {
-    let blank =
-      gd.id.toString().slice(0, 2) === 'up'
-        ? 'blank-pack.svg'
-        : 'blank-good.svg';
-    fs.existsSync(`./public/good-pictures/img-${gd.id}.png`)
-      ? resultArray.push({ ...gd, picture: `img-${gd.id}.png` })
-      : resultArray.push({ ...gd, picture: blank });
-  });
-  return resultArray;
-};
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -147,11 +152,7 @@ app.post('/write_img', upload.single('file'), (req, res) => {
       return res.status(400).send('Недопустимое расширение файла');
     }
 
-    res.send(`
-       <h2>Файл загружен успешно</h2>
-       <p>Имя файла: ${req.file.originalname}</p>
-       <p>Размер файла: ${req.file.size} bytes</p>
-     `);
+    res.status(200).send(`Файл ${req.file.originalname} загружен успешно`);
   } catch (error) {
     console.error('Ошибка загрузки файла:', error);
     res.status(500).send('Ошибка загрузки файла');

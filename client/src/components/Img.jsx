@@ -59,7 +59,7 @@ export const Img = ({ id, picture, forChange }) => {
           priceArray,
           setPriceArray,
         );
-        console.log('Результат загрузки файла:', response.data);
+        console.log('Результат загрузки файла:', response);
       });
     } catch (error) {
       console.error('Ошибка загрузки файла:', error);

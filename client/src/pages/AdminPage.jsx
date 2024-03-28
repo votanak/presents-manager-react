@@ -86,7 +86,6 @@ export const AdminPage = () => {
         });
         setPackArray(data);
         setPackFile();
-
         document.querySelector('#file-input-pack').value = '';
       });
     };
