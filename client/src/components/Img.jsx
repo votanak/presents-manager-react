@@ -1,8 +1,8 @@
 import { useContext, useState } from 'react';
 import { Image, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
-import { PriceContext } from '../App';
-import { refreshArray } from '../services/refreshArray';
+import { PriceContext, LoginContext } from '../App';
+import { refreshJson } from '../services/refreshJson.js';
 
 const StyleImg = styled.div`
   .change-link {
@@ -22,7 +22,8 @@ const StyleImg = styled.div`
 
 export const Img = ({ id, picture, forChange }) => {
   const [showImgModal, setShowImgModal] = useState(false);
-  const { packArray, priceArray, setPriceArray, setPackArray } =
+  const { auth } = useContext(LoginContext);
+  const { packArray, priceArray, setPackArray, setPriceArray } =
     useContext(PriceContext);
 
   const handlerShowImg = (e) => {
@@ -38,10 +39,9 @@ export const Img = ({ id, picture, forChange }) => {
       fileInput.click();
       fileInput.addEventListener('change', async function () {
         const file = fileInput.files[0];
-        console.log(file);
+        const newFileName = `img-${id}.${file.name.split('.').pop()}`;
         const formData = new FormData();
-        formData.append('file', file);
-        formData.append('id', id);
+        formData.append('file', file, newFileName);
         const response = await fetch(
           `${process.env.REACT_APP_SERVER_URL}/write_img`,
           {
@@ -50,19 +50,15 @@ export const Img = ({ id, picture, forChange }) => {
             body: formData,
           },
         );
-        let pName;
-        let pArray = [];
-        if (id.slice(0, 2) === 'up') {
-          pName = 'packArray';
-          let i = packArray.find((el) => el.id === id);
-          pArray = [
-            packArray.slice(0, i),
-            { ...packArray[i], picture: file },
-            packArray.slice(i + 1),
-          ];
-        } else {
-        }
-        refreshArray(pName, pArray);
+        refreshJson(
+          id,
+          newFileName,
+          auth.token,
+          packArray,
+          setPackArray,
+          priceArray,
+          setPriceArray,
+        );
         console.log('Результат загрузки файла:', response.data);
       });
     } catch (error) {
@@ -96,7 +92,7 @@ export const Img = ({ id, picture, forChange }) => {
       >
         <Modal.Body className="d-flex justify-content-center">
           <Image
-            id={`${process.env.REACT_APP_SERVER_URL}/static/good-pictures/${id}`}
+            src={`${process.env.REACT_APP_SERVER_URL}/static/good-pictures/${picture}`}
             fluid
             rounded
             // onClick={() => setShowImgModal(true)}

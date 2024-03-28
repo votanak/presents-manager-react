@@ -119,7 +119,7 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     // Используем оригинальное имя файла из запроса
-    cb(null, `img-${file.originalname}`);
+    cb(null, file.originalname);
   },
 });
 const upload = multer({ storage: storage });

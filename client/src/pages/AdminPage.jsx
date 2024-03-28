@@ -14,8 +14,8 @@ const AdminStyle = styled.div`
 `;
 
 export const AdminPage = () => {
-  const [priceFile, setPriceFile] = useState();
-  const [packFile, setPackFile] = useState();
+  const [priceFile, setPriceFile] = useState('');
+  const [packFile, setPackFile] = useState('');
   const { setPriceArray, setPackArray } = useContext(PriceContext);
   const { auth } = useContext(LoginContext);
 
@@ -83,6 +83,9 @@ export const AdminPage = () => {
           filename: 'packArray',
         });
         setPackArray(data);
+        setPackFile();
+        setPriceFile();
+        e.target.reset();
       });
     };
   };
@@ -108,9 +111,10 @@ export const AdminPage = () => {
             <div className="d-flex mx-4">
               <Form.Control
                 type="file"
-                id="file-input"
+                id="file-input-goods"
                 text="Загрузка файла..."
                 onChange={(e) => setPriceFile(e.target.files[0])}
+                filename={priceFile}
               />
               <Button
                 disabled={!priceFile}
@@ -128,9 +132,10 @@ export const AdminPage = () => {
             <div className="d-flex mx-4">
               <Form.Control
                 type="file"
-                id="file-input"
+                id="file-input-pack"
                 text="Загрузка файла..."
                 onChange={(e) => setPackFile(e.target.files[0])}
+                filename={packFile}
               />
               <Button
                 disabled={!packFile}
