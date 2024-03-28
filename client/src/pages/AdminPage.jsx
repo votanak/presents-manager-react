@@ -51,6 +51,8 @@ export const AdminPage = () => {
           filename: 'priceArray',
         });
         setPriceArray(data);
+        setPriceFile();
+        document.querySelector('#file-input-goods').value = '';
       });
     };
   };
@@ -84,8 +86,8 @@ export const AdminPage = () => {
         });
         setPackArray(data);
         setPackFile();
-        setPriceFile();
-        e.target.reset();
+
+        document.querySelector('#file-input-pack').value = '';
       });
     };
   };
