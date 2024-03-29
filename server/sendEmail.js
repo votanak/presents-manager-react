@@ -7,6 +7,7 @@ import path from 'path';
 import { jsonToWb } from '../client/src/services/jsonToWb.js';
 import multer from 'multer';
 import { globSync } from 'glob';
+import { imgMulter } from './middleWare/img-multer.js';
 
 const app = express();
 const port = 5000;
@@ -118,41 +119,36 @@ app.get('/get_json', (req, res) => {
   );
 });
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './public/good-pictures');
-  },
-  filename: function (req, file, cb) {
-    // Используем оригинальное имя файла из запроса
-    cb(null, file.originalname);
-  },
-});
-const upload = multer({ storage: storage });
-
-app.post('/write_img', upload.single('file'), (req, res) => {
+app.post('/write_img', (req, res) => {
   try {
-    console.log('uploading1', req.file.originalname);
+    imgMulter.single('file')(req, res, (err) => {
+      if (err) {
+        return res.status(400).send(err.message);
+      }
 
-    // Обработка ошибок загрузки файла, если есть
-    if (req.fileValidationError) {
-      return res.status(400).send(req.fileValidationError);
-    } else if (!req.file) {
-      return res.status(400).send('Нет загруженного файла');
-    }
+      console.log('uploading1', req.file.originalname);
 
-    // Разрешенные расширения файлов
-    const allowedExtensions = ['.png', '.jpg', '.jpeg', '.gif'];
+      // Обработка ошибок загрузки файла, если есть
+      if (req.fileValidationError) {
+        return res.status(400).send(req.fileValidationError);
+      } else if (!req.file) {
+        return res.status(400).send('Нет загруженного файла');
+      }
 
-    function allowedFile(filename) {
-      const ext = path.extname(filename).toLowerCase();
-      return allowedExtensions.includes(ext);
-    }
+      // Разрешенные расширения файлов
+      const allowedExtensions = ['.png', '.jpg', '.jpeg', '.gif'];
 
-    if (!allowedFile(req.file.originalname)) {
-      return res.status(400).send('Недопустимое расширение файла');
-    }
+      function allowedFile(filename) {
+        const ext = path.extname(filename).toLowerCase();
+        return allowedExtensions.includes(ext);
+      }
 
-    res.status(200).send(`Файл ${req.file.originalname} загружен успешно`);
+      if (!allowedFile(req.file.originalname)) {
+        return res.status(400).send('Недопустимое расширение файла');
+      }
+
+      res.status(200).send(`Файл ${req.file.originalname} загружен успешно`);
+    });
   } catch (error) {
     console.error('Ошибка загрузки файла:', error);
     res.status(500).send('Ошибка загрузки файла');
