@@ -5,9 +5,10 @@ import url from 'url';
 import fs from 'fs';
 import path from 'path';
 import { jsonToWb } from '../client/src/services/jsonToWb.js';
-import multer from 'multer';
 import { globSync } from 'glob';
 import { imgMulter } from './middleWare/img-multer.js';
+import { arrayToFile } from './services/arrayFile.js';
+import { fileToArray } from './services/arrayFile.js';
 
 const app = express();
 const port = 5000;
@@ -72,15 +73,13 @@ app.listen(port, () => {
 });
 
 app.post('/write_json', (req, res) => {
-  fs.writeFile(
-    `./data/${req.body.filename}.json`,
-    JSON.stringify(checkImages(req.body.data)),
-    'utf8',
-    (err) => {
-      if (err) res.status(500).send({ mesage: 'Internal server error' });
-      res.status(200).send({ response: 'successfully writed' });
-    },
-  );
+  try {
+    arrayToFile(`${req.body.filename}.json`, checkImages(req.body.data));
+    console.log(checkImages(req.body.data));
+    return res.send({ msg: 'json successfully writed' });
+  } catch (error) {
+    return res.status(500).send({ 'server write error': error });
+  }
 });
 
 const checkImages = (array) => {
@@ -107,50 +106,52 @@ app.get('/get_json', (req, res) => {
     'utf8',
     (err, data) => {
       if (err) {
-        res.writeHead(500, { 'Content-Type': 'text/plain' });
-        res.end('Internal Server Error');
+        res.status(500).send('Internal Server Error');
         console.error('Ошибка чтения файла:', err);
         return;
       }
       res.writeHead(200, { 'Content-Type': 'text/plain' });
+      console.log('get_json: Данные из файла успешно отправлены');
       res.end(data);
-      console.log('Данные из файла успешно отправлены');
+      return;
     },
   );
 });
 
-app.post('/write_img', (req, res) => {
+app.post('/write_img', imgMulter.single('file'), async (req, res) => {
   try {
-    imgMulter.single('file')(req, res, (err) => {
-      if (err) {
-        return res.status(400).send(err.message);
-      }
+    let id = req.body.id;
+    let arrayFilename =
+      req.body.id.slice(0, 2) === 'up' ? 'packArray.json' : 'priceArray.json';
+    let pArray = await fileToArray(`${arrayFilename}`);
+    let i = pArray.findIndex((el) => el.id === id);
+    pArray = [
+      ...pArray.slice(0, i),
+      {
+        ...pArray[i],
+        picture: `img-${id}${path
+          .extname(req.file.originalname)
+          .toLowerCase()}`,
+      },
+      ...pArray.slice(i + 1),
+    ];
+    arrayToFile(arrayFilename, pArray);
 
-      console.log('uploading1', req.file.originalname);
-
-      // Обработка ошибок загрузки файла, если есть
-      if (req.fileValidationError) {
-        return res.status(400).send(req.fileValidationError);
-      } else if (!req.file) {
-        return res.status(400).send('Нет загруженного файла');
-      }
-
-      // Разрешенные расширения файлов
-      const allowedExtensions = ['.png', '.jpg', '.jpeg', '.gif'];
-
-      function allowedFile(filename) {
-        const ext = path.extname(filename).toLowerCase();
-        return allowedExtensions.includes(ext);
-      }
-
-      if (!allowedFile(req.file.originalname)) {
-        return res.status(400).send('Недопустимое расширение файла');
-      }
-
-      res.status(200).send(`Файл ${req.file.originalname} загружен успешно`);
-    });
+    fs.writeFile(
+      `./public/good-pictures/img-${id}${path
+        .extname(req.file.originalname)
+        .toLowerCase()}`,
+      req.file.buffer,
+      (err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log('successfully');
+        }
+      },
+    );
   } catch (error) {
     console.error('Ошибка загрузки файла:', error);
-    res.status(500).send('Ошибка загрузки файла');
+    res.status(500).send('write_img: Ошибка загрузки файла');
   }
 });

@@ -46,7 +46,6 @@ export const PriceList = ({ forChange }) => {
           giftQuantity: selectedGoods.giftQuantity - 1,
         });
   };
-
   return (
     <PriceStyle>
       {packArray && (

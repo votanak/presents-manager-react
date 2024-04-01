@@ -28,42 +28,38 @@ export const Img = ({ id, picture, forChange }) => {
 
   const handlerShowImg = (e) => {
     e.stopPropagation();
-    console.log(e.isPropagationStopped());
     setShowImgModal(true);
   };
 
   const handlerLoadImg = () => {
-    try {
-      const fileInput = document.createElement('input');
-      fileInput.type = 'file';
-      fileInput.click();
-      fileInput.addEventListener('change', async function () {
-        const file = fileInput.files[0];
-        const newFileName = `img-${id}.${file.name.split('.').pop()}`;
-        const formData = new FormData();
-        formData.append('file', file, newFileName);
-        const response = await fetch(
-          `${process.env.REACT_APP_SERVER_URL}/write_img`,
-          {
-            method: 'POST',
-            headers: {},
-            body: formData,
-          },
-        );
-        refreshJson(
-          id,
-          newFileName,
-          auth.token,
-          packArray,
-          setPackArray,
-          priceArray,
-          setPriceArray,
-        );
-        console.log('Результат загрузки файла:', response);
-      });
-    } catch (error) {
-      console.error('Ошибка загрузки файла:', error);
-    }
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.click();
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('id', id);
+      fetch(`${process.env.REACT_APP_SERVER_URL}/write_img`, {
+        method: 'POST',
+        headers: {},
+        body: formData,
+      })
+        .then(() => {
+          refreshJson(
+            id,
+            auth.token,
+            packArray,
+            setPackArray,
+            priceArray,
+            setPriceArray,
+          );
+          console.log('Изображение загружено');
+        })
+        .catch((error) => {
+          console.error('Ошибка загрузки файла:', error);
+        });
+    });
   };
 
   return (

@@ -3,4 +3,4 @@ import { Router } from 'express';
 
 export const giftRouter = Router();
 
-giftRouter.post('/');
+// giftRouter.post('/');

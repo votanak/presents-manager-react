@@ -1,8 +1,7 @@
-import { postRequest, getRequest } from './serverRequest.js';
+import { getRequest } from './serverRequest.js';
 
-export const refreshJson = (
+export const refreshJson = async (
   id,
-  newFileName,
   token,
   packArray,
   setPackArray,
@@ -21,19 +20,8 @@ export const refreshJson = (
     pArray = priceArray;
     setArray = setPriceArray;
   }
-  let i = pArray.findIndex((el) => el.id === id);
-  pArray = [
-    ...pArray.slice(0, i),
-    { ...pArray[i], picture: newFileName },
-    ...pArray.slice(i + 1),
-  ];
-  postRequest('/write_json', token, {
+  let data = await getRequest('/get_json', token, {
     filename: pName,
-    data: pArray,
-  }).then(async () => {
-    let data = await getRequest('/get_json', token, {
-      filename: pName,
-    });
-    setArray(data);
   });
+  setArray(data);
 };

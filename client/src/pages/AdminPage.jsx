@@ -80,10 +80,11 @@ export const AdminPage = () => {
       postRequest('/write_json', auth.token, {
         filename: 'packArray',
         data: pArray,
-      }).then(async () => {
-        let data = await getRequest('/get_json', '', {
+      }).then(() => {
+        let data = getRequest('/get_json', '', {
           filename: 'packArray',
         });
+        console.log(data);
         setPackArray(data);
         setPackFile();
         document.querySelector('#file-input-pack').value = '';
