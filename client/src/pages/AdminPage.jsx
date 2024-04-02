@@ -51,7 +51,7 @@ export const AdminPage = () => {
           filename: 'priceArray',
         });
         setPriceArray(data);
-        setPriceFile();
+        setPriceFile('');
         document.querySelector('#file-input-goods').value = '';
       });
     };

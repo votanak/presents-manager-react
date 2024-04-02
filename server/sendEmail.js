@@ -73,9 +73,9 @@ app.listen(port, () => {
 });
 
 app.post('/write_json', (req, res) => {
+  console.log('write json', req.body.data);
   try {
     arrayToFile(`${req.body.filename}.json`, checkImages(req.body.data));
-    console.log(checkImages(req.body.data));
     return res.send({ msg: 'json successfully writed' });
   } catch (error) {
     return res.status(500).send({ 'server write error': error });
@@ -97,7 +97,7 @@ const checkImages = (array) => {
         })
       : resultArray.push({ ...gd, picture: blank });
   });
-  return resultArray;
+  return JSON.stringify(resultArray);
 };
 
 app.get('/get_json', (req, res) => {
