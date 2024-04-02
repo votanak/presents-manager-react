@@ -43,6 +43,7 @@ export const AdminPage = () => {
             })
           : (category = el.__EMPTY_1);
       });
+      console.log(pArray);
       postRequest('/write_json', auth.token, {
         filename: 'priceArray',
         data: pArray,

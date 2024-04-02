@@ -23,8 +23,7 @@ const StyleImg = styled.div`
 export const Img = ({ id, picture, forChange }) => {
   const [showImgModal, setShowImgModal] = useState(false);
   const { auth } = useContext(LoginContext);
-  const { packArray, priceArray, setPackArray, setPriceArray } =
-    useContext(PriceContext);
+  const { setPackArray, setPriceArray } = useContext(PriceContext);
 
   const handlerShowImg = (e) => {
     e.stopPropagation();

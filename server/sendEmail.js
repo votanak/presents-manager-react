@@ -73,7 +73,6 @@ app.listen(port, () => {
 });
 
 app.post('/write_json', (req, res) => {
-  console.log('write json', req.body.data);
   try {
     arrayToFile(`${req.body.filename}.json`, checkImages(req.body.data));
     return res.send({ msg: 'json successfully writed' });
@@ -83,6 +82,7 @@ app.post('/write_json', (req, res) => {
 });
 
 const checkImages = (array) => {
+  console.log('chIm: ', array.length);
   let resultArray = [];
   array.forEach((gd) => {
     let blank =
@@ -97,7 +97,7 @@ const checkImages = (array) => {
         })
       : resultArray.push({ ...gd, picture: blank });
   });
-  return JSON.stringify(resultArray);
+  return resultArray;
 };
 
 app.get('/get_json', (req, res) => {
