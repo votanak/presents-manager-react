@@ -150,6 +150,7 @@ app.post('/write_img', imgMulter.single('file'), async (req, res) => {
         }
       },
     );
+    return res.send('image successfully writed');
   } catch (error) {
     console.error('Ошибка загрузки файла:', error);
     res.status(500).send('write_img: Ошибка загрузки файла');

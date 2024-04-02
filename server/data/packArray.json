@@ -1,1 +1,65 @@
-[{"id":"up1","name":"Презент  \"Наездники\"1","producer":"Произв. 1","weight1":80,"giftWeight":800,"price1":100,"picture":"img-up1.png"},{"id":"up2","name":"Презент \"Императорский дракон\"","producer":"Произв. 1","weight1":80,"giftWeight":800,"price1":100,"picture":"img-up2.png"},{"id":"up3","name":"Подарок \"Дракоши\"","producer":"Произв. 1","weight1":90,"giftWeight":900,"price1":150,"picture":"img-up3.png"},{"id":"up4","name":"Новогодние посиделки","producer":"Произв. 1","weight1":90,"giftWeight":900,"price1":150,"picture":"img-up4.jpg"},{"id":"up5","name":"С новым годом","producer":"Произв. 2","weight1":90,"giftWeight":900,"price1":150,"picture":"img-up5.jpg"},{"id":"up6","name":"Сумочка праздник","producer":"Произв. 2","weight1":100,"giftWeight":1000,"price1":200,"picture":"img-up6.png"},{"id":"up7","name":"Шкатулка","producer":"Произв. 2","weight1":100,"giftWeight":1000,"price1":250,"picture":"img-up7.jpg"}]
+[
+  {
+    "id": "up1",
+    "name": "Презент  \"Наездники\"1",
+    "producer": "Произв. 1",
+    "weight1": 80,
+    "giftWeight": 800,
+    "price1": 100,
+    "picture": "img-up1.png"
+  },
+  {
+    "id": "up2",
+    "name": "Презент \"Императорский дракон\"",
+    "producer": "Произв. 1",
+    "weight1": 80,
+    "giftWeight": 800,
+    "price1": 100,
+    "picture": "img-up2.png"
+  },
+  {
+    "id": "up3",
+    "name": "Подарок \"Дракоши\"",
+    "producer": "Произв. 1",
+    "weight1": 90,
+    "giftWeight": 900,
+    "price1": 150,
+    "picture": "img-up3.png"
+  },
+  {
+    "id": "up4",
+    "name": "Новогодние посиделки",
+    "producer": "Произв. 1",
+    "weight1": 90,
+    "giftWeight": 900,
+    "price1": 150,
+    "picture": "img-up4.jpg"
+  },
+  {
+    "id": "up5",
+    "name": "С новым годом",
+    "producer": "Произв. 2",
+    "weight1": 90,
+    "giftWeight": 900,
+    "price1": 150,
+    "picture": "img-up5.jpg"
+  },
+  {
+    "id": "up6",
+    "name": "Сумочка праздник",
+    "producer": "Произв. 2",
+    "weight1": 100,
+    "giftWeight": 1000,
+    "price1": 200,
+    "picture": "img-up6.png"
+  },
+  {
+    "id": "up7",
+    "name": "Шкатулка",
+    "producer": "Произв. 2",
+    "weight1": 100,
+    "giftWeight": 1000,
+    "price1": 250,
+    "picture": "img-up7.jpg"
+  }
+]

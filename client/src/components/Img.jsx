@@ -46,14 +46,7 @@ export const Img = ({ id, picture, forChange }) => {
         body: formData,
       })
         .then(() => {
-          refreshJson(
-            id,
-            auth.token,
-            packArray,
-            setPackArray,
-            priceArray,
-            setPriceArray,
-          );
+          refreshJson(id, auth.token, setPackArray, setPriceArray);
           console.log('Изображение загружено');
         })
         .catch((error) => {
