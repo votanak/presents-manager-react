@@ -23,6 +23,7 @@ export const App = () => {
   });
   const [priceArray, setPriceArray] = useState();
   const [packArray, setPackArray] = useState();
+  const [upd, setUpd] = useState(0);
   const authCodeFromLS = localStorage.getItem('authCode');
 
   useEffect(() => {

@@ -120,11 +120,13 @@ app.get('/get_json', (req, res) => {
 
 app.post('/write_img', imgMulter.single('file'), async (req, res) => {
   try {
-    let id = req.body.id;
+    let id = +req.body.id;
     let arrayFilename =
       req.body.id.slice(0, 2) === 'up' ? 'packArray.json' : 'priceArray.json';
     let pArray = await fileToArray(`${arrayFilename}`);
-    let i = pArray.findIndex((el) => el.id === id);
+    let i = pArray.findIndex((el) => {
+      return el.id === id;
+    });
     pArray = [
       ...pArray.slice(0, i),
       {
@@ -135,7 +137,7 @@ app.post('/write_img', imgMulter.single('file'), async (req, res) => {
       },
       ...pArray.slice(i + 1),
     ];
-    arrayToFile(arrayFilename, pArray);
+    arrayToFile(arrayFilename, pArray); // запись обновлённого json'a
 
     fs.writeFile(
       `./public/good-pictures/img-${id}${path
