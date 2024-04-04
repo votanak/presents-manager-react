@@ -77,23 +77,24 @@ app.post('/write_json', (req, res) => {
     arrayToFile(`${req.body.filename}.json`, checkImages(req.body.data));
     return res.send({ msg: 'json successfully writed' });
   } catch (error) {
+    console.log(error);
     return res.status(500).send({ 'server write error': error });
   }
 });
 
 const checkImages = (array) => {
-  console.log('chIm: ', array.length);
   let resultArray = [];
   array.forEach((gd) => {
     let blank =
       gd.id.toString().slice(0, 2) === 'up'
         ? 'blank-pack.svg'
         : 'blank-good.svg';
-    const files = globSync(`./public/good-pictures/img-${gd.id}.*`);
+    const files = globSync(`./public/good-pictures/img-${gd.id}*.*`);
+    // console.log('chIm: ', files[0], path.basename(files[0]));
     files.length
       ? resultArray.push({
           ...gd,
-          picture: `img-${gd.id}${path.extname(files[0]).toLowerCase()}`,
+          picture: `${path.basename(files[0])}`,
         })
       : resultArray.push({ ...gd, picture: blank });
   });
@@ -120,35 +121,44 @@ app.get('/get_json', (req, res) => {
 
 app.post('/write_img', imgMulter.single('file'), async (req, res) => {
   try {
-    let id = +req.body.id;
+    let id = req.body.id;
     let arrayFilename =
       req.body.id.slice(0, 2) === 'up' ? 'packArray.json' : 'priceArray.json';
     let pArray = await fileToArray(`${arrayFilename}`);
-    let i = pArray.findIndex((el) => {
-      return el.id === id;
+    let i = pArray.findIndex((el) => el.id.toString() === id);
+    // удаляем старый файл
+    const oldFileName = globSync(`./public/good-pictures/img-${id}*.*`)[0];
+    console.log(oldFileName);
+    fs.unlink(`./${oldFileName}`, (err) => {
+      if (err) {
+        console.error(`Error deleting file: ${err}`);
+      } else {
+        console.log('file deleted');
+      }
     });
+    const newFileName = `img-${id}-${Date.now()}${path
+      .extname(req.file.originalname)
+      .toLowerCase()}`;
+    //обновляем json
     pArray = [
       ...pArray.slice(0, i),
       {
         ...pArray[i],
-        picture: `img-${id}${path
-          .extname(req.file.originalname)
-          .toLowerCase()}`,
+        picture: newFileName,
       },
       ...pArray.slice(i + 1),
     ];
     arrayToFile(arrayFilename, pArray); // запись обновлённого json'a
 
+    //Записываем новый файл
     fs.writeFile(
-      `./public/good-pictures/img-${id}${path
-        .extname(req.file.originalname)
-        .toLowerCase()}`,
+      `./public/good-pictures/${newFileName}`,
       req.file.buffer,
       (err) => {
         if (err) {
           console.log(err);
         } else {
-          console.log('successfully');
+          console.log('new img file successfully writed');
         }
       },
     );

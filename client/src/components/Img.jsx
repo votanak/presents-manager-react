@@ -23,7 +23,7 @@ const StyleImg = styled.div`
 export const Img = ({ id, picture, forChange }) => {
   const [showImgModal, setShowImgModal] = useState(false);
   const { auth } = useContext(LoginContext);
-  const { setPackArray, setPriceArray } = useContext(PriceContext);
+  const { setPackArray, setPriceArray, upd, setUpd } = useContext(PriceContext);
   const handlerShowImg = (e) => {
     e.stopPropagation();
     setShowImgModal(true);
@@ -46,7 +46,6 @@ export const Img = ({ id, picture, forChange }) => {
         .then(() => {
           refreshJson(id, auth.token, setPackArray, setPriceArray);
           setUpd(upd + 1);
-          console.log('Изображение загружено');
         })
         .catch((error) => {
           console.error('Ошибка загрузки файла:', error);

@@ -14,8 +14,11 @@ export const fileToArray = async (fileName) => {
 export const arrayToFile = (fileName, obj) => {
   try {
     fs.writeFile(`./data/${fileName}`, JSON.stringify(obj), 'utf8', (err) => {
-      if (err) return err;
-      console.log('файл записан111');
+      if (err) {
+        return err;
+      } else {
+        console.log('файл записан111');
+      }
       return;
     });
   } catch (error) {

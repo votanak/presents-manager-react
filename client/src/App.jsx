@@ -55,7 +55,14 @@ export const App = () => {
     <AppStyle>
       <LoginContext.Provider value={{ auth, setAuth }}>
         <PriceContext.Provider
-          value={{ priceArray, setPriceArray, packArray, setPackArray }}
+          value={{
+            priceArray,
+            setPriceArray,
+            packArray,
+            setPackArray,
+            upd,
+            setUpd,
+          }}
         >
           <BrowserRouter>
             <Routes>

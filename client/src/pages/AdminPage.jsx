@@ -43,7 +43,6 @@ export const AdminPage = () => {
             })
           : (category = el.__EMPTY_1);
       });
-      console.log(pArray);
       postRequest('/write_json', auth.token, {
         filename: 'priceArray',
         data: pArray,
@@ -81,8 +80,8 @@ export const AdminPage = () => {
       postRequest('/write_json', auth.token, {
         filename: 'packArray',
         data: pArray,
-      }).then(() => {
-        let data = getRequest('/get_json', '', {
+      }).then(async () => {
+        let data = await getRequest('/get_json', '', {
           filename: 'packArray',
         });
         console.log(data);
