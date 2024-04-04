@@ -54,7 +54,7 @@ export const HomePage = () => {
       <header id="sp-header" className="animated w-100 bg-white mt-2">
         <Container className="mw-100">
           <Row className="align-items-center w-100">
-            <Col id="sp-logo" className="col-sm-1">
+            <Col id="sp-logo" className="">
               <div className="logo">
                 <a href="/">
                   <img

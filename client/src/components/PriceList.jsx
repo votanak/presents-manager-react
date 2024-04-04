@@ -18,7 +18,7 @@ export const PriceList = ({ forChange }) => {
   const { priceArray, packArray } = useContext(PriceContext);
   const [selectedGoods, setSelectedGoods] = useState({ giftQuantity: 1 });
   const [modalShow, setModalShow] = useState(false);
-  const [packAccShow, setPackAccShow] = useState([]);
+  const [packAccShow, setPackAccShow] = useState(!forChange && ['0']);
 
   const summ = (field) =>
     Object.keys(selectedGoods).reduce((acc, el) => {
@@ -74,8 +74,9 @@ export const PriceList = ({ forChange }) => {
                       id={pack.id}
                       onChange={() => {
                         setPackAccShow([]);
-                        if (!forChange)
+                        if (!forChange) {
                           setSelectedGoods({ ...selectedGoods, pack: pack });
+                        }
                       }}
                       aria-label="radio 1"
                     />

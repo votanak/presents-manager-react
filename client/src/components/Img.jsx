@@ -77,7 +77,7 @@ export const Img = ({ id, picture, forChange }) => {
         // size="lg"
         dialogClassName="good-modal"
       >
-        <Modal.Body className="d-flex justify-content-center">
+        <Modal.Body className="d-flex justify-content-center mh-75">
           <Image
             src={`${process.env.REACT_APP_SERVER_URL}/static/good-pictures/${picture}`}
             fluid

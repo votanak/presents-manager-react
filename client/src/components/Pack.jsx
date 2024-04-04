@@ -27,7 +27,7 @@ export const Pack = ({ forChange, pack }) => {
         <div className="me-2 my-0 fs-6 fw-bold" rows="2">
           {pack.name}
         </div>
-        <div className="d-flex ms-auto">
+        <div className="d-flex flex-wrap ms-auto">
           <div className="mx-2 text-nowrap">
             Вес упаковки - {pack.weight1} г.
           </div>

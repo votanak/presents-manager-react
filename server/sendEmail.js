@@ -89,7 +89,7 @@ const checkImages = (array) => {
       gd.id.toString().slice(0, 2) === 'up'
         ? 'blank-pack.svg'
         : 'blank-good.svg';
-    const files = globSync(`./public/good-pictures/img-${gd.id}*.*`);
+    const files = globSync(`./public/good-pictures/img-${gd.id}-*.*`);
     // console.log('chIm: ', files[0], path.basename(files[0]));
     files.length
       ? resultArray.push({
