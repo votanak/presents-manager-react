@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import giftRouter from './routes/giftRouter.js';
 
 const app = express();
 const port = process.env['PORT'] ?? 5000;
@@ -12,6 +13,8 @@ app.use((req, res, next) => {
   next();
 });
 app.use('/static', express.static('public'));
+
+app.use('/', giftRouter);
 
 app.listen(port, () => {
   console.log(`listening on port ${port} ...`);

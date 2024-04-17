@@ -19,7 +19,7 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
-    "start": "node sendEmail",
+    "start": "node index",
     "build": "node build",
     "dev": "nodemon index"
   },

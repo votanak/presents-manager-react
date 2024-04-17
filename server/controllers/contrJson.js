@@ -1,4 +1,7 @@
-app.post('/write_json', (req, res) => {
+import fs from 'fs';
+import url from 'url';
+
+export const writeJson = async (req, res) => {
   try {
     arrayToFile(`${req.body.filename}.json`, checkImages(req.body.data));
     return res.send({ msg: 'json successfully writed' });
@@ -6,7 +9,7 @@ app.post('/write_json', (req, res) => {
     console.log(error);
     return res.status(500).send({ 'server write error': error });
   }
-});
+};
 
 const checkImages = (array) => {
   let resultArray = [];
@@ -15,8 +18,7 @@ const checkImages = (array) => {
       gd.id.toString().slice(0, 2) === 'up'
         ? 'blank-pack.svg'
         : 'blank-good.svg';
-    const files = globSync(`./public/good-pictures/img-${gd.id}-*.*`);
-    // console.log('chIm: ', files[0], path.basename(files[0]));
+    const files = globSync(`../public/good-pictures/img-${gd.id}-*.*`);
     files.length
       ? resultArray.push({
           ...gd,
@@ -27,7 +29,7 @@ const checkImages = (array) => {
   return resultArray;
 };
 
-app.get('/get_json', (req, res) => {
+export const getJson = async (req, res) => {
   fs.readFile(
     `./data/${url.parse(req.url, true).query.filename}.json`,
     'utf8',
@@ -43,4 +45,4 @@ app.get('/get_json', (req, res) => {
       return;
     },
   );
-});
+};

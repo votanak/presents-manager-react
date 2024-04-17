@@ -1,6 +1,14 @@
-import { express } from 'express';
+import express from 'express';
+import { getJson, writeJson } from '../controllers/contrJson.js';
+import { imgMulter } from '../middleWare/img-multer.js';
+import { sendOrder } from '../controllers/sendOrder.js';
+import { writeImg } from '../controllers/writeImg.js';
 
-export const giftRouter = express.Router();
+const giftRouter = express.Router();
 
-giftRouter.get('/send_order', auth, getMessagesByRoomId);
-export default router;
+giftRouter.post('/send_order', sendOrder);
+giftRouter.get('/get_json', getJson);
+giftRouter.post('/write_json', writeJson);
+giftRouter.post('/write_img', imgMulter.single('file'), writeImg);
+
+export default giftRouter;
