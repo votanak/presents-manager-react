@@ -1,5 +1,8 @@
 import fs from 'fs';
 import url from 'url';
+import { arrayToFile } from '../services/arrayFile.js';
+import { globSync } from 'glob';
+import path from 'path';
 
 export const writeJson = async (req, res) => {
   try {
@@ -18,7 +21,7 @@ const checkImages = (array) => {
       gd.id.toString().slice(0, 2) === 'up'
         ? 'blank-pack.svg'
         : 'blank-good.svg';
-    const files = globSync(`../public/good-pictures/img-${gd.id}-*.*`);
+    const files = globSync(`./public/good-pictures/img-${gd.id}-*.*`);
     files.length
       ? resultArray.push({
           ...gd,

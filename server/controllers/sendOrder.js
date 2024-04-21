@@ -1,3 +1,7 @@
+import { jsonToWb } from '../../client/src/services/jsonToWb.js';
+import nodemailer from 'nodemailer';
+import fs from 'fs';
+
 export const sendOrder = async (req, res) => {
   try {
     jsonToWb(
@@ -38,6 +42,7 @@ export const sendOrder = async (req, res) => {
 
     return res.send({ info });
   } catch (error) {
+    console.log('Ошибка отправки:', error);
     return res
       .status(500)
       .send({ error: 'Произошла ошибка при выполнении запроса' });

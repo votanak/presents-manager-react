@@ -84,7 +84,6 @@ export const AdminPage = () => {
         let data = await getRequest('/get_json', '', {
           filename: 'packArray',
         });
-        console.log(data);
         setPackArray(data);
         setPackFile();
         document.querySelector('#file-input-pack').value = '';

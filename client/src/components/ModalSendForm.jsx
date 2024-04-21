@@ -15,6 +15,7 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
   });
   const { auth } = useContext(LoginContext);
   const giftId = uuidv1().slice(0, 8);
+  const [isValid, setIsValid] = useState(false);
 
   const handleSend = () => {
     postRequest('/send_order', auth.token, {
@@ -27,7 +28,8 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
         setShow(false);
       })
       .catch((err) => {
-        alert('неудачно!!!');
+        alert('неудачная отправка email!!!');
+        throw err;
       });
   };
 
@@ -38,6 +40,26 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
       customer,
     ).xlsx.writeBuffer();
     FileSaver.saveAs(new Blob([buffer]), `Сборный подарок ${giftId}.xlsx`);
+  };
+
+  const handleBlur = (e) => {
+    console.log(e.target.id);
+    let regExp = '';
+    switch (e.target.id) {
+      case 'phone':
+        regExp = /(?:\+|\d)[\d-() ]{9,}\d/g;
+        break;
+      case 'email':
+        regExp = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+        break;
+      default:
+        break;
+    }
+    console.log(e.target.value.match(regExp));
+    setCustomer({
+      ...customer,
+      [e.target.id]: e.target.value,
+    });
   };
 
   return (
@@ -52,34 +74,36 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
             <Form.Control
               type="text"
               placeholder="Имя"
-              onChange={(e) =>
-                setCustomer({ ...customer, name: e.target.value })
-              }
+              onBlur={handleBlur}
               value={customer.name}
               autoFocus
+              controlId="name"
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="email">
+          <Form.Group className="mb-3" controlId="phone">
             <Form.Label>Тилипон:</Form.Label>
             <Form.Control
               type="phone"
               placeholder="+7"
-              onChange={(e) =>
-                setCustomer({ ...customer, phone: e.target.value })
-              }
+              onBlur={handleBlur}
               value={customer.phone}
             />
           </Form.Group>
+          <Form.Control.Feedback type="invalid">
+            Please enter a valid 10-digit phone number.
+          </Form.Control.Feedback>
           <Form.Group className="mb-3" controlId="email">
             <Form.Label>e-mail</Form.Label>
             <Form.Control
               type="email"
               placeholder="name@server.com"
-              onChange={(e) =>
-                setCustomer({ ...customer, email: e.target.value })
-              }
+              onBlur={handleBlur}
               value={customer.email}
+              controlId="email"
             />
+            <Form.Control.Feedback type="invalid">
+              Please enter a valid email address.
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="mb-3" controlId="messageText">
             <Form.Label placeholder="Текст сообщения...">

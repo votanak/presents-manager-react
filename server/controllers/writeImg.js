@@ -1,3 +1,8 @@
+import { fileToArray, arrayToFile } from '../services/arrayFile.js';
+import { globSync } from 'glob';
+import fs from 'fs';
+import path from 'path';
+
 export const writeImg = async (req, res) => {
   try {
     let id = req.body.id;
