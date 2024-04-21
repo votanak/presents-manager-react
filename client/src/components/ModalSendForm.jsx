@@ -15,7 +15,7 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
   });
   const { auth } = useContext(LoginContext);
   const giftId = uuidv1().slice(0, 8);
-  const [isValid, setIsValid] = useState(false);
+  const [isValid, setIsValid] = useState({ email: false, phone: false });
 
   const handleSend = () => {
     postRequest('/send_order', auth.token, {
@@ -42,8 +42,9 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
     FileSaver.saveAs(new Blob([buffer]), `Сборный подарок ${giftId}.xlsx`);
   };
 
-  const handleBlur = (e) => {
-    console.log(e.target.id);
+  const handleBlur = (e) => {};
+
+  const handlerChange = (e) => {
     let regExp = '';
     switch (e.target.id) {
       case 'phone':
@@ -55,11 +56,8 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
       default:
         break;
     }
-    console.log(e.target.value.match(regExp));
-    setCustomer({
-      ...customer,
-      [e.target.id]: e.target.value,
-    });
+    setIsValid({ ...isValid, [e.target.id]: e.target.value.match(regExp) });
+    setCustomer({ ...customer, [e.target.id]: `+7 ${e.target.value}` });
   };
 
   return (
@@ -67,17 +65,17 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
       <Modal.Header closeButton>
         <Modal.Title>Отправка заказа для сборки</Modal.Title>
       </Modal.Header>
-      <Form>
+      <Form noValidate>
         <Modal.Body>
           <Form.Group className="mb-3" controlId="name">
             <Form.Label>Имя</Form.Label>
             <Form.Control
               type="text"
               placeholder="Имя"
-              onBlur={handleBlur}
               value={customer.name}
               autoFocus
-              controlId="name"
+              onChange={handlerChange}
+              isInvalid={customer.name.length < 6}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="phone">
@@ -85,11 +83,13 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
             <Form.Control
               type="phone"
               placeholder="+7"
-              onBlur={handleBlur}
               value={customer.phone}
+              onBlur={handleBlur}
+              onChange={handlerChange}
+              isInvalid={!isValid.phone}
             />
           </Form.Group>
-          <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback tooltip type="invalid">
             Please enter a valid 10-digit phone number.
           </Form.Control.Feedback>
           <Form.Group className="mb-3" controlId="email">
@@ -97,11 +97,12 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
             <Form.Control
               type="email"
               placeholder="name@server.com"
-              onBlur={handleBlur}
               value={customer.email}
-              controlId="email"
+              onBlur={handleBlur}
+              onChange={handlerChange}
+              isInvalid={!isValid.email}
             />
-            <Form.Control.Feedback type="invalid">
+            <Form.Control.Feedback tooltip type="invalid">
               Please enter a valid email address.
             </Form.Control.Feedback>
           </Form.Group>
@@ -111,9 +112,7 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
             </Form.Label>
             <Form.Control
               as="textarea"
-              onChange={(e) =>
-                setCustomer({ ...customer, message: e.target.value })
-              }
+              onChange={handlerChange}
               rows={3}
               value={customer.message}
             />
@@ -133,7 +132,7 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
           <Button
             variant="primary"
             onClick={handleSend}
-            disabled={!(customer.email && customer.name)}
+            disabled={!(isValid.email && isValid.phone)}
           >
             Отправить заказ
           </Button>
