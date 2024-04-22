@@ -21,7 +21,7 @@ const checkImages = (array) => {
       gd.id.toString().slice(0, 2) === 'up'
         ? 'blank-pack.svg'
         : 'blank-good.svg';
-    const files = globSync(`./public/good-pictures/img-${gd.id}-*.*`);
+    const files = globSync(`./src/public/good-pictures/img-${gd.id}-*.*`);
     files.length
       ? resultArray.push({
           ...gd,
@@ -34,7 +34,7 @@ const checkImages = (array) => {
 
 export const getJson = async (req, res) => {
   fs.readFile(
-    `./data/${url.parse(req.url, true).query.filename}.json`,
+    `./src/data/${url.parse(req.url, true).query.filename}.json`,
     'utf8',
     (err, data) => {
       if (err) {

@@ -1,4 +1,4 @@
-import { jsonToWb } from '../../client/src/services/jsonToWb.js';
+import { jsonToWb } from '../../../client/src/services/jsonToWb.js';
 import nodemailer from 'nodemailer';
 import fs from 'fs';
 

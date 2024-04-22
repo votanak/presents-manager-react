@@ -17,7 +17,7 @@ export const arrayToFile = (fileName, obj) => {
       if (err) {
         return err;
       } else {
-        console.log('файл записан111');
+        console.log('arrayToFile: файл записан');
       }
       return;
     });

@@ -5,6 +5,7 @@ import { postRequest } from '../services/serverRequest';
 import { v1 as uuidv1 } from 'uuid';
 import { jsonToWb } from '../services/jsonToWb';
 import FileSaver from 'file-saver';
+import { PhoneInput } from './PhoneInput';
 
 export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
   const [customer, setCustomer] = useState({
@@ -15,22 +16,50 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
   });
   const { auth } = useContext(LoginContext);
   const giftId = uuidv1().slice(0, 8);
-  const [isValid, setIsValid] = useState({ email: false, phone: false });
+  const [isValid, setIsValid] = useState({
+    email: false,
+    phone: false,
+    name: false,
+  });
+  const [promptToSend, setPromptToSend] = useState(false);
+  const formIsValid = isValid.email && isValid.name && isValid.phone;
 
-  const handleSend = () => {
-    postRequest('/send_order', auth.token, {
-      customer: customer,
-      giftId,
-      selectedGoods: JSON.stringify(selectedGoods),
-    })
-      .then(() => {
-        alert('Email successfully sended!!!');
-        setShow(false);
+  const handleSend = async (e) => {
+    if (!formIsValid) {
+      e.preventDefault();
+      e.stopPropagation();
+      setPromptToSend(true);
+    } else {
+      postRequest('/send_order', auth.token, {
+        customer: customer,
+        giftId,
+        selectedGoods: JSON.stringify(selectedGoods),
       })
-      .catch((err) => {
-        alert('неудачная отправка email!!!');
-        throw err;
-      });
+        .then(() => {
+          alert('Email successfully sended!!!');
+          setShow(false);
+        })
+        .catch((err) => {
+          alert('неудачная отправка email!!!');
+          throw err;
+        });
+    }
+  };
+
+  const handleHide = () => {
+    setShow(false);
+    setIsValid({
+      email: false,
+      phone: false,
+      name: false,
+    });
+    setPromptToSend(false);
+    setCustomer({
+      name: '',
+      email: '',
+      phone: '',
+      message: '',
+    });
   };
 
   const handleSave = async () => {
@@ -42,13 +71,14 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
     FileSaver.saveAs(new Blob([buffer]), `Сборный подарок ${giftId}.xlsx`);
   };
 
-  const handleBlur = (e) => {};
-
   const handlerChange = (e) => {
     let regExp = '';
-    switch (e.target.id) {
+    switch (e.target.name) {
+      case 'name':
+        regExp = /^.{3,17}$/;
+        break;
       case 'phone':
-        regExp = /(?:\+|\d)[\d-() ]{9,}\d/g;
+        regExp = /^[^_]*$/;
         break;
       case 'email':
         regExp = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
@@ -56,12 +86,19 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
       default:
         break;
     }
-    setIsValid({ ...isValid, [e.target.id]: e.target.value.match(regExp) });
-    setCustomer({ ...customer, [e.target.id]: `+7 ${e.target.value}` });
+    if (regExp) {
+      console.log(e.target.value.match(regExp));
+      setIsValid({
+        ...isValid,
+        [e.target.name]: Boolean(e.target.value.match(regExp)),
+      });
+    }
+    setCustomer({ ...customer, [e.target.name]: e.target.value });
   };
+  console.log(promptToSend && !isValid.phone);
 
   return (
-    <Modal show={show} onHide={() => setShow(false)}>
+    <Modal show={show} onHide={handleHide}>
       <Modal.Header closeButton>
         <Modal.Title>Отправка заказа для сборки</Modal.Title>
       </Modal.Header>
@@ -70,37 +107,40 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
           <Form.Group className="mb-3" controlId="name">
             <Form.Label>Имя</Form.Label>
             <Form.Control
+              name="name"
               type="text"
               placeholder="Имя"
               value={customer.name}
               autoFocus
               onChange={handlerChange}
-              isInvalid={customer.name.length < 6}
+              isInvalid={promptToSend && !isValid.name}
             />
+            <Form.Control.Feedback tooltip type="invalid">
+              Поле "имя" не должно быть пустым.
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="mb-3" controlId="phone">
             <Form.Label>Тилипон:</Form.Label>
-            <Form.Control
+            <PhoneInput
+              name="phone"
               type="phone"
-              placeholder="+7"
               value={customer.phone}
-              onBlur={handleBlur}
               onChange={handlerChange}
-              isInvalid={!isValid.phone}
+              isInvalid={promptToSend && !isValid.phone}
             />
+            <Form.Control.Feedback tooltip type="invalid">
+              Please enter a valid 10-digit phone number.
+            </Form.Control.Feedback>
           </Form.Group>
-          <Form.Control.Feedback tooltip type="invalid">
-            Please enter a valid 10-digit phone number.
-          </Form.Control.Feedback>
           <Form.Group className="mb-3" controlId="email">
             <Form.Label>e-mail</Form.Label>
             <Form.Control
+              name="email"
               type="email"
               placeholder="name@server.com"
               value={customer.email}
-              onBlur={handleBlur}
               onChange={handlerChange}
-              isInvalid={!isValid.email}
+              isInvalid={promptToSend && !isValid.email}
             />
             <Form.Control.Feedback tooltip type="invalid">
               Please enter a valid email address.
@@ -125,14 +165,14 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
           <Button
             variant="primary"
             onClick={handleSave}
-            disabled={!(customer.email && customer.name)}
+            disabled={promptToSend && !formIsValid}
           >
             Сохранить Excel-файл
           </Button>
           <Button
             variant="primary"
             onClick={handleSend}
-            disabled={!(isValid.email && isValid.phone)}
+            disabled={promptToSend && !formIsValid}
           >
             Отправить заказ
           </Button>

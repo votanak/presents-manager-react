@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import giftRouter from './routes/giftRouter.js';
+import giftRouter from './src/routes/giftRouter.js';
 
 const app = express();
 const port = process.env['PORT'] ?? 5000;
