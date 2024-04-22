@@ -1,41 +1,18 @@
 import queryString from 'query-string';
 
-const serverResponse = async (response) =>
-  new Promise((resolve) => {
-    setTimeout(() => resolve(response), 1000);
-  });
-
 export const request = async (url, method, token, params) => {
-  switch (url) {
-    case '/login':
-      if (method === 'POST') {
-        const data = await serverResponse({
-          data: {
-            accessToken:
-              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFubmFAZXhhbXBsZS5jb20iLCJyb2xlIjoibWVtYmVyIiwiaWF0IjoxNzA5MTU0ODE2fQ.or5xQVg0h_v58UJ5WW0O3O89i7JnmeDgP-lqagW3m3U',
-            authCode: 'dfe1be2a-4b41-4d21-82df-2a32dceccd6d',
-          },
-        });
-        return data;
-      }
-      break;
-
-    default:
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_SERVER_URL}${url}`,
-          {
-            method,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            ...(method === 'POST' ? params : {}),
-          },
-        );
-        return response.json();
-      } catch (e) {
-        return e;
-      }
+  try {
+    const response = await fetch(`${process.env.REACT_APP_SERVER_URL}${url}`, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      ...(method === 'POST' ? params : {}),
+    });
+    return response.json();
+  } catch (e) {
+    return e;
   }
 };
 

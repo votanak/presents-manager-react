@@ -95,7 +95,6 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
     }
     setCustomer({ ...customer, [e.target.name]: e.target.value });
   };
-  console.log(promptToSend && !isValid.phone);
 
   return (
     <Modal show={show} onHide={handleHide}>

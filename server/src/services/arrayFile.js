@@ -2,7 +2,7 @@ import fs from 'fs';
 
 export const fileToArray = async (fileName) => {
   try {
-    const data = await fs.promises.readFile(`./data/${fileName}`, 'utf8');
+    const data = await fs.promises.readFile(`./src/data/${fileName}`, 'utf8');
     const array = JSON.parse(data);
     return array;
   } catch (error) {

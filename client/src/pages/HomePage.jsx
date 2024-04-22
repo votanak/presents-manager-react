@@ -7,6 +7,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { LoginContext } from '../App';
 import { useContext } from 'react';
 import { PriceList } from '../components/PriceList';
+import { logOut } from '../services/serverRequest';
 
 const HomeStyle = styled.div`
   font-family: 'Montserrat';
@@ -38,14 +39,18 @@ export const HomePage = () => {
     navigate('/login');
   };
 
-  const exit = () => {
-    setAuth({
-      isLogged: false,
-      token: '',
-      authCode: '',
-    });
-    navigate('/');
-    localStorage.removeItem('authCode');
+  const exit = async () => {
+    try {
+      logOut('/logout', auth.token, { authCode: auth.authCode }).then(() => {
+        setAuth({
+          authCode: '',
+          isLogged: false,
+          token: '',
+        });
+      });
+    } catch (e) {
+      return e;
+    }
   };
 
   return (

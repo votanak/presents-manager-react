@@ -27,21 +27,26 @@ export const App = () => {
   const authCodeFromLS = localStorage.getItem('authCode');
 
   useEffect(() => {
-    postRequest('/login', 'POST', {
-      email: 'anna@example.com',
-      password: 'laksdjf',
+    if (!authCodeFromLS) return;
+    postRequest('/get_token_silently', auth.token, {
+      authCode: authCodeFromLS,
     })
-      .then(({ data }) => {
-        if (authCodeFromLS === 'dfe1be2a-4b41-4d21-82df-2a32dceccd6d') {
-          setAuth({
-            authCode: data.authCode,
-            isLogged: true,
-            token: data.accessToken,
-          });
-        }
+      .then((response) => {
+        if ('error' in response) throw new Error(response.error);
+
+        setAuth({
+          authCode: authCodeFromLS,
+          isLogged: true,
+          token: response.data.accessToken,
+        });
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
+        localStorage.removeItem('authCode');
+        setAuth({
+          authCode: '',
+          isLogged: false,
+          token: '',
+        });
       });
     getRequest('/get_json', '', { filename: 'priceArray' }).then((data) =>
       setPriceArray(data),
@@ -49,7 +54,7 @@ export const App = () => {
     getRequest('/get_json', '', { filename: 'packArray' }).then((data) =>
       setPackArray(data),
     );
-  }, [authCodeFromLS]);
+  }, [auth.authCode, authCodeFromLS]);
 
   return (
     <AppStyle>

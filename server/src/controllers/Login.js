@@ -1,5 +1,4 @@
-import jwt from 'jsonwebtoken';
-import verify from 'jsonwebtoken';
+import { default as jwt } from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
 import { accessTokenSecret } from '../middleware/auth.js';
 import { sendWrapped } from '../services/sendWrapper.js';
@@ -16,25 +15,28 @@ export const login = (req, res) => {
   const { email, password } = req.body;
 
   // Comparison email and password
-  const adminAuth = fileToArray('adminAuth.json');
-  const user =
-    adminAuth.email === email && adminAuth.password === password
-      ? adminAuth
-      : null;
+  const adminAuth = fileToArray('adminAuth.json')
+    .then((data) => {
+      const user =
+        data.email === email && data.password === password ? adminAuth : null;
+      console.log('login', data);
+      if (user) {
+        // Generate an access token
+        const accessToken = jwt.sign(
+          { email: user.email, role: user.role },
+          accessTokenSecret,
+        );
+        const authCode = uuidv4();
+        nodeCache.set(authCode, accessToken);
 
-  if (user) {
-    // Generate an access token
-    const accessToken = jwt.sign(
-      { email: user.email, role: user.role },
-      accessTokenSecret,
-    );
-    const authCode = uuidv4();
-    nodeCache.set(authCode, accessToken);
-
-    sendWrapped(req, res, { accessToken, authCode });
-  } else {
-    res.status(403).send({ error: 'Email or password are incorrect' });
-  }
+        sendWrapped(req, res, { accessToken, authCode });
+      } else {
+        res.status(403).send({ error: 'Email or password are incorrect' });
+      }
+    })
+    .catch((e) => {
+      console.log('ошибка чтения авторизации', e);
+    });
 };
 
 export const getTokenSilently = (req, res) => {
@@ -48,7 +50,7 @@ export const getTokenSilently = (req, res) => {
     return res.status(400).send({ error: 'Incorrect authCode' });
   }
 
-  verify(token, accessTokenSecret, (err) => {
+  jwt.verify(token, accessTokenSecret, (err) => {
     if (err) {
       nodeCache.del(authCode);
       return res.status(401).send({ error: "Can't get token" });
