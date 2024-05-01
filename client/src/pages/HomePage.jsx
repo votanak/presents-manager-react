@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { NaviBar } from '../components/Navibar';
 import logo from '../img/logo.png';
 import phoneiconb from '../img/phoneiconb.png';
@@ -14,27 +14,31 @@ const HomeStyle = styled.div`
   a {
     text-decoration: none;
   }
-
   .sp-default-logo {
     height: auto;
     max-height: 75px;
+    min-width: 75px;
   }
   .phoneicon {
     height: auto;
     max-height: 15px;
   }
-  #sp-callback {
-    flex-direction: column;
+  .a-phone {
+    font-size: 12px;
   }
   .col {
     text-align: center;
     border: none;
+  }
+  .slogan {
+    min-width: 250px;
   }
 `;
 
 export const HomePage = () => {
   const navigate = useNavigate();
   const { auth, setAuth } = useContext(LoginContext);
+
   const enter = () => {
     navigate('/login');
   };
@@ -56,63 +60,49 @@ export const HomePage = () => {
   return (
     <HomeStyle>
       <NaviBar />
-      <header id="sp-header" className="animated w-100 bg-white mt-2">
-        <Container className="mw-100">
-          <Row className="align-items-center w-100">
-            <Col id="sp-logo" className="">
-              <div className="logo">
-                <a href="/">
-                  <img
-                    className="sp-default-logo"
-                    src={logo}
-                    alt="ГК «Конфи» - Изготовление и продажа детских новогодних подарков в г. Липецк"
-                  />
-                </a>
-              </div>
-            </Col>
-            <Col id="sp-slogan" className="col-md-4 text-start">
-              <div className="sp-column ">
-                <p className="slogan">
-                  Изготовление и продажа детских новогодних подарков
-                </p>
-              </div>
-            </Col>
-            <Col id="sp-callback" className="col-md-3 mx-auto">
-              <p className="phoneic text-nowrap">
-                <img className="phoneicon" src={phoneiconb} alt="" />
-                <a href="tel:+7 (910) 351-75-70"> тел. +7 (910) 351-75-70</a>
-              </p>
-              <p className="phoneic text-nowrap">
-                <img className="phoneicon" src={phoneiconb} alt="" />
-                <a href="tel:+7 (910) 356-48-86"> тел. +7 (910) 356-48-86</a>
-              </p>
-            </Col>
-            {!auth.isLogged ? (
-              <Col className="col-3 text-end">
-                <Button className="btn-sm" onClick={enter}>
-                  Вход для администратора
-                </Button>
-              </Col>
-            ) : (
-              <Col>
-                <Link to="/adminpage">Страница администратора</Link>
-                <Button className="btn-sm ms-2" onClick={exit}>
-                  Выход
-                </Button>
-              </Col>
-            )}
-          </Row>
-        </Container>
+      <header className="d-flex align-items-center animated w-100 bg-white mt-2 flex-nowrap">
+        <div className="logo">
+          <a href="/">
+            <img
+              className="sp-default-logo"
+              src={logo}
+              alt="ГК «Конфи» - Изготовление и продажа детских новогодних подарков в г. Липецк"
+            />
+          </a>
+        </div>
+        <div className="ms-2 slogan">
+          <p>Изготовление и продажа детских новогодних подарков</p>
+        </div>
+        <div className="mx-4 d-sm-block wrap w-100">
+          <p className="phoneic text-nowrap">
+            <img className="phoneicon " src={phoneiconb} alt="" />
+            <a href="tel:+7 (910) 351-75-70" className="a-phone">
+              &nbsp; тел. +7 (910) 351-75-70
+            </a>
+          </p>
+          <p className="phoneic text-nowrap">
+            <img className="phoneicon" src={phoneiconb} alt="" />
+            <a href="tel:+7 (910) 356-48-86" className="a-phone">
+              &nbsp; тел. +7 (910) 356-48-86
+            </a>
+          </p>
+        </div>
+        {!auth.isLogged ? (
+          <Button className="btn-sm mx-2 ms-auto" onClick={enter}>
+            Вход для администратора
+          </Button>
+        ) : (
+          <div>
+            <Link to="/adminpage">Страница администратора</Link>
+            <Button className="btn-sm mx-2" onClick={exit}>
+              Выход
+            </Button>
+          </div>
+        )}
       </header>
-      <Container className="mw-100 m-0 sticky-top p-1 bg-white">
-        <Row className="blockquote m-2">
-          <Col>
-            <p className="my-0">
-              <strong>Соберите свой уникальный подарок</strong>
-            </p>
-          </Col>
-        </Row>
-      </Container>
+      <p className="mx-auto fw-bold fs-5 text-center">
+        Соберите свой уникальный подарок
+      </p>
       <PriceList forchange={false} />
     </HomeStyle>
   );

@@ -48,13 +48,16 @@ export const App = () => {
           token: '',
         });
       });
+  }, [auth.token, authCodeFromLS]);
+
+  useEffect(() => {
     getRequest('/get_json', '', { filename: 'priceArray' }).then((data) =>
       setPriceArray(data),
     );
     getRequest('/get_json', '', { filename: 'packArray' }).then((data) =>
       setPackArray(data),
     );
-  }, [auth.authCode, authCodeFromLS]);
+  }, []);
 
   return (
     <AppStyle>

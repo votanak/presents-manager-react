@@ -29,21 +29,21 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
       e.preventDefault();
       e.stopPropagation();
       setPromptToSend(true);
-    } else {
-      postRequest('/send_order', auth.token, {
-        customer: customer,
-        giftId,
-        selectedGoods: JSON.stringify(selectedGoods),
-      })
-        .then(() => {
-          alert('Email successfully sended!!!');
-          setShow(false);
-        })
-        .catch((err) => {
-          alert('неудачная отправка email!!!');
-          throw err;
-        });
+      return;
     }
+    postRequest('/send_order', auth.token, {
+      customer: customer,
+      giftId,
+      selectedGoods: JSON.stringify(selectedGoods),
+    })
+      .then(() => {
+        alert('Email successfully sended!!!');
+        setShow(false);
+      })
+      .catch((err) => {
+        alert('неудачная отправка email!!!');
+        throw err;
+      });
   };
 
   const handleHide = () => {
@@ -62,7 +62,13 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
     });
   };
 
-  const handleSave = async () => {
+  const handleSave = async (e) => {
+    if (!formIsValid) {
+      e.preventDefault();
+      e.stopPropagation();
+      setPromptToSend(true);
+      return;
+    }
     const buffer = await jsonToWb(
       selectedGoods,
       giftId,

@@ -46,6 +46,7 @@ export const PriceList = ({ forChange }) => {
           giftQuantity: selectedGoods.giftQuantity - 1,
         });
   };
+
   return (
     <PriceStyle>
       {packArray && (
@@ -59,9 +60,11 @@ export const PriceList = ({ forChange }) => {
         >
           <Accordion.Item eventKey="0">
             <Accordion.Header>
-              <strong>Упаковка</strong>&nbsp; &nbsp; &nbsp;
-              {selectedGoods.pack &&
-                `${selectedGoods.pack.name}, ${selectedGoods.pack.giftWeight} грамм`}
+              <strong>Упаковка</strong>
+              <div className="ms-2">
+                {selectedGoods.pack &&
+                  `${selectedGoods.pack.name}, ${selectedGoods.pack.giftWeight} грамм`}
+              </div>
             </Accordion.Header>
             <Accordion.Body className="p-2">
               {packArray.map((pack) => (
@@ -116,20 +119,20 @@ export const PriceList = ({ forChange }) => {
           </Accordion>
           {selectedGoods.pack && (
             <Container className="sticky-bottom p-2 bg-light">
-              <Row className="fs-4 justify-content-center text-decoration-underline">
+              <Row className="fs-5 justify-content-center text-decoration-underline">
                 Параметры подарка:
               </Row>
               <Row className="d-flex p-2  align-items-center">
                 <Col className="d-flex">
-                  <Col className="fs-5 text-nowrap  mb-2 text-start  align-items-top">
+                  <Col className="fs-6 text-nowrap  mb-2 text-start  align-items-top">
                     Вес содержимого: {Math.round(summ('weight1'))} г.
                   </Col>
-                  <Col className="d-flex fs-5 text-nowrap mb-2 text-start text-align-top">
+                  <Col className="d-flex fs-6 text-nowrap mb-2 text-start text-align-top">
                     Стоимость подарка: {Math.round(summ('price1'))} руб.
                   </Col>
                 </Col>
                 <Col className="d-flex align-items-center">
-                  <Col className="d-flex fs-5 text-nowrap mb-0 text-start  align-items-center">
+                  <Col className="d-flex fs-6 text-nowrap mb-0 text-start  align-items-center">
                     Количество подарков:
                     <Form.Group className="d-flex my-2 align-items-center">
                       <Button
@@ -151,7 +154,7 @@ export const PriceList = ({ forChange }) => {
                       </Button>
                     </Form.Group>
                   </Col>
-                  <Col className="fs-5 text-nowrap text-start ps-2">
+                  <Col className="fs-6 text-nowrap text-start ps-2">
                     Стоимость заказа:
                     {` ${
                       Math.round(summ('price1')) * selectedGoods.giftQuantity

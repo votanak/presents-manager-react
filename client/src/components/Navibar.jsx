@@ -15,6 +15,10 @@ const NaviBarStyle = styled(Navbar)`
     align-items: center;
     font-size: 14px;
   }
+  .navbar-toggler {
+    margin: 3px;
+    padding: 3px;
+  }
 `;
 export const NaviBar = () => {
   return (
@@ -26,19 +30,19 @@ export const NaviBar = () => {
     >
       <Navbar.Brand>ГК "Конфи" в г.Липецк</Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-      <Navbar.Collapse id="responsive-navbar-nav">
+      <Navbar.Collapse id="responsive-navbar-nav p-2">
         <Nav className="me-auto">
           <Nav.Link>Акции</Nav.Link>
           <Nav.Link>Сотрудничество</Nav.Link>
           <Nav.Link>Безопасность</Nav.Link>
         </Nav>
+        <Nav className="ms-auto">
+          <Nav.Link variant="primary text-wrap">
+            <img src={imgloc} id="img-loc" alt="loc-img" />
+            г. Липецк, ул. Первомайская, д. 55
+          </Nav.Link>
+        </Nav>
       </Navbar.Collapse>
-      <Nav className="me-auto">
-        <img src={imgloc} id="img-loc" alt="loc-img" />
-        <Nav.Link variant="primary">
-          г. Липецк, ул. Первомайская, д. 55
-        </Nav.Link>
-      </Nav>
     </NaviBarStyle>
   );
 };
