@@ -12,6 +12,9 @@ const PriceStyle = styled(Container)`
   .form-control {
     width: 50px;
   }
+  .btn-send {
+    font-size: 14px;
+  }
 `;
 
 export const PriceList = ({ forChange }) => {
@@ -118,60 +121,58 @@ export const PriceList = ({ forChange }) => {
               )}
           </Accordion>
           {selectedGoods.pack && (
-            <Container className="sticky-bottom p-2 bg-light">
-              <Row className="fs-5 justify-content-center text-decoration-underline">
+            <div className="sticky-bottom p-2 bg-light">
+              <div className="fs-5 mx-auto text-center justify-content-center text-decoration-underline">
                 Параметры подарка:
-              </Row>
-              <Row className="d-flex p-2  align-items-center">
-                <Col className="d-flex">
-                  <Col className="fs-6 text-nowrap  mb-2 text-start  align-items-top">
-                    Вес содержимого: {Math.round(summ('weight1'))} г.
-                  </Col>
-                  <Col className="d-flex fs-6 text-nowrap mb-2 text-start text-align-top">
-                    Стоимость подарка: {Math.round(summ('price1'))} руб.
-                  </Col>
-                </Col>
-                <Col className="d-flex align-items-center">
-                  <Col className="d-flex fs-6 text-nowrap mb-0 text-start  align-items-center">
-                    Количество подарков:
-                    <Form.Group className="d-flex my-2 align-items-center">
-                      <Button
-                        id="plus-button"
-                        className="choose-button mx-2 btn-sm h-auto"
-                        onClick={decrGiftQuant}
-                      >
-                        -
-                      </Button>
-                      <Form.Label className="m-0 text-center quantity fs-6">
-                        {selectedGoods.giftQuantity}
-                      </Form.Label>
-                      <Button
-                        id="plus-button"
-                        className="d-flex choose-button mx-2 btn-sm h-auto"
-                        onClick={incrGiftQuant}
-                      >
-                        +
-                      </Button>
-                    </Form.Group>
-                  </Col>
-                  <Col className="fs-6 text-nowrap text-start ps-2">
-                    Стоимость заказа:
-                    {` ${
-                      Math.round(summ('price1')) * selectedGoods.giftQuantity
-                    }`}
-                    руб.
-                  </Col>
-                </Col>
-                <Col className="d-flex justify-content-end align-items-top mt-auto">
-                  <Button
-                    onClick={() => setModalShow(true)}
-                    className="w-auto h-auto text-nowrap"
-                  >
-                    Отправить заказ
-                  </Button>
-                </Col>
-              </Row>
-            </Container>
+              </div>
+              <div className="d-flex p-2  align-items-center">
+                <div className="d-flex fs-6 text-nowrap  mb-2 text-start  align-items-top">
+                  Вес содержимого: {Math.round(summ('weight1'))} г.
+                </div>
+                <div className="d-flex fs-6 text-nowrap mb-2 text-start text-align-top">
+                  Стоимость подарка: {Math.round(summ('price1'))} руб.
+                </div>
+              </div>
+              <div className="d-flex align-items-center">
+                <div className="d-flex fs-6 text-nowrap mx-auto mb-0 text-start  align-items-center">
+                  Количество подарков:
+                  <Form.Group className="d-flex my-2 align-items-center">
+                    <Button
+                      id="plus-button"
+                      className="choose-button mx-2 btn-sm h-auto"
+                      onClick={decrGiftQuant}
+                    >
+                      -
+                    </Button>
+                    <Form.Label className="m-0 text-center quantity fs-6">
+                      {selectedGoods.giftQuantity}
+                    </Form.Label>
+                    <Button
+                      id="plus-button"
+                      className="d-flex choose-button mx-2 btn-sm h-auto"
+                      onClick={incrGiftQuant}
+                    >
+                      +
+                    </Button>
+                  </Form.Group>
+                </div>
+                <div className="d-flex fs-6 text-nowrap mx-auto text-start ps-2">
+                  Стоимость заказа:
+                  {` ${
+                    Math.round(summ('price1')) * selectedGoods.giftQuantity
+                  }`}
+                  руб.
+                </div>
+              </div>
+              <Col className="d-flex justify-content-end align-items-top mt-auto">
+                <Button
+                  onClick={() => setModalShow(true)}
+                  className="w-auto h-auto text-nowrap btn-send"
+                >
+                  Отправить заказ
+                </Button>
+              </Col>
+            </div>
           )}
         </>
       )}

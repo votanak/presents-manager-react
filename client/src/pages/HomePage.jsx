@@ -60,7 +60,7 @@ export const HomePage = () => {
   return (
     <HomeStyle>
       <NaviBar />
-      <header className="d-flex align-items-center animated w-100 bg-white mt-2 flex-nowrap">
+      <header className="d-flex align-items-center w-100 bg-white mt-2">
         <div className="logo">
           <a href="/">
             <img
@@ -70,10 +70,10 @@ export const HomePage = () => {
             />
           </a>
         </div>
-        <div className="ms-2 slogan">
+        <div className="ms-2 slogan d-none d-sm-flex">
           <p>Изготовление и продажа детских новогодних подарков</p>
         </div>
-        <div className="mx-4 d-sm-block wrap w-100">
+        <div className="mx-4 d-none d-lg-block wrap">
           <p className="phoneic text-nowrap">
             <img className="phoneicon " src={phoneiconb} alt="" />
             <a href="tel:+7 (910) 351-75-70" className="a-phone">
@@ -100,7 +100,7 @@ export const HomePage = () => {
           </div>
         )}
       </header>
-      <p className="mx-auto fw-bold fs-5 text-center">
+      <p className="mx-auto fw-bold fs-5 text-center ">
         Соберите свой уникальный подарок
       </p>
       <PriceList forchange={false} />
