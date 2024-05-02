@@ -4,6 +4,7 @@ import { LoginContext } from '../App';
 import { postRequest } from '../services/serverRequest';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 const LoginPageStyle = styled.div`
   display: flex;
@@ -16,6 +17,13 @@ const LoginPageStyle = styled.div`
     font-weight: normal;
     margin-top: 25px;
   }
+  #change-pass-ref {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    cursor: pointer;
+    margin: 20px;
+  }
 `;
 
 export const LoginPage = () => {
@@ -25,6 +33,19 @@ export const LoginPage = () => {
     password: '',
   });
   const navigate = useNavigate();
+
+  const handlePassChangeEmail = async (e) => {
+    postRequest('/send_change_email', auth.token, {})
+      .then(() => {
+        alert(
+          `На Email администратора отправлена ссылка для смены пароля. Срок годности ссылки - 1 час`,
+        );
+      })
+      .catch((err) => {
+        alert('неудачная отправка email!!!');
+        throw err;
+      });
+  };
 
   const formHandle = async (e) => {
     e.preventDefault();
@@ -77,6 +98,9 @@ export const LoginPage = () => {
               </Button>
             </InputGroup>
           </Form>
+          <div onClick={handlePassChangeEmail} id="change-pass-ref">
+            Смена пароля
+          </div>
         </LoginPageStyle>
       ) : (
         <>{auth.isLogged && <Navigate to="/" />}</>

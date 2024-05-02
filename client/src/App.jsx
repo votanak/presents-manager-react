@@ -7,6 +7,7 @@ import { NotFound } from './pages/NotFound';
 import { useState, createContext, useEffect } from 'react';
 import { AdminPage } from './pages/AdminPage';
 import { getRequest, postRequest } from './services/serverRequest';
+import { ChangePassPage } from './pages/ChangePassPage';
 
 export const LoginContext = createContext();
 export const PriceContext = createContext();
@@ -82,6 +83,10 @@ export const App = () => {
               </Route>
               <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route
+                path="/change-pass-page/:changePassUuid"
+                element={<ChangePassPage />}
+              />
               <Route path="/*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

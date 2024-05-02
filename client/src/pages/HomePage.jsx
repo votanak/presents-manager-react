@@ -92,7 +92,7 @@ export const HomePage = () => {
             Вход для администратора
           </Button>
         ) : (
-          <div>
+          <div className="ms-auto mx-2">
             <Link to="/adminpage">Страница администратора</Link>
             <Button className="btn-sm mx-2" onClick={exit}>
               Выход
