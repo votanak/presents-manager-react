@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom';
-import { getRequest, postRequest } from '../services/serverRequest';
+import { getRequest } from '../services/serverRequest';
 import { LoginContext } from '../App';
 import { useContext, useEffect, useState } from 'react';
 import { ErrorComp } from '../components/ErrorComp';
-import { Form, Button, Row, Col, Container } from 'react-bootstrap';
+import { Form, Button, Container } from 'react-bootstrap';
 import styled from 'styled-components';
 
 const StyleChangePassPage = styled.div`
@@ -23,6 +23,12 @@ export const ChangePassPage = () => {
   const { auth } = useContext(LoginContext);
   const [errText, setErrText] = useState('');
   const [adminData, setAdminData] = useState({});
+  const [isFormValid, setIsFormValid] = useState({
+    email: false,
+    orderEmail: false,
+    pass: false,
+  });
+
   useEffect(() => {
     getRequest(`/check_pass_uuid/${changePassUuid}`, auth.token, {}).then(
       ({ data }) => {
@@ -31,15 +37,56 @@ export const ChangePassPage = () => {
               'Срок данного запроса на изменение парамтеров учётной записи истёк или запрос не существует',
             )
           : getRequest('/get_admin_data', auth.token, {}).then(({ data }) => {
-              setAdminData(data);
+              setAdminData({ ...data, passApprove: data.password });
               console.log(data);
             });
       },
     );
   }, [auth.token, changePassUuid]);
 
-  const handleSaveForm = () => {
-    postRequest('/write-admin-data', auth.token, adminData);
+  const [promptToSave, setPromptToSave] = useState(false);
+
+  const formIsValid =
+    isFormValid.email &&
+    isFormValid.orderEmail &&
+    adminData.password === adminData.passApprove;
+
+  const handleSaveForm = (e) => {
+    if (!formIsValid) {
+      e.preventDefault();
+      setPromptToSave(true);
+      console.log(isFormValid);
+      return;
+    }
+    try {
+      if (!isFormValid) return;
+      // const { passApprove: _, ...rest } = adminData;
+      // postRequest('/write-admin-data', auth.token, rest);
+      console.log('form successfully saved');
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handlerChange = (e) => {
+    let regExp = '';
+    switch (e.target.name) {
+      case ('email', 'orderEmail'):
+        regExp = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+        break;
+      case ('password', 'passApprove'):
+        regExp = /^.{3,12}$/;
+        break;
+      default:
+        break;
+    }
+    if (regExp) {
+      setIsFormValid({
+        ...isFormValid,
+        [e.target.name]: Boolean(e.target.value.match(regExp)),
+      });
+    }
+    setAdminData({ ...adminData, [e.target.name]: e.target.value });
   };
 
   return (
@@ -53,64 +100,76 @@ export const ChangePassPage = () => {
           </div>
           <Form onSubmit={handleSaveForm}>
             <Container>
-              <Row className="my-2 flex-wrap">
-                <Col className="d-flex text-start col-6">
+              <Form.Group className="d-block d-lg-flex my-2">
+                <div className="text-start me-2 w-50">
                   e-mail, с которого будут отправляться сообщения:
-                </Col>
-                <Col className="col-6">
+                </div>
+                <div className="w-50">
                   <Form.Control
+                    name="email"
                     value={adminData.email}
-                    onChange={(e) =>
-                      setAdminData((adminData) => ({
-                        ...adminData,
-                        email: e.target.value,
-                      }))
-                    }
+                    onChange={handlerChange}
+                    isInvalid={promptToSave && !isFormValid.email}
                   />
-                </Col>
-              </Row>
-              <Row className="d-flex form-group my-2">
-                <Col className="d-flex text-nowrap ms-auto col-6">Пароль: </Col>
+                  <Form.Control.Feedback tooltip type="invalid">
+                    введите правильный e-mail
+                  </Form.Control.Feedback>
+                </div>
+              </Form.Group>
+              <Form.Group className="d-block d-lg-flex my-2">
+                <div className="text-start me-2 w-50">Пароль: </div>
                 <Form.Control
-                  value={adminData.email}
+                  name="password"
+                  value={adminData.password}
                   type="password"
-                  onChange={(e) =>
-                    setAdminData((adminData) => ({
-                      ...adminData,
-                      email: e.target.value,
-                    }))
-                  }
+                  onChange={handlerChange}
+                  isInvalid={promptToSave && !isFormValid.pass}
                 />
-              </Row>
-              <Form.Group className="d-flex form-group">
-                <Form.Label className="d-flex text-nowrap">
-                  Пароль приложения:
-                </Form.Label>
-                <Form.Control
-                  value={adminData.email}
-                  onChange={(e) =>
-                    setAdminData((adminData) => ({
-                      ...adminData,
-                      email: e.target.value,
-                    }))
-                  }
-                />
+                <Form.Control.Feedback tooltip type="invalid">
+                  пароль от 3 до 12 символов
+                </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group className="d-flex form-group">
-                <Form.Label className="d-flex text-nowrap">
+              <Form.Group className="d-block d-lg-flex my-2">
+                <div className="text-start me-2 w-50">
+                  Подтверждение пароля:
+                </div>
+                <Form.Control
+                  name="passApprove"
+                  value={adminData.passApprove}
+                  type="password"
+                  onChange={handlerChange}
+                  isInvalid={promptToSave && !isFormValid.pass}
+                />
+                <Form.Control.Feedback tooltip type="invalid">
+                  пароли должны совпадать
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className="d-block d-lg-flex my-2">
+                <div className="text-start me-2 w-50">Пароль приложения:</div>
+                <Form.Control
+                  name="passApp"
+                  value={adminData.passApp}
+                  onChange={handlerChange}
+                />
+                <Form.Control.Feedback tooltip type="invalid">
+                  введите правильный e-mail
+                </Form.Control.Feedback>
+              </Form.Group>
+              <div className="d-block d-lg-flex my-2">
+                <div className="text-start me-2 w-50">
                   Ваш e-mail, на который будут приходить сообщения:
-                </Form.Label>
+                </div>
                 <Form.Control
+                  name="orderEmail"
                   type="email"
-                  value={adminData.email}
-                  onChange={(e) =>
-                    setAdminData((adminData) => ({
-                      ...adminData,
-                      email: e.target.value,
-                    }))
-                  }
+                  value={adminData.orderEmail}
+                  onChange={handlerChange}
+                  isInvalid={promptToSave && !isFormValid.orderEmail}
                 />
-              </Form.Group>
+                <Form.Control.Feedback tooltip type="invalid">
+                  введите правильный e-mail
+                </Form.Control.Feedback>
+              </div>
               <Button type="submit" className="mt-4">
                 Сохранить
               </Button>
