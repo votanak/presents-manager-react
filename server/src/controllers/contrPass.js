@@ -1,13 +1,11 @@
 import { sendWrapped } from '../services/sendWrapper.js';
 import { v4 as uuidv4 } from 'uuid';
 import nodemailer from 'nodemailer';
-import fs from 'fs';
-
-export const changePass = () => {};
+import { arrayToFile, fileToArray } from '../services/arrayFile.js';
+import { checkTimeUuid } from '../services/checkTimeUuid.js';
 
 export const sendChangeEmail = async (req, res) => {
   const changePassUuid = uuidv4();
-  console.log('sendChangeEmail');
   try {
     let transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -21,18 +19,43 @@ export const sendChangeEmail = async (req, res) => {
       from: 'gk-konfi',
       to: 'gvotanak@gmail.com',
       subject: 'ссылка для смены пароля',
-      text: `Ссылка для изменения данных администратора: http://localhost:5000/change-pass-page?${changePassUuid}`,
+      text: `Ссылка для изменения данных администратора: http://localhost:3000/change-pass-page/${changePassUuid}`,
     };
 
     const info = await transporter.sendMail(mail_configs);
 
-    return res.send({ info });
+    let changePassArray = await fileToArray('passUuids.json');
+
+    arrayToFile('passUuids.json', {
+      ...changePassArray,
+      [changePassUuid]: Date.now(),
+    });
+
+    checkTimeUuid(changePassUuid);
+
+    sendWrapped(req, res, { response: changePassUuid });
   } catch (error) {
     console.log('Ошибка отправки:', error);
     return res
       .status(500)
-      .send({ error: 'Произошла ошибка при выполнении запроса' });
+      .send({ error: 'Ошибка при отправке ссылки на изменение пароля' });
   }
+};
 
-  sendWrapped(req, res, { response: changePassUuid });
+export const checkPassUuid = async (req, res) => {
+  try {
+    let changePassArray = await fileToArray('passUuids.json');
+    sendWrapped(req, res, {
+      response: Object.keys(changePassArray).includes(req.params.passUuid),
+    });
+  } catch (error) {
+    console.log(error, 'ошибка проверки uuid смены пароля');
+    throw error;
+  }
+};
+
+export const writeAdminData = () => {};
+export const getAdminData = async (req, res) => {
+  let adminData = await fileToArray('adminData.json');
+  sendWrapped(req, res, adminData);
 };

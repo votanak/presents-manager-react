@@ -38,12 +38,12 @@ export const getJson = async (req, res) => {
     'utf8',
     (err, data) => {
       if (err) {
-        res.status(500).send('Internal Server Error');
+        res.status(500).send('Ошибка чтения JSON');
         console.error('Ошибка чтения файла:', err);
         return;
       }
       res.writeHead(200, { 'Content-Type': 'text/plain' });
-      console.log('get_json: Данные из файла успешно отправлены');
+      console.log('JSON успешно прочтён');
       res.end(data);
       return;
     },

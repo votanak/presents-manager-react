@@ -6,21 +6,26 @@ export const fileToArray = async (fileName) => {
     const array = JSON.parse(data);
     return array;
   } catch (error) {
-    console.error('Ошибка чтения файла:', error);
+    console.error('Ошибка чтения JSON:', error);
     throw error; // Пробрасываем ошибку в вызывающий код
   }
 };
 
 export const arrayToFile = (fileName, obj) => {
   try {
-    fs.writeFile(`./data/${fileName}`, JSON.stringify(obj), 'utf8', (err) => {
-      if (err) {
-        return err;
-      } else {
-        console.log('arrayToFile: файл записан');
-      }
-      return;
-    });
+    fs.writeFile(
+      `./src/data/${fileName}`,
+      JSON.stringify(obj),
+      'utf8',
+      (err) => {
+        if (err) {
+          return err;
+        } else {
+        }
+        return;
+      },
+    );
+    console.log(`arrayToFile: файл ${fileName} записан`);
   } catch (error) {
     console.error('Ошибка записи файла:', error);
   }

@@ -22,7 +22,7 @@ export const AdminPage = () => {
   const handleLoadPrice = (e) => {
     e.preventDefault();
     let fileReader = new FileReader();
-    fileReader.readAsBinaryString(priceFile);
+    fileReader.readAsArrayBuffer(priceFile);
     fileReader.onload = (e) => {
       let workbook = XLSX.read(e.target.result, { type: 'binary' });
       let pArr = XLSX.utils.sheet_to_row_object_array(
@@ -60,7 +60,7 @@ export const AdminPage = () => {
   const handleLoadPacks = (e) => {
     e.preventDefault();
     let fileReader = new FileReader();
-    fileReader.readAsBinaryString(packFile);
+    fileReader.readAsArrayBuffer(packFile);
     fileReader.onload = (e) => {
       let workbook = XLSX.read(e.target.result, { type: 'binary' });
       let pArr = XLSX.utils.sheet_to_json(workbook.Sheets['Упаковка']);

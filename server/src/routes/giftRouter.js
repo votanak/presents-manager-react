@@ -4,7 +4,12 @@ import { imgMulter } from '../middleware/img-multer.js';
 import { sendOrder } from '../controllers/sendOrder.js';
 import { writeImg } from '../controllers/writeImg.js';
 import { getTokenSilently, logout, login } from '../controllers/Login.js';
-import { changePass, sendChangeEmail } from '../controllers/contrPass.js';
+import {
+  checkPassUuid,
+  sendChangeEmail,
+  getAdminData,
+  writeAdminData,
+} from '../controllers/contrPass.js';
 
 const giftRouter = express.Router();
 
@@ -14,7 +19,9 @@ giftRouter.post('/write_json', writeJson);
 giftRouter.post('/write_img', imgMulter.single('file'), writeImg);
 giftRouter.post('/login', login);
 giftRouter.post('/send_change_email', sendChangeEmail);
-giftRouter.post('/change_pass', changePass);
+giftRouter.get('/check_pass_uuid/:passUuid', checkPassUuid);
+giftRouter.get('/get_admin_data', getAdminData);
+giftRouter.post('/write_admin_data', writeAdminData);
 giftRouter.post('/get_token_silently', getTokenSilently);
 giftRouter.post('/logout', logout);
 
