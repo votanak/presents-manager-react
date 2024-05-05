@@ -4,7 +4,6 @@ import { LoginContext } from '../App';
 import { postRequest } from '../services/serverRequest';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 
 const LoginPageStyle = styled.div`
   display: flex;
