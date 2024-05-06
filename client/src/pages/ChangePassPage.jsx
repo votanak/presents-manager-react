@@ -24,9 +24,11 @@ export const ChangePassPage = () => {
   const [errText, setErrText] = useState('');
   const [adminData, setAdminData] = useState({});
   const [isFormValid, setIsFormValid] = useState({
-    email: false,
-    orderEmail: false,
-    pass: false,
+    email: true,
+    orderEmail: true,
+    password: false,
+    passApprove: false,
+    isPassEqual: true,
   });
 
   useEffect(() => {
@@ -37,8 +39,7 @@ export const ChangePassPage = () => {
               'Срок данного запроса на изменение парамтеров учётной записи истёк или запрос не существует',
             )
           : getRequest('/get_admin_data', auth.token, {}).then(({ data }) => {
-              setAdminData({ ...data, passApprove: data.password });
-              console.log(data);
+              setAdminData({ ...data, passApprove: '', password: '' });
             });
       },
     );
@@ -47,9 +48,7 @@ export const ChangePassPage = () => {
   const [promptToSave, setPromptToSave] = useState(false);
 
   const formIsValid =
-    isFormValid.email &&
-    isFormValid.orderEmail &&
-    adminData.password === adminData.passApprove;
+    isFormValid.email && isFormValid.orderEmail && isFormValid.isPassEqual;
 
   const handleSaveForm = (e) => {
     if (!formIsValid) {
@@ -69,26 +68,35 @@ export const ChangePassPage = () => {
   };
 
   const handlerChange = (e) => {
+    setAdminData({ ...adminData, [e.target.name]: e.target.value });
     let regExp = '';
     switch (e.target.name) {
-      case ('email', 'orderEmail'):
+      case 'email':
+      case 'orderEmail':
         regExp = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
         break;
-      case ('password', 'passApprove'):
+      case 'password':
+      case 'passApprove':
         regExp = /^.{3,12}$/;
+        setIsFormValid((isFormValid) => ({
+          ...isFormValid,
+          isPassEqual: adminData.password === adminData.passApprove,
+        }));
         break;
       default:
         break;
     }
+    console.log(e.target.name, regExp, Boolean(e.target.value.match(regExp)));
     if (regExp) {
-      setIsFormValid({
+      setIsFormValid((isFormValid) => ({
         ...isFormValid,
         [e.target.name]: Boolean(e.target.value.match(regExp)),
-      });
+      }));
     }
-    setAdminData({ ...adminData, [e.target.name]: e.target.value });
   };
 
+  console.log(isFormValid);
+  console.log(adminData);
   return (
     <StyleChangePassPage>
       {errText ? (
