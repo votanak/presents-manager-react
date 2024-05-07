@@ -87,7 +87,7 @@ export const ChangePassPage = () => {
         break;
     }
     console.log(e.target.name, regExp, Boolean(e.target.value.match(regExp)));
-    if (regExp) {
+    if (!!regExp) {
       setIsFormValid((isFormValid) => ({
         ...isFormValid,
         [e.target.name]: Boolean(e.target.value.match(regExp)),
