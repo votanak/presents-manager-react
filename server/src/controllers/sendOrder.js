@@ -8,7 +8,9 @@ export const sendOrder = async (req, res) => {
       JSON.parse(req.body.selectedGoods),
       req.body.giftId,
       req.body.customer,
-    ).xlsx.writeFile(`./data/order_${req.body.giftId}.xlsx`);
+    ).xlsx.writeFile(`./src/data/order_${req.body.giftId}.xlsx`);
+
+    console.log('file written');
 
     let transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -26,7 +28,7 @@ export const sendOrder = async (req, res) => {
       attachments: [
         {
           filename: `order_${req.body.giftId}.xlsx`,
-          path: `./data/order_${req.body.giftId}.xlsx`,
+          path: `./src/data/order_${req.body.giftId}.xlsx`,
         },
       ],
     };
@@ -34,7 +36,7 @@ export const sendOrder = async (req, res) => {
     const info = await transporter.sendMail(mail_configs);
 
     // Удаление файла после успешной отправки
-    fs.unlink(`./data/order_${req.body.giftId}.xlsx`, (err) => {
+    fs.unlink(`./src/data/order_${req.body.giftId}.xlsx`, (err) => {
       if (err) {
         console.error(`Error deleting file: ${err}`);
       }
