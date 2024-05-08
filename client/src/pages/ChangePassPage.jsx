@@ -28,8 +28,14 @@ export const ChangePassPage = () => {
     orderEmail: true,
     password: false,
     passApprove: false,
-    isPassEqual: true,
   });
+  const isPassEqual = adminData.password === adminData.passApprove;
+  const formIsValid =
+    isFormValid.email &&
+    isFormValid.orderEmail &&
+    isFormValid.password &&
+    isFormValid.passApprove &&
+    isPassEqual;
 
   useEffect(() => {
     getRequest(`/check_pass_uuid/${changePassUuid}`, auth.token, {}).then(
@@ -47,21 +53,9 @@ export const ChangePassPage = () => {
 
   const [promptToSave, setPromptToSave] = useState(false);
 
-  const formIsValid =
-    isFormValid.email && isFormValid.orderEmail && isFormValid.isPassEqual;
-
-  console.log(
-    Object.values(isFormValid).length &&
-      Object.values(isFormValid).reduce((a, e) => a + +e, 0),
-  );
-
   const handleSaveForm = (e) => {
-    if (!formIsValid) {
-      e.preventDefault();
-      setPromptToSave(true);
-      console.log(isFormValid);
-      return;
-    }
+    e.preventDefault();
+    setPromptToSave(true);
     try {
       if (!isFormValid) return;
       // const { passApprove: _, ...rest } = adminData;
@@ -94,14 +88,12 @@ export const ChangePassPage = () => {
       }));
     }
     setAdminData({ ...adminData, [e.target.name]: e.target.value });
-    setIsFormValid((isFormValid) => ({
-      ...isFormValid,
-      isPassEqual: adminData.password === adminData.passApprove,
-    }));
   };
 
   console.log(isFormValid);
   console.log(adminData);
+  console.log(formIsValid, 'isEqual', isPassEqual);
+
   return (
     <StyleChangePassPage>
       {errText ? (
@@ -151,7 +143,7 @@ export const ChangePassPage = () => {
                   value={adminData.passApprove}
                   type="password"
                   onChange={handlerChange}
-                  isInvalid={promptToSave && !isFormValid.pass}
+                  isInvalid={promptToSave && !isFormValid.passApprove}
                 />
                 <Form.Control.Feedback tooltip type="invalid">
                   пароли должны совпадать
@@ -183,7 +175,7 @@ export const ChangePassPage = () => {
                   введите правильный e-mail
                 </Form.Control.Feedback>
               </div>
-              <Button type="submit" className="mt-4">
+              <Button type="submit" className="mt-4" disabled={!formIsValid}>
                 Сохранить
               </Button>
             </Container>
