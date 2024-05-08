@@ -50,6 +50,11 @@ export const ChangePassPage = () => {
   const formIsValid =
     isFormValid.email && isFormValid.orderEmail && isFormValid.isPassEqual;
 
+  console.log(
+    Object.values(isFormValid).length &&
+      Object.values(isFormValid).reduce((a, e) => a + +e, 0),
+  );
+
   const handleSaveForm = (e) => {
     if (!formIsValid) {
       e.preventDefault();
@@ -68,7 +73,6 @@ export const ChangePassPage = () => {
   };
 
   const handlerChange = (e) => {
-    setAdminData({ ...adminData, [e.target.name]: e.target.value });
     let regExp = '';
     switch (e.target.name) {
       case 'email':
@@ -78,10 +82,6 @@ export const ChangePassPage = () => {
       case 'password':
       case 'passApprove':
         regExp = /^.{3,12}$/;
-        setIsFormValid((isFormValid) => ({
-          ...isFormValid,
-          isPassEqual: adminData.password === adminData.passApprove,
-        }));
         break;
       default:
         break;
@@ -93,6 +93,11 @@ export const ChangePassPage = () => {
         [e.target.name]: Boolean(e.target.value.match(regExp)),
       }));
     }
+    setAdminData({ ...adminData, [e.target.name]: e.target.value });
+    setIsFormValid((isFormValid) => ({
+      ...isFormValid,
+      isPassEqual: adminData.password === adminData.passApprove,
+    }));
   };
 
   console.log(isFormValid);
