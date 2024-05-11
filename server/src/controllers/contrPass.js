@@ -42,20 +42,37 @@ export const sendChangeEmail = async (req, res) => {
   }
 };
 
-export const checkPassUuid = async (req, res) => {
+export const getAdminData = async (req, res) => {
   try {
-    let changePassArray = await fileToArray('passUuids.json');
+    let passUuids = await fileToArray('passUuids.json');
     sendWrapped(req, res, {
-      response: Object.keys(changePassArray).includes(req.params.passUuid),
+      response: Object.keys(passUuids).includes(req.params.passUuid)
+        ? await fileToArray('adminData.json')
+        : false,
     });
+    arrayToFile('passUuids.json', passUuids);
   } catch (error) {
     console.log(error, 'ошибка проверки uuid смены пароля');
     throw error;
   }
 };
 
-export const writeAdminData = () => {};
-export const getAdminData = async (req, res) => {
-  let adminData = await fileToArray('adminData.json');
-  sendWrapped(req, res, adminData);
+export const writeAdminData = async (req, res) => {
+  try {
+    let passUuids = await fileToArray('passUuids.json');
+    if (Object.keys(passUuids).includes(req.body.passUuid)) {
+      arrayToFile('adminData1.json', req.body.aData);
+      sendWrapped(req, res, {
+        response: 'данные админа записаны',
+      });
+      delete passUuids[req.params.passUuid];
+    } else {
+      sendWrapped(req, res, {
+        response: 'нет такого passUuid',
+      });
+    }
+  } catch (err) {
+    console.log('ошибка при записи данных админа');
+    throw err;
+  }
 };

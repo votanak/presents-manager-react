@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
-import { getRequest } from '../services/serverRequest';
-import { LoginContext } from '../App';
-import { useContext, useEffect, useState } from 'react';
+import { getRequest, postRequest } from '../services/serverRequest';
+import { useEffect, useState } from 'react';
 import { ErrorComp } from '../components/ErrorComp';
 import { Form, Button, Container } from 'react-bootstrap';
 import styled from 'styled-components';
@@ -20,7 +19,6 @@ const StyleChangePassPage = styled.div`
 
 export const ChangePassPage = () => {
   const { changePassUuid } = useParams();
-  const { auth } = useContext(LoginContext);
   const [errText, setErrText] = useState('');
   const [adminData, setAdminData] = useState({
     email: '',
@@ -47,28 +45,27 @@ export const ChangePassPage = () => {
     isPassEqual;
 
   useEffect(() => {
-    getRequest(`/check_pass_uuid/${changePassUuid}`, auth.token, {}).then(
-      ({ data }) => {
-        !data.response
-          ? setErrText(
-              'Срок данного запроса на изменение парамтеров учётной записи истёк или запрос не существует',
-            )
-          : getRequest('/get_admin_data', auth.token, {}).then(({ data }) => {
-              console.log('data', data);
-              setAdminData({ ...data, passApprove: '', password: '' });
-            });
-      },
-    );
+    getRequest(`/get_admin_data/${changePassUuid}`, '', {}).then(({ data }) => {
+      !data.response
+        ? setErrText(
+            'Срок данного запроса на изменение парамтеров учётной записи истёк или запрос не существует',
+          )
+        : setAdminData({ ...data.response, password: '', passApprove: '' });
+    });
   }, [changePassUuid]);
 
-  const handleSaveForm = (e) => {
+  const handleSaveForm = async (e) => {
     e.preventDefault();
     setPromptToSave(true);
     try {
       if (!isFormValid) return;
-      // const { passApprove: _, ...rest } = adminData;
-      // postRequest('/write-admin-data', auth.token, rest);
-      console.log('form successfully saved');
+      const { passApprove: _, ...aData } = adminData;
+      await postRequest('/write_admin_data', '', {
+        passUuid: changePassUuid,
+        aData,
+      });
+      alert('данные успешно записаны');
+      window.close();
     } catch (error) {
       throw error;
     }
@@ -95,12 +92,14 @@ export const ChangePassPage = () => {
         [e.target.name]: Boolean(e.target.value.match(regExp)),
       }));
     }
-    setAdminData({ ...adminData, [e.target.name]: e.target.value });
+    setAdminData((prevData) => ({
+      ...prevData,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   console.log(isFormValid);
   console.log('adminData: ', adminData);
-  console.log(isFormValid.passApp);
 
   return (
     <StyleChangePassPage>
@@ -122,8 +121,8 @@ export const ChangePassPage = () => {
                     name="email"
                     value={adminData.email}
                     onChange={handlerChange}
+                    autoComplete="off"
                     isInvalid={promptToSave && !isFormValid.email}
-                    key={adminData.email}
                   />
                   <Form.Control.Feedback type="invalid">
                     введите правильный e-mail
@@ -138,8 +137,8 @@ export const ChangePassPage = () => {
                     value={adminData.password}
                     type="password"
                     onChange={handlerChange}
+                    autoComplete="new-password"
                     isInvalid={promptToSave && !isFormValid.password}
-                    key={adminData.password}
                   />
                   <Form.Control.Feedback type="invalid">
                     {!isFormValid.password &&
@@ -157,7 +156,6 @@ export const ChangePassPage = () => {
                     value={adminData.passApprove}
                     type="password"
                     onChange={handlerChange}
-                    key={adminData.passApprove}
                     isInvalid={
                       promptToSave && (!isFormValid.passApprove || !isPassEqual)
                     }
@@ -177,7 +175,6 @@ export const ChangePassPage = () => {
                     name="passApp"
                     value={adminData.passApp}
                     onChange={handlerChange}
-                    key={adminData.passApp}
                     isInvalid={promptToSave && !isFormValid.passApp}
                   />
                   <Form.Control.Feedback type="invalid">
@@ -195,7 +192,6 @@ export const ChangePassPage = () => {
                     type="email"
                     value={adminData.orderEmail}
                     onChange={handlerChange}
-                    key={adminData.orderEmail}
                     isInvalid={promptToSave && !isFormValid.orderEmail}
                   />
                   <Form.Control.Feedback type="invalid">

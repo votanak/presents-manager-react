@@ -15,10 +15,10 @@ export const login = (req, res) => {
   const { email, password } = req.body;
 
   // Comparison email and password
-  const adminAuth = fileToArray('adminAuth.json')
+  const adminData = fileToArray('adminData.json')
     .then((data) => {
       const user =
-        data.email === email && data.password === password ? adminAuth : null;
+        data.email === email && data.password === password ? adminData : null;
       console.log('login', data);
       if (user) {
         // Generate an access token
@@ -28,7 +28,6 @@ export const login = (req, res) => {
         );
         const authCode = uuidv4();
         nodeCache.set(authCode, accessToken);
-
         sendWrapped(req, res, { accessToken, authCode });
       } else {
         res.status(403).send({ error: 'Email or password are incorrect' });
@@ -55,7 +54,6 @@ export const getTokenSilently = (req, res) => {
       nodeCache.del(authCode);
       return res.status(401).send({ error: "Can't get token" });
     }
-
     return sendWrapped(req, res, { accessToken: token });
   });
 };

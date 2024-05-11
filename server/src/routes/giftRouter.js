@@ -5,7 +5,6 @@ import { sendOrder } from '../controllers/sendOrder.js';
 import { writeImg } from '../controllers/writeImg.js';
 import { getTokenSilently, logout, login } from '../controllers/Login.js';
 import {
-  checkPassUuid,
   sendChangeEmail,
   getAdminData,
   writeAdminData,
@@ -19,8 +18,7 @@ giftRouter.post('/write_json', writeJson);
 giftRouter.post('/write_img', imgMulter.single('file'), writeImg);
 giftRouter.post('/login', login);
 giftRouter.post('/send_change_email', sendChangeEmail);
-giftRouter.get('/check_pass_uuid/:passUuid', checkPassUuid);
-giftRouter.get('/get_admin_data', getAdminData);
+giftRouter.get('/get_admin_data/:passUuid', getAdminData);
 giftRouter.post('/write_admin_data', writeAdminData);
 giftRouter.post('/get_token_silently', getTokenSilently);
 giftRouter.post('/logout', logout);
