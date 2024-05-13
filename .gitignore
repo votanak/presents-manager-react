@@ -4,6 +4,7 @@
 /node_modules
 /**/node_modules
 /**/.env
+/server/src/data/passUuids.json
 /.pnp
 .pnp.js
 
