@@ -2,7 +2,6 @@ import queryString from 'query-string';
 
 export const request = async (url, method, token, params) => {
   try {
-    console.log(process.env.REACT_APP_SERVER_URL);
     const response = await fetch(`${process.env.REACT_APP_SERVER_URL}${url}`, {
       method,
       headers: {
