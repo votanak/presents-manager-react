@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import nodemailer from 'nodemailer';
 import { arrayToFile, fileToArray } from '../services/arrayFile.js';
 import { checkTimeUuid } from '../services/checkTimeUuid.js';
+import 'dotenv/config';
 
 export const sendChangeEmail = async (req, res) => {
   const changePassUuid = uuidv4();

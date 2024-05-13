@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import giftRouter from './src/routes/giftRouter.js';
 import { checkAllPassUuids } from './src/services/checkTimeUuid.js';
+import 'dotenv/config';
 
 const app = express();
 const port = process.env['PORT'] ?? 5000;
