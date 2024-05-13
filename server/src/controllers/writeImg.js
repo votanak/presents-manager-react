@@ -11,8 +11,8 @@ export const writeImg = async (req, res) => {
     let pArray = await fileToArray(`${arrayFilename}`);
     let i = pArray.findIndex((el) => el.id.toString() === id);
     // удаляем старый файл
-    const oldFileName = globSync(`./public/good-pictures/img-${id}*.*`)[0];
-    console.log(oldFileName);
+    const oldFileName = globSync(`./src/public/good-pictures/img-${id}*.*`)[0];
+    console.log('write_img', oldFileName);
     fs.unlink(`./${oldFileName}`, (err) => {
       if (err) {
         console.error(`Error deleting file: ${err}`);
@@ -36,19 +36,20 @@ export const writeImg = async (req, res) => {
 
     //Записываем новый файл
     fs.writeFile(
-      `./public/good-pictures/${newFileName}`,
+      `./src/public/good-pictures/${newFileName}`,
       req.file.buffer,
       (err) => {
         if (err) {
           console.log(err);
+          throw err;
         } else {
-          console.log('new img file successfully writed');
+          console.log('Файл рисунка сохранён');
         }
       },
     );
-    return res.send('image successfully writed');
+    return res.send('Файл рисунка сохранён');
   } catch (error) {
-    console.error('Ошибка загрузки файла:', error);
+    console.error('Ошибка  файла:', error);
     res.status(500).send('write_img: Ошибка загрузки файла');
   }
 };

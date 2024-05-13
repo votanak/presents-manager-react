@@ -19,7 +19,6 @@ export const login = (req, res) => {
     .then((data) => {
       const user =
         data.email === email && data.password === password ? adminData : null;
-      console.log('login', data);
       if (user) {
         // Generate an access token
         const accessToken = jwt.sign(
