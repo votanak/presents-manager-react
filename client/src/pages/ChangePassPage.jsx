@@ -67,7 +67,7 @@ export const ChangePassPage = () => {
         aData,
       });
       alert('данные успешно записаны');
-      // window.close();
+      window.close();
     } catch (error) {
       throw error;
     }

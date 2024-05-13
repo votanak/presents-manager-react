@@ -62,7 +62,7 @@ export const writeAdminData = async (req, res) => {
   try {
     let passUuids = await fileToArray('passUuids.json');
     if (Object.keys(passUuids).includes(req.body.passUuid)) {
-      arrayToFile('adminData1.json', req.body.aData);
+      arrayToFile('adminData.json', req.body.aData);
       sendWrapped(req, res, {
         response: 'данные админа записаны',
       });
