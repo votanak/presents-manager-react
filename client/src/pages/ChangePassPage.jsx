@@ -55,10 +55,11 @@ export const ChangePassPage = () => {
   }, [changePassUuid]);
 
   const handleSaveForm = async (e) => {
+    e.stopPropagation();
     e.preventDefault();
     setPromptToSave(true);
     try {
-      if (!isFormValid) return;
+      if (!formIsValid) return;
       const { passApprove: _, ...aData } = adminData;
       await postRequest('/write_admin_data', '', {
         passUuid: changePassUuid,
