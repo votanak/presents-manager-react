@@ -19,7 +19,7 @@ export const sendChangeEmail = async (req, res) => {
       from: 'gk-konfi',
       to: 'gvotanak@gmail.com',
       subject: 'ссылка для смены пароля',
-      text: `Ссылка для изменения данных администратора: http://localhost:3000/change-pass-page/${changePassUuid}`,
+      text: `Ссылка для изменения данных администратора: ${process.env.DEPLOY_SITE}:3000/change-pass-page/${changePassUuid}`,
     };
 
     const info = await transporter.sendMail(mail_configs);
