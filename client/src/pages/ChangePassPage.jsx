@@ -59,6 +59,7 @@ export const ChangePassPage = () => {
     e.preventDefault();
     setPromptToSave(true);
     try {
+      console.log(formIsValid);
       if (!formIsValid) return;
       const { passApprove: _, ...aData } = adminData;
       await postRequest('/write_admin_data', '', {
@@ -66,7 +67,7 @@ export const ChangePassPage = () => {
         aData,
       });
       alert('данные успешно записаны');
-      window.close();
+      // window.close();
     } catch (error) {
       throw error;
     }

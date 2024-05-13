@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "prod": "concurrently \"cd server && npm run start\" \"cd client && npm run build && npm run serve\" ",
     "start": "concurrently \"cd server && npm run start\" \"cd client && npm start\" ",
-    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run build && npm start\" ",
-    "build": "cd client && npm run build",
-    "devlad": "concurrently \"cd ../valerin_backend && .\\venv\\Scripts\\Activate.ps1 && python main.py\" \"cd client && npm start\" "
+    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm start\" ",
+    "build": "cd client && npm run build"
   },
   "repository": {
     "type": "git",
