@@ -13,11 +13,6 @@ const StyleImg = styled.div`
     width: 50px;
     height: 50px;
   }
-
-  .good-modal {
-    min-height: 400px;
-    max-height: 80vw;
-  }
 `;
 
 export const Img = ({ id, picture, forChange }) => {
@@ -76,13 +71,14 @@ export const Img = ({ id, picture, forChange }) => {
         centered
         // size="lg"
         dialogClassName="good-modal"
+        contentClassName="my-modal"
       >
-        <Modal.Body className="d-flex justify-content-center mh-75">
+        <Modal.Body className="d-flex justify-content-center my-modal">
           <Image
             src={`${process.env.REACT_APP_SERVER_URL}/static/good-pictures/${picture}`}
             fluid
             rounded
-            // onClick={() => setShowImgModal(true)}
+            onClick={() => setShowImgModal(false)}
           />
           <div>{forChange}</div>
         </Modal.Body>
