@@ -11,6 +11,16 @@ const AdminStyle = styled.div`
   .col {
     // border: 1px grey solid;
   }
+  a,
+  #change-pass-ref {
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+  }
+  #file-input-goods,
+  #file-input-pack {
+    max-width: 300px;
+  }
 `;
 
 export const AdminPage = () => {
@@ -91,25 +101,59 @@ export const AdminPage = () => {
     };
   };
 
+  const handlePassChangeEmail = async (e) => {
+    postRequest('/send_change_email', auth.token, {})
+      .then(() => {
+        alert(
+          `На Email администратора отправлена ссылка для смены пароля. Срок годности ссылки - 1 час`,
+        );
+      })
+      .catch((err) => {
+        alert('неудачная отправка email!!!');
+        throw err;
+      });
+  };
+
   return (
     <AdminStyle>
+      <div onClick={handlePassChangeEmail} id="change-pass-ref" className="m-2">
+        Смена пароля
+      </div>
       <h1 className="py-2 h-100 text-center sticky-top bg-white">
         Страница администратора
       </h1>
+      <div className="d-flex flex-wrap mb-4 me-4 justify-content-end align-item-center">
+        <Link to="/">Вернуться к сборке подарка</Link>
+      </div>
       <Container className="mw-100">
-        <Row className="">
-          <Col className="col-sm-12 flex-wrap mb-4 text-center">
-            <Link to="/" className="fs-3">
-              Сборка подарка
-            </Link>
+        <Row>
+          <Col className="col-sm-6 mb-4 text-center">
+            <p className="btn-sm fs-5">
+              Загрузить новый прайс-лист на упаковку
+            </p>
+            <div className="d-flex mx-4 justify-content-center">
+              <Form.Control
+                type="file"
+                id="file-input-pack"
+                text="Загрузка файла..."
+                onChange={(e) => setPackFile(e.target.files[0])}
+                filename={packFile}
+                size={20}
+              />
+              <Button
+                disabled={!packFile}
+                onClick={handleLoadPacks}
+                className="ms-2"
+              >
+                Загрузить
+              </Button>
+            </div>
           </Col>
-        </Row>
-        <Row className="">
           <Col className="col-sm-6 mb-4 text-center">
             <p className="btn-sm fs-5">
               Загрузить новый прайс-лист на сладости
             </p>
-            <div className="d-flex mx-4">
+            <div className="d-flex mx-4 justify-content-center">
               <Form.Control
                 type="file"
                 id="file-input-goods"
@@ -120,27 +164,6 @@ export const AdminPage = () => {
               <Button
                 disabled={!priceFile}
                 onClick={handleLoadPrice}
-                className="ms-2"
-              >
-                Загрузить
-              </Button>
-            </div>
-          </Col>
-          <Col className="col-sm-6 mb-4 text-center">
-            <p className="btn-sm fs-5">
-              Загрузить новый прайс-лист на упаковку
-            </p>
-            <div className="d-flex mx-4">
-              <Form.Control
-                type="file"
-                id="file-input-pack"
-                text="Загрузка файла..."
-                onChange={(e) => setPackFile(e.target.files[0])}
-                filename={packFile}
-              />
-              <Button
-                disabled={!packFile}
-                onClick={handleLoadPacks}
                 className="ms-2"
               >
                 Загрузить

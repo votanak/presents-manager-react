@@ -1,28 +1,33 @@
 import { jsonToWb } from '../../../client/src/services/jsonToWb.js';
 import nodemailer from 'nodemailer';
 import fs from 'fs';
+import { fileToArray } from '../services/arrayFile.js';
 
 export const sendOrder = async (req, res) => {
   try {
-    jsonToWb(
+    await jsonToWb(
       JSON.parse(req.body.selectedGoods),
       req.body.giftId,
       req.body.customer,
     ).xlsx.writeFile(`./src/data/order_${req.body.giftId}.xlsx`);
 
-    console.log('file written');
+    const adminData = await fileToArray('adminData.json');
 
     let transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'telek.kanatov@gmail.com',
-        pass: 'glhu dwbo fuhe xivd',
+        user: adminData.email,
+        pass: adminData.passApp,
       },
+    });
+    console.log({
+      user: adminData.email,
+      pass: adminData.passApp,
     });
 
     const mail_configs = {
       from: 'gk-konfi',
-      to: 'gvotanak@gmail.com',
+      to: adminData.orderEmail,
       subject: 'Заказ на сборный подарок',
       text: `Поступил заказ на сборный подарок от пользователя ${req.body.customer.name} c электронным адресом ${req.body.customer.email}\nКомментарий: ${req.body.customer.message}`,
       attachments: [

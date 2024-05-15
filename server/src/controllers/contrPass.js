@@ -6,21 +6,22 @@ import { checkTimeUuid } from '../services/checkTimeUuid.js';
 import 'dotenv/config';
 
 export const sendChangeEmail = async (req, res) => {
-  const changePassUuid = uuidv4();
+  const currentAdmin = await fileToArray('adminData.json');
+  const newPassUuid = uuidv4();
   try {
     let transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'telek.kanatov@gmail.com',
-        pass: 'glhu dwbo fuhe xivd',
+        user: currentAdmin.email,
+        pass: currentAdmin.passApp,
       },
     });
 
     const mail_configs = {
       from: 'gk-konfi',
-      to: 'gvotanak@gmail.com',
+      to: currentAdmin.orderEmail,
       subject: 'ссылка для смены пароля',
-      text: `Ссылка для изменения данных администратора: ${process.env.DEPLOY_SITE}:3000/change-pass-page/${changePassUuid}`,
+      text: `Ссылка для изменения данных администратора: ${process.env.DEPLOY_SITE}:3000/change-pass-page/${newPassUuid}`,
     };
 
     const info = await transporter.sendMail(mail_configs);
@@ -29,12 +30,12 @@ export const sendChangeEmail = async (req, res) => {
 
     arrayToFile('passUuids.json', {
       ...changePassArray,
-      [changePassUuid]: Date.now(),
+      [newPassUuid]: Date.now(),
     });
 
-    checkTimeUuid(changePassUuid);
+    checkTimeUuid(newPassUuid);
 
-    sendWrapped(req, res, { response: changePassUuid });
+    sendWrapped(req, res, { response: newPassUuid });
   } catch (error) {
     console.log('Ошибка отправки:', error);
     return res
