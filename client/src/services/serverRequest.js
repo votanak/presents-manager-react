@@ -12,6 +12,7 @@ export const request = async (url, method, token, params) => {
     });
     return response.json();
   } catch (e) {
+    console.log(e);
     return e;
   }
 };

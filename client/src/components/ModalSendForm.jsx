@@ -38,7 +38,7 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
     })
       .then(() => {
         alert('Email successfully sended!!!');
-        setShow(false);
+        handleHide();
       })
       .catch((err) => {
         alert('неудачная отправка email!!!');
@@ -46,7 +46,7 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
       });
   };
 
-  const handleHide = () => {
+  const handleHide = async () => {
     setShow(false);
     setIsValid({
       email: false,
@@ -125,7 +125,7 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="mb-3" controlId="phone">
-            <Form.Label>Тилипон:</Form.Label>
+            <Form.Label>Телефон:</Form.Label>
             <PhoneInput
               name="phone"
               type="phone"

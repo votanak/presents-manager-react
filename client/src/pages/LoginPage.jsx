@@ -49,17 +49,21 @@ export const LoginPage = () => {
   const formHandle = async (e) => {
     e.preventDefault();
     await postRequest('/login', auth.token, loginParams)
-      .then(({ data }) => {
-        setAuth({
-          authCode: data.authCode,
-          isLogged: true,
-          token: data.accessToken,
-        });
-        localStorage.setItem('authCode', data.authCode);
-        navigate('/adminpage');
+      .then((data) => {
+        if (data.error) {
+          alert(data.error);
+        } else {
+          setAuth({
+            authCode: data.data.authCode,
+            isLogged: true,
+            token: data.data.accessToken,
+          });
+          localStorage.setItem('authCode', data.data.authCode);
+          navigate('/adminpage');
+        }
       })
       .catch((e) => {
-        console.log(e);
+        console.log('ошибочка', e);
       });
   };
 

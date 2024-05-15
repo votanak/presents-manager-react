@@ -34,7 +34,6 @@ export const App = () => {
     })
       .then((response) => {
         if ('error' in response) throw new Error(response.error);
-
         setAuth({
           authCode: authCodeFromLS,
           isLogged: true,

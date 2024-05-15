@@ -29,7 +29,7 @@ export const login = (req, res) => {
         nodeCache.set(authCode, accessToken);
         sendWrapped(req, res, { accessToken, authCode });
       } else {
-        res.status(403).send({ error: 'Email or password are incorrect' });
+        res.status(403).send({ error: 'Некорректный логин или пароль' });
       }
     })
     .catch((e) => {
