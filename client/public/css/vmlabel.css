@@ -1,0 +1,36 @@
+.vmlabel-wrap{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+}
+.vmlabel-wrap img.vmlabel-img{
+    position: relative;
+    display: block;
+    float: left;
+    margin: 0 5px 5px 0;
+}
+.vmlabel-wrap .vmlabel{
+    display: block;
+    width: 100%;
+    float: left;
+    clear: both;
+    margin: 0 0 5px 0;
+    font-size: 12px;
+    color: #fff;
+    font-weight: normal;
+    line-height: 1;
+    text-align: center;
+    vertical-align: baseline;
+    padding: 3px 7px;
+    border-radius: 0;
+}
+.vmlabel.vmlabel-new{
+    background-color: #03a9f4;
+}
+.vmlabel.vmlabel-sale{
+    background-color: #4caf50;
+}
+.vmlabel.vmlabel-special{
+    background-color: #ff5722;
+}

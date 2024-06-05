@@ -15,7 +15,7 @@ app.use((req, res, next) => {
   res.setHeader('Acccess-Control-Allow-Origin', '*');
   next();
 });
-app.use('/static', express.static('./src/public'));
+app.use('/api/static', express.static('./src/public'));
 
 app.use('/', giftRouter);
 

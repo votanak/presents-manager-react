@@ -32,7 +32,7 @@ export const NaviBar = () => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav p-2">
         <Nav className="me-auto">
-          <Nav.Link>Акции</Nav.Link>
+          <Nav.Link href="/homepage">Акции</Nav.Link>
           <Nav.Link>Сотрудничество</Nav.Link>
           <Nav.Link>Безопасность</Nav.Link>
         </Nav>

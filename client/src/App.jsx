@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { HomePage } from './pages/HomePage';
+import { MakeGift } from './pages/MakeGift';
 import { PrivateRoutes } from './PrivateRoutes';
 import { LoginPage } from './pages/LoginPage';
 import { NotFound } from './pages/NotFound';
@@ -8,12 +8,14 @@ import { useState, createContext, useEffect } from 'react';
 import { AdminPage } from './pages/AdminPage';
 import { getRequest, postRequest } from './services/serverRequest';
 import { ChangePassPage } from './pages/ChangePassPage';
+import { HomePage } from './pages/HomePage';
 
 export const LoginContext = createContext();
 export const PriceContext = createContext();
 
 const AppStyle = styled.div`
   font-family: 'Montserrat';
+  height: 99svh;
 `;
 
 export const App = () => {
@@ -80,8 +82,9 @@ export const App = () => {
                   element={<AdminPage authCodeFromLS={authCodeFromLS} />}
                 />
               </Route>
-              <Route path="/" element={<HomePage />} />
+              <Route path="/" element={<MakeGift />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/homepage" element={<HomePage />} />
               <Route
                 path="/change-pass-page/:changePassUuid"
                 element={<ChangePassPage />}
