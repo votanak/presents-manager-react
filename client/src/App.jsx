@@ -15,7 +15,6 @@ export const PriceContext = createContext();
 
 const AppStyle = styled.div`
   font-family: 'Montserrat';
-  height: 99svh;
 `;
 
 export const App = () => {

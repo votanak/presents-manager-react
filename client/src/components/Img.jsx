@@ -33,7 +33,7 @@ export const Img = ({ id, picture, forChange }) => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('id', id);
-      fetch(`${process.env.REACT_APP_SERVER_URL}/write_img`, {
+      fetch(`${import.meta.env.VITE_REACT_APP_SERVER_URL}/write_img`, {
         method: 'POST',
         headers: {},
         body: formData,
@@ -52,7 +52,9 @@ export const Img = ({ id, picture, forChange }) => {
     <StyleImg>
       <div className="d-flex img-container justify-content-center mx-2">
         <Image
-          src={`${process.env.REACT_APP_SERVER_URL}/static/good-pictures/${picture}`}
+          src={`${
+            import.meta.env.VITE_REACT_APP_SERVER_URL
+          }/static/good-pictures/${picture}`}
           fluid
           rounded
           className="mx-2 object-fit-contain"
@@ -75,7 +77,9 @@ export const Img = ({ id, picture, forChange }) => {
       >
         <Modal.Body className="d-flex justify-content-center my-modal">
           <Image
-            src={`${process.env.REACT_APP_SERVER_URL}/static/good-pictures/${picture}`}
+            src={`${
+              import.meta.env.VITE_REACT_APP_SERVER_URL
+            }/static/good-pictures/${picture}`}
             fluid
             rounded
             onClick={() => setShowImgModal(false)}
