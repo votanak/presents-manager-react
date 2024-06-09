@@ -1,23 +1,25 @@
 import React from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import { styled } from 'styled-components';
-import imgloc from '../img/lociconw.png';
 
 const NaviBarStyle = styled(Navbar)`
   background-color: #4c4c4f;
-  .navbar-brand {
-    font-size: 16px;
-  }
-  #img-loc {
-    max-height: 25px;
-  }
-  .navbar-nav {
-    align-items: center;
-    font-size: 14px;
-  }
+  height: 50px;
   .navbar-toggler {
     margin: 3px;
     padding: 3px;
+  }
+  .nav-link {
+    font-size: 18px;
+  }
+  #img-loc {
+    height: 25px;
+  }
+  #address {
+    font-size: 16px;
+  }
+  #firm-name {
+    font-size: clamp(0.5rem, 1.5vw + 0.5rem, 1.5rem);
   }
 `;
 export const NaviBar = () => {
@@ -25,21 +27,30 @@ export const NaviBar = () => {
     <NaviBarStyle
       collapseOnSelect
       expand="lg"
-      variant="dark"
+      variant="light"
+      bg="light"
       className="px-4 py-0"
+      sticky="top"
     >
-      <Navbar.Brand>ГК "Конфи" в г.Липецк</Navbar.Brand>
+      <Navbar.Brand href="/" className="fw-bold">
+        <img src="/pic/logo.png" height="40px" alt="logo" className="me-2" />
+        <span id="firm-name">
+          <span className="text-primary">ГК "Конфи"</span>
+          &nbsp;<span className="text-danger">в</span>&nbsp;
+          <span className="text-success">г.Липецк</span>
+        </span>
+      </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-      <Navbar.Collapse id="responsive-navbar-nav p-2">
-        <Nav className="me-auto">
-          <Nav.Link href="/homepage">Акции</Nav.Link>
-          <Nav.Link>Сотрудничество</Nav.Link>
-          <Nav.Link>Безопасность</Nav.Link>
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="me-auto text-nowrap p-2 fs-6">
+          <Nav.Link href="/homepage">Главная</Nav.Link>
+          <Nav.Link href="/makegift">Собрать подарок</Nav.Link>
+          <Nav.Link href="/kontakty">Контакты</Nav.Link>
         </Nav>
-        <Nav className="ms-auto">
-          <Nav.Link variant="primary text-wrap">
-            <img src={imgloc} id="img-loc" alt="loc-img" />
-            г. Липецк, ул. Первомайская, д. 55
+        <Nav className="ms-auto d-none d-xl-block">
+          <Nav.Link variant="primary text-wrap" id="address">
+            <img src="/pic/lociconb.png" id="img-loc" alt="loc-img" />
+            г. Липецк, ул. Первомайская, д. 55, тел. +7 (910) 351-75-70
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>

@@ -15,6 +15,9 @@ const PriceStyle = styled(Container)`
   .btn-send {
     font-size: 14px;
   }
+  .accordion {
+    max-width: 100%;
+  }
 `;
 
 export const PriceList = ({ forChange }) => {
@@ -121,7 +124,7 @@ export const PriceList = ({ forChange }) => {
               )}
           </Accordion>
           {selectedGoods.pack && (
-            <div className="sticky-bottom align-items-center p-2 bg-light">
+            <div className="sticky-bottom align-items-center p-2 mt-2 bg-light">
               <div className="fs-5 mx-auto text-center  text-decoration-underline">
                 Параметры подарка:
               </div>

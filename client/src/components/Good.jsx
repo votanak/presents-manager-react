@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Img } from './Img';
 
 const GoodStyle = styled(Row)`
+  width: 100%;
   .form-control {
     width: 50px;
   }
@@ -94,29 +95,27 @@ export const Good = ({ good, forChange, selectedGoods, setSelectedGoods }) => {
   );
   return (
     <GoodStyle className="border m-2 py-2 rounded-3">
-      <Form className=" d-flex align-items-center flex-wrap justify-content-end">
+      <div className=" d-flex align-items-center flex-wrap justify-content-end">
         <Form.Group className="d-flex me-auto flex-shrink-1 align-items-center ">
           <Img id={good.id} picture={good.picture} forChange={forChange} />
           <Form.Text className="me-2 my-0 fs-6 fw-bold" rows="2">
             {good.name}
           </Form.Text>
         </Form.Group>
-        <Form.Group className="d-flex">
+        <div className="d-flex flex-xs-wrap">
           <Form.Label className="mx-2 my-auto text-nowrap">Вес, г:</Form.Label>
           <Form.Text className="me-2 p-0 text-center form-control">
             {good.weight1}
           </Form.Text>
-        </Form.Group>
-        <Form.Group className="d-flex">
           <Form.Label className="mx-2 my-auto text-nowrap">
             Цена, руб.:
           </Form.Label>
           <Form.Text className="me-2 p-0 text-center form-control">
             {good.price1}
           </Form.Text>
-        </Form.Group>
+        </div>
         {!forChange && chooseButtons}
-      </Form>
+      </div>
       <Modal
         show={showGiftFull}
         onHide={() => setShowGiftFull(false)}

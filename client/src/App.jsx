@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { MakeGift } from './pages/MakeGift';
 import { PrivateRoutes } from './PrivateRoutes';
@@ -9,9 +8,22 @@ import { AdminPage } from './pages/AdminPage';
 import { getRequest, postRequest } from './services/serverRequest';
 import { ChangePassPage } from './pages/ChangePassPage';
 import { HomePage } from './pages/HomePage';
+import { Kontakty } from './pages/Kontakty';
+import styled, { createGlobalStyle } from 'styled-components';
+import { NaviBar } from './components/Navibar';
 
 export const LoginContext = createContext();
 export const PriceContext = createContext();
+
+const GlobalStyle = createGlobalStyle`
+body{
+  background-image: url(/pic/nb.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: 0 0;
+}
+`;
 
 const AppStyle = styled.div`
   font-family: 'Montserrat';
@@ -61,38 +73,44 @@ export const App = () => {
   }, []);
 
   return (
-    <AppStyle>
-      <LoginContext.Provider value={{ auth, setAuth }}>
-        <PriceContext.Provider
-          value={{
-            priceArray,
-            setPriceArray,
-            packArray,
-            setPackArray,
-            upd,
-            setUpd,
-          }}
-        >
-          <BrowserRouter>
-            <Routes>
-              <Route element={<PrivateRoutes auth={auth} />}>
+    <>
+      <GlobalStyle />
+      <AppStyle>
+        <NaviBar />
+        <LoginContext.Provider value={{ auth, setAuth }}>
+          <PriceContext.Provider
+            value={{
+              priceArray,
+              setPriceArray,
+              packArray,
+              setPackArray,
+              upd,
+              setUpd,
+            }}
+          >
+            <BrowserRouter>
+              <Routes>
+                <Route element={<PrivateRoutes auth={auth} />}>
+                  <Route
+                    path="/adminpage"
+                    element={<AdminPage authCodeFromLS={authCodeFromLS} />}
+                  />
+                </Route>
+                <Route path="/" element={<MakeGift />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/homepage" element={<HomePage />} />
+                <Route path="/kontakty" element={<Kontakty />} />
+                <Route path="/makegift" element={<MakeGift />} />
                 <Route
-                  path="/adminpage"
-                  element={<AdminPage authCodeFromLS={authCodeFromLS} />}
+                  path="/change-pass-page/:changePassUuid"
+                  element={<ChangePassPage />}
                 />
-              </Route>
-              <Route path="/" element={<MakeGift />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/homepage" element={<HomePage />} />
-              <Route
-                path="/change-pass-page/:changePassUuid"
-                element={<ChangePassPage />}
-              />
-              <Route path="/*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </PriceContext.Provider>
-      </LoginContext.Provider>
-    </AppStyle>
+                <Route path="/*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </PriceContext.Provider>
+        </LoginContext.Provider>
+      </AppStyle>
+    </>
   );
 };
