@@ -12,10 +12,9 @@ const AdvancesStyle = styled(Carousel)`
     margin-bottom: 10px;
   }
   .carousel-item {
+    max-width: 33.333%;
     text-align: center;
-    justify-content: center;
-    align-items: center;
-    display: flex;
+    padding: 20px;
   }
 `;
 
