@@ -1,21 +1,92 @@
-import { Card, Container } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
 
 const GiftCardStyle = styled(Card)`
   border-radius: 15px;
-  max-width: 300px;
+  width: 400px;
+  height: 300px;
+  display: flex;
+  flex-direction: row;
+  border: 4px solid #57a7eb;
+  padding: 20px;
+  transition: all 500ms;
+  * {
+    transition: all 500ms;
+  }
+  * a {
+    text-decoration: none;
+    color: black;
+  }
   img {
-    width: 150px;
+    width: 100%;
+  }
+  .gift-name {
+    text-decoration: none;
+    background: linear-gradient(45deg, #30df6e, #62a8ff);
+    font-size: 20px;
+    color: #fff;
+    padding: 10px 20px;
+    margin-top: 15px;
+    margin-left: -20px;
+    margin-bottom: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    text-aligh: left;
+    font-weight: bold;
+  }
+  .text-container {
+    width: 50%;
+  }
+  .img-container {
+    width: 50%;
+  }
+  .more {
+    font-family: Montserrat;
+    font-size: 16px;
+    background-color: #eee;
+    border-radius: 15px;
+    padding: 5px 15px;
+    width: 130px;
+    color: black;
+    &:hover {
+      background-color: black;
+    }
+    &:hover a {
+      color: white;
+    }
+  }
+
+  &:hover {
+    border-color: #7557eb;
+  }
+  &:hover .text-container .gift-name {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+  &:hover .text-container .gift-name a {
+    color: #00f;
   }
 `;
 
 export const GiftCard = ({ giftParams }) => {
-  console.log(giftParams);
   return (
     <GiftCardStyle>
-      <div className="giftName">{giftParams.giftName}</div>
-      <img src={giftParams.giftPicture} alt="" className="giftImage" />
-      <div className="gift-price">{giftParams.giftPrice}</div>
+      <div className="text-container">
+        <div className="gift-name" style={{ background: giftParams.textBg }}>
+          <a href="">{giftParams.giftName}</a>
+        </div>
+        <div className="gift-price fs-4 mb-4">
+          от <strong>{giftParams.giftPrice}</strong> руб.
+        </div>
+        <div className="more">
+          <a href="">Подробнее</a>
+        </div>
+      </div>
+      <div className="img-container">
+        <a href="">
+          <img src={giftParams.giftPicture} alt="" className="giftImage" />
+        </a>
+      </div>
     </GiftCardStyle>
   );
 };

@@ -1,11 +1,13 @@
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import styled from 'styled-components';
 import Flickity from 'react-flickity-component';
-import 'flickity/css/flickity.css';
 
 const AdvancesStyle = styled.div`
   padding: 40px;
-  height: 300px;
+  @media (min-width: 992px) {
+    width: 80%;
+  }
+  margin: 0 auto;
   background: rgba(255, 255, 255, 0) .advance-text {
     text-align: center;
     margin-bottom: 10px;
@@ -81,12 +83,12 @@ export const Advances = () => {
     <AdvancesStyle>
       <h1 className="head-advances">Наши преимущества</h1>
       <Flickity
-        className={'carousel'} // default ''
-        elementType={'div'} // default 'div'
-        options={flickityOptions} // takes flickity options {}
-        disableImagesLoaded={false} // default false
-        reloadOnUpdate // default false
-        static // default false
+        className={'carousel'}
+        elementType={'div'}
+        options={flickityOptions}
+        disableImagesLoaded={false}
+        reloadOnUpdate
+        static
       >
         {advances.map((el, ind) => (
           <div className="carousel-cell adv-container" key={ind}>

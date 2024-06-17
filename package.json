@@ -4,10 +4,10 @@
   "description": "presents-manager",
   "main": "index.js",
   "scripts": {
-    "prod": "concurrently \"cd server && npm run start\" \"cd client && npm run build && npm run serve\" ",
-    "start": "concurrently \"cd server && npm run start\" \"cd client && npm start\" ",
-    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm start\" ",
-    "build": "cd client && npm run build"
+    "prod": "concurrently \"cd server && pnpm run start\" \"cd client && pnpm run build && pnpm run serve\" ",
+    "start": "concurrently \"cd server && pnpm run start\" \"cd client && pnpm start\" ",
+    "dev": "concurrently \"cd server && pnpm run dev\" \"cd client && pnpm start\" ",
+    "build": "cd client && pnpm run build"
   },
   "repository": {
     "type": "git",

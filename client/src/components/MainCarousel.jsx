@@ -34,6 +34,9 @@ const MainCarouselStyle = styled(Carousel)`
     padding: 40px;
     border-radius: 10px;
   }
+  p {
+    font-family: Montserrat;
+  }
 `;
 
 export const MainCarousel = () => {

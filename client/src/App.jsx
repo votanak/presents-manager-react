@@ -26,7 +26,7 @@ body{
 `;
 
 const AppStyle = styled.div`
-  font-family: 'Montserrat';
+  font-family: Cuprum;
 `;
 
 export const App = () => {

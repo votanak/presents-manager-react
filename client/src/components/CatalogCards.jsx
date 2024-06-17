@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import { GiftCard } from './GiftCard';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
 
-const CatalogCardsStyle = styled(Row)`
+const CatalogCardsStyle = styled(Container)`
   .col {
-    min-width: 300px;
+  }
+  .row {
+    justify-content: center;
   }
 `;
 
@@ -14,39 +16,44 @@ export const CatalogCards = () => {
       giftName: 'Подарки в упаковке из картона',
       giftPicture: '/pic/group-1.png',
       giftPrice: 150,
+      textBg: 'linear-gradient(45deg, #30df6e, #62a8ff)',
     },
     {
       giftName: 'Подарки в жестяной упаковке и в тубе',
       giftPicture: '/pic/group-2.png',
       giftPrice: 150,
+      textBg: 'linear-gradient(45deg, #df3071, #62a8ff)',
     },
     {
       giftName: 'Подарки в текстильной упаковке',
       giftPicture: '/pic/group-3.png',
       giftPrice: 150,
+      textBg: 'linear-gradient(45deg, #dfa130, #ff627f)',
     },
     {
       giftName: 'Подарки в упаковке из дерева',
       giftPicture: '/pic/group-4.png',
       giftPrice: 150,
+      textBg: 'linear-gradient(45deg, #30dfbf, #ff627f)',
     },
     {
       giftName: 'Подарки для детсадов и школ',
       giftPicture: '/pic/group-5.jpg',
       giftPrice: 150,
+      textBg: 'linear-gradient(45deg, #30df6e, #62a8ff)',
     },
   ];
 
   return (
-    <>
-      <div className="cat-name">Каталог подарков</div>
+    <CatalogCardsStyle>
+      <h1 className="mt-4 mb-2">Каталог подарков</h1>
       <Row>
         {giftData.map((el, ind) => (
-          <Col>
-            <GiftCard giftParams={el} key={ind} />
-          </Col>
+          <div className="d-flex p-2 w-auto" key={ind}>
+            <GiftCard giftParams={el} />
+          </div>
         ))}
       </Row>
-    </>
+    </CatalogCardsStyle>
   );
 };
