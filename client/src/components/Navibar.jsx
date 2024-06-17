@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 
 const NaviBarStyle = styled(Navbar)`
   background-color: #4c4c4f;
-  height: 50px;
+  height: 70px;
   .navbar-toggler {
     margin: 3px;
     padding: 3px;
@@ -16,10 +16,10 @@ const NaviBarStyle = styled(Navbar)`
     height: 25px;
   }
   #address {
-    font-size: 16px;
+    font-size: 14px;
   }
   #firm-name {
-    font-size: clamp(0.5rem, 1.5vw + 0.5rem, 1.5rem);
+    font-size: clamp(0.3rem, 1.5vw + 0.5rem, 1.3rem);
   }
 `;
 export const NaviBar = () => {
@@ -33,7 +33,7 @@ export const NaviBar = () => {
       sticky="top"
     >
       <Navbar.Brand href="/" className="fw-bold">
-        <img src="/pic/logo.png" height="40px" alt="logo" className="me-2" />
+        <img src="/pic/logo.png" height="50px" alt="logo" className="me-2" />
         <span id="firm-name">
           <span className="text-primary">ГК "Конфи"</span>
           &nbsp;<span className="text-danger">в</span>&nbsp;

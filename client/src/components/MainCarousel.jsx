@@ -3,8 +3,7 @@ import styled from 'styled-components';
 
 const MainCarouselStyle = styled(Carousel)`
   .carousel-inner {
-    height: 600px;
-    min-height: 600px;
+    height: 700px;
   }
   .carousel-img-container {
     display: flex;

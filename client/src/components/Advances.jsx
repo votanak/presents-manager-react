@@ -1,20 +1,29 @@
-import { Carousel } from 'react-bootstrap';
+import 'pure-react-carousel/dist/react-carousel.es.css';
 import styled from 'styled-components';
+import Flickity from 'react-flickity-component';
+import 'flickity/css/flickity.css';
 
-const AdvancesStyle = styled(Carousel)`
+const AdvancesStyle = styled.div`
   padding: 40px;
-  .advance-header {
-    text-align: center;
-    font-weight: bold;
-  }
-  .advance-text {
+  height: 300px;
+  background: rgba(255, 255, 255, 0) .advance-text {
     text-align: center;
     margin-bottom: 10px;
   }
-  .carousel-item {
-    max-width: 33.333%;
-    text-align: center;
-    padding: 20px;
+  .head-advances {
+    margin-bottom: 20px;
+  }
+  .carousel-cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    width: 95%;
+    background-color: white;
+    border-radius: 10px;
+    width: 300px;
+    margin-right: 10px;
   }
 `;
 
@@ -61,19 +70,36 @@ export const Advances = () => {
     },
   ];
 
+  const flickityOptions = {
+    cellAlign: 'left',
+    contain: true,
+    autoPlay: true,
+    wrapAround: true,
+  };
+
   return (
     <AdvancesStyle>
-      {advances.map((el, ind) => (
-        <Carousel.Item key={ind}>
-          <img src="/pic/advance-pic.png" alt="adv-img" width="80px" />
-          <div className="advance-header">{el.header}</div>
-          {el.texts.map((el1, ind1) => (
-            <div key={ind1} className="advance-text">
-              {el1}
-            </div>
-          ))}
-        </Carousel.Item>
-      ))}
+      <h1 className="head-advances">Наши преимущества</h1>
+      <Flickity
+        className={'carousel'} // default ''
+        elementType={'div'} // default 'div'
+        options={flickityOptions} // takes flickity options {}
+        disableImagesLoaded={false} // default false
+        reloadOnUpdate // default false
+        static // default false
+      >
+        {advances.map((el, ind) => (
+          <div className="carousel-cell adv-container" key={ind}>
+            <img src="/pic/advance-pic.png" alt="adv-img" width="60px" />
+            <div className="fw-bold mt-2">{el.header}</div>
+            {el.texts.map((el1, ind1) => (
+              <div key={ind1} className="mt-2">
+                {el1}
+              </div>
+            ))}
+          </div>
+        ))}
+      </Flickity>
     </AdvancesStyle>
   );
 };
