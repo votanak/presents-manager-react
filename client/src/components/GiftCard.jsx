@@ -21,18 +21,23 @@ const GiftCardStyle = styled(Card)`
     width: 100%;
   }
   .gift-name {
+    display: flex;
+    align-items: center;
     text-decoration: none;
+    vertical-align: middle;
     background: linear-gradient(45deg, #30df6e, #62a8ff);
     font-size: 20px;
     color: #fff;
-    padding: 10px 20px;
+    padding: 0px 20px;
     margin-top: 15px;
     margin-left: -20px;
     margin-bottom: 20px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     text-aligh: left;
+    height: 120px;
     font-weight: bold;
+    vertical-alignment: middle;
   }
   .text-container {
     width: 50%;
@@ -60,8 +65,7 @@ const GiftCardStyle = styled(Card)`
     border-color: #7557eb;
   }
   &:hover .text-container .gift-name {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    height: 50%;
   }
   &:hover .text-container .gift-name a {
     color: #00f;
