@@ -76,7 +76,6 @@ export const App = () => {
     <>
       <GlobalStyle />
       <AppStyle>
-        <NaviBar />
         <LoginContext.Provider value={{ auth, setAuth }}>
           <PriceContext.Provider
             value={{
@@ -86,9 +85,9 @@ export const App = () => {
               setPackArray,
               upd,
               setUpd,
-            }}
-          >
+            }}>
             <BrowserRouter>
+              <NaviBar />
               <Routes>
                 <Route element={<PrivateRoutes auth={auth} />}>
                   <Route

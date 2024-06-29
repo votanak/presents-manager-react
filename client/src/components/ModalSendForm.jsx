@@ -93,7 +93,6 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
         break;
     }
     if (regExp) {
-      console.log(e.target.value.match(regExp));
       setIsValid({
         ...isValid,
         [e.target.name]: Boolean(e.target.value.match(regExp)),
@@ -170,15 +169,13 @@ export const ModalSendForm = ({ show, setShow, selectedGoods }) => {
           <Button
             variant="primary"
             onClick={handleSave}
-            disabled={promptToSend && !formIsValid}
-          >
+            disabled={promptToSend && !formIsValid}>
             Сохранить Excel-файл
           </Button>
           <Button
             variant="primary"
             onClick={handleSend}
-            disabled={promptToSend && !formIsValid}
-          >
+            disabled={promptToSend && !formIsValid}>
             Отправить заказ
           </Button>
         </Modal.Footer>

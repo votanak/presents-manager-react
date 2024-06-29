@@ -1,5 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Nav, Navbar } from 'react-bootstrap';
+
 import { styled } from 'styled-components';
 
 const NaviBarStyle = styled(Navbar)`
@@ -30,8 +32,7 @@ export const NaviBar = () => {
       variant="light"
       bg="light"
       className="px-4 py-0"
-      sticky="top"
-    >
+      sticky="top">
       <Navbar.Brand href="/" className="fw-bold">
         <img src="/pic/logo.png" height="50px" alt="logo" className="me-2" />
         <span id="firm-name">
@@ -43,9 +44,15 @@ export const NaviBar = () => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="me-auto text-nowrap p-2 fs-6">
-          <Nav.Link href="/homepage">Главная</Nav.Link>
-          <Nav.Link href="/makegift">Собрать подарок</Nav.Link>
-          <Nav.Link href="/kontakty">Контакты</Nav.Link>
+          <Nav.Link as={Link} to={'/homepage'}>
+            Главная
+          </Nav.Link>
+          <Nav.Link as={Link} to={'/makegift'}>
+            Собрать подарок
+          </Nav.Link>
+          <Nav.Link as={Link} to={'/kontakty'}>
+            Контакты
+          </Nav.Link>
         </Nav>
         <Nav className="ms-auto d-none d-xl-block">
           <Nav.Link variant="primary text-wrap" id="address">
