@@ -4,7 +4,7 @@
   "description": "presents-manager",
   "main": "index.js",
   "scripts": {
-    "prod": "concurrently \"cd server && pnpm run start\" \"cd client && pnpm run build && pnpm run serve\" ",
+    "prod": "concurrently \"cd server && pnpm run start\" \"cd client && pnpm run build && pnpm run start\" ",
     "start": "concurrently \"cd server && pnpm run start\" \"cd client && pnpm start\" ",
     "dev": "concurrently \"cd server && pnpm run dev\" \"cd client && pnpm start\" ",
     "build": "cd client && pnpm run build"
@@ -16,8 +16,7 @@
   "author": "RRRRR",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^8.2.2",
-    "flickity": "^3.0.0"
+    "concurrently": "^8.2.2"
   },
   "type": "module",
   "packageManager": "pnpm@9.1.1+sha1.09ada6cd05003e0ced25fb716f9fda4063ec2e3b"

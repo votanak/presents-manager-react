@@ -29,6 +29,9 @@ importers:
       file-saver:
         specifier: ^2.0.5
         version: 2.0.5
+      flickity:
+        specifier: 2.2.1
+        version: 2.2.1
       nodemailer:
         specifier: ^6.9.11
         version: 6.9.13
@@ -52,7 +55,7 @@ importers:
         version: 18.3.1(react@18.3.1)
       react-flickity-component:
         specifier: ^4.0.7
-        version: 4.0.7(flickity@3.0.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 4.0.7(flickity@2.2.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-input-mask:
         specifier: ^2.0.4
         version: 2.0.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -832,6 +835,9 @@ packages:
     resolution: {integrity: sha512-0je+qPKHEMohvfRTCEo3CrPG6cAzAYgmzKyxRiYSSDkS6eGJdyVJm7WaYA5ECaAD9wLB2T4EEeymA5aFVcYXCA==}
     engines: {node: '>=6'}
 
+  desandro-matches-selector@2.0.2:
+    resolution: {integrity: sha512-+1q0nXhdzg1IpIJdMKalUwvvskeKnYyEe3shPRwedNcWtnhEKT3ZxvFjzywHDeGcKViIxTCAoOYQWP1qD7VNyg==}
+
   diff-sequences@29.6.3:
     resolution: {integrity: sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -888,9 +894,6 @@ packages:
   ev-emitter@1.1.1:
     resolution: {integrity: sha512-ipiDYhdQSCZ4hSbX4rMW+XzNKMD1prg/sTvoVmSLkuQ1MVlwjJQQA+sW8tMYR3BLUr9KjodFV4pvzunvRhd33Q==}
 
-  ev-emitter@2.1.2:
-    resolution: {integrity: sha512-jQ5Ql18hdCQ4qS+RCrbLfz1n+Pags27q5TwMKvZyhp5hh2UULUYZUy1keqj6k6SYsdqIYjnmz7xyyEY0V67B8Q==}
-
   exceljs@4.4.0:
     resolution: {integrity: sha512-XctvKaEMaj1Ii9oDOqbW/6e1gXknSY4g/aLCDicOXqBE4M0nRWkUu0PTp++UPNzoFY12BNHMfs/VadKIS6llvg==}
     engines: {node: '>=8.3.0'}
@@ -914,11 +917,11 @@ packages:
     resolution: {integrity: sha512-qWeTREPoT7I0bifpPUXtxkZJ1XJzxWtfoWWkdVGqa+eCr3SHW/Ocp89o8vLvbUuQnadybJpjOKu4V+RwO6sGng==}
     engines: {node: '>=14.16'}
 
-  fizzy-ui-utils@3.0.0:
-    resolution: {integrity: sha512-uJj38QFQiJ/KCio5tiZhwAjIbTXSIgzBCKdKVbaYfLS053F6z23Nb0o1ZoO9gnxOQWN7BCc35jsvrCtAq3gY9g==}
+  fizzy-ui-utils@2.0.7:
+    resolution: {integrity: sha512-CZXDVXQ1If3/r8s0T+v+qVeMshhfcuq0rqIFgJnrtd+Bu8GmDmqMjntjUePypVtjHXKJ6V4sw9zeyox34n9aCg==}
 
-  flickity@3.0.0:
-    resolution: {integrity: sha512-Xw4znhglA2LVSmka0yKmzb4+fLwXm13TuKmdG1HbUoZZL95J1ZMr4hAA3w69s+Z6q/c6CyBDM25JVwMqgF3rOg==}
+  flickity@2.2.1:
+    resolution: {integrity: sha512-fCZJGNqabgDrIhaUBqt2ydE8c5V6iiB3KQAf6dH3Z45MoDUm7g6+uZmteN0aLV9pzVItNqCbfOJQjsJM/rHuSA==}
 
   for-each@0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -957,8 +960,8 @@ packages:
     resolution: {integrity: sha512-5uYhsJH8VJBTv7oslg4BznJYhDoRI6waYCxMmCdnTrcCrHA/fCFKoTFz2JKKE0HdDFUF7/oQuhzumXJK7paBRQ==}
     engines: {node: '>= 0.4'}
 
-  get-size@3.0.0:
-    resolution: {integrity: sha512-Y8aiXLq4leR7807UY0yuKEwif5s3kbVp1nTv+i4jBeoUzByTLKkLWu/HorS6/pB+7gsB0o7OTogC8AoOOeT0Hw==}
+  get-size@2.0.3:
+    resolution: {integrity: sha512-lXNzT/h/dTjTxRbm9BXb+SGxxzkm97h/PCIKtlN/CBCxxmkkIVV21udumMS93MuVTDX583gqc94v3RjuHmI+2Q==}
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
@@ -1009,9 +1012,6 @@ packages:
 
   imagesloaded@4.1.4:
     resolution: {integrity: sha512-ltiBVcYpc/TYTF5nolkMNsnREHW+ICvfQ3Yla2Sgr71YFwQ86bDwV9hgpFhFtrGPuwEx5+LqOHIrdXBdoWwwsA==}
-
-  imagesloaded@5.0.0:
-    resolution: {integrity: sha512-/0JGSubc1MTCoDKVmonLHgbifBWHdyLkun+R/151E1c5n79hiSxcd7cB7mPXFgojYu8xnRZv7GYxzKoxW8BetQ==}
 
   immediate@3.0.6:
     resolution: {integrity: sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==}
@@ -1596,8 +1596,11 @@ packages:
   undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
 
-  unidragger@3.0.1:
-    resolution: {integrity: sha512-RngbGSwBFmqGBWjkaH+yB677uzR95blSQyxq6hYbrQCejH3Mx1nm8DVOuh3M9k2fQyTstWUG5qlgCnNqV/9jVw==}
+  unidragger@2.4.0:
+    resolution: {integrity: sha512-MueZK2oXuGE6OAlGKIrSXK2zCq+8yb1QUZgqyTDCSJzvwYL0g2Llrad+TtoQTYxtFnNyxxSw0IMnKNIgEMia1w==}
+
+  unipointer@2.4.0:
+    resolution: {integrity: sha512-VjzDLPjGK7aYpQKH7bnDZS8X4axF5AFU/LQi+NQe1oyEHfaz6lWKhaQ7n4o7vJ1iJ4i2T0quCIfrQM139p05Sw==}
 
   unzipper@0.10.14:
     resolution: {integrity: sha512-ti4wZj+0bQTiX2KmKWuwj7lhV+2n//uXEotUmGuQqrbVZSEGFMbI68+c6JCQ8aAmUWYvtHEz2A8K6wXvueR/6g==}
@@ -2490,6 +2493,8 @@ snapshots:
 
   dequal@2.0.3: {}
 
+  desandro-matches-selector@2.0.2: {}
+
   diff-sequences@29.6.3: {}
 
   dom-accessibility-api@0.5.16: {}
@@ -2567,8 +2572,6 @@ snapshots:
 
   ev-emitter@1.1.1: {}
 
-  ev-emitter@2.1.2: {}
-
   exceljs@4.4.0:
     dependencies:
       archiver: 5.3.2
@@ -2602,15 +2605,18 @@ snapshots:
 
   filter-obj@5.1.0: {}
 
-  fizzy-ui-utils@3.0.0: {}
-
-  flickity@3.0.0:
+  fizzy-ui-utils@2.0.7:
     dependencies:
-      ev-emitter: 2.1.2
-      fizzy-ui-utils: 3.0.0
-      get-size: 3.0.0
-      imagesloaded: 5.0.0
-      unidragger: 3.0.1
+      desandro-matches-selector: 2.0.2
+
+  flickity@2.2.1:
+    dependencies:
+      desandro-matches-selector: 2.0.2
+      ev-emitter: 1.1.1
+      fizzy-ui-utils: 2.0.7
+      get-size: 2.0.3
+      unidragger: 2.4.0
+      unipointer: 2.4.0
 
   for-each@0.3.3:
     dependencies:
@@ -2646,7 +2652,7 @@ snapshots:
       has-symbols: 1.0.3
       hasown: 2.0.2
 
-  get-size@3.0.0: {}
+  get-size@2.0.3: {}
 
   glob@7.2.3:
     dependencies:
@@ -2692,10 +2698,6 @@ snapshots:
   imagesloaded@4.1.4:
     dependencies:
       ev-emitter: 1.1.1
-
-  imagesloaded@5.0.0:
-    dependencies:
-      ev-emitter: 2.1.2
 
   immediate@3.0.6: {}
 
@@ -3030,9 +3032,9 @@ snapshots:
       react: 18.3.1
       scheduler: 0.23.2
 
-  react-flickity-component@4.0.7(flickity@3.0.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-flickity-component@4.0.7(flickity@2.2.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
-      flickity: 3.0.0
+      flickity: 2.2.1
       imagesloaded: 4.1.4
       prop-types: 15.8.1
       react: 18.3.1
@@ -3310,9 +3312,13 @@ snapshots:
 
   undici-types@5.26.5: {}
 
-  unidragger@3.0.1:
+  unidragger@2.4.0:
     dependencies:
-      ev-emitter: 2.1.2
+      unipointer: 2.4.0
+
+  unipointer@2.4.0:
+    dependencies:
+      ev-emitter: 1.1.1
 
   unzipper@0.10.14:
     dependencies:

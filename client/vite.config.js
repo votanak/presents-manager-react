@@ -5,6 +5,7 @@ export default defineConfig({
   plugins: [react()],
   // Опции для разработки
   server: {
-    port: 3000, // Порт для dev-сервера
+    port: 3005, // Порт для dev-сервера
+    host: '0.0.0.0',
   },
 });
