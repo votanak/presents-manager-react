@@ -95,9 +95,8 @@ export const App = () => {
                     element={<AdminPage authCodeFromLS={authCodeFromLS} />}
                   />
                 </Route>
-                <Route path="/" element={<MakeGift />} />
+                <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/homepage" element={<HomePage />} />
                 <Route path="/kontakty" element={<Kontakty />} />
                 <Route path="/makegift" element={<MakeGift />} />
                 <Route

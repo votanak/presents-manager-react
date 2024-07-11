@@ -44,7 +44,7 @@ export const NaviBar = () => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="me-auto text-nowrap p-2 fs-6">
-          <Nav.Link as={Link} to={'/homepage'}>
+          <Nav.Link as={Link} to={'/'}>
             Главная
           </Nav.Link>
           <Nav.Link as={Link} to={'/makegift'}>
