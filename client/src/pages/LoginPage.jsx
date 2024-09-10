@@ -51,7 +51,7 @@ export const LoginPage = () => {
     await postRequest('/login', auth.token, loginParams)
       .then((data) => {
         if (data.error) {
-          alert(data.error);
+          console.log(data.error);
         } else {
           setAuth({
             authCode: data.data.authCode,
@@ -106,7 +106,7 @@ export const LoginPage = () => {
           </div>
         </LoginPageStyle>
       ) : (
-        <>{auth.isLogged && <Navigate to="/" />}</>
+        <>{auth.isLogged && <Navigate to="/adminpage" />}</>
       )}
     </div>
   );
